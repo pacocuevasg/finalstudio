@@ -1,5 +1,5 @@
 // Voice first, then timing: turns a v2 storyboard plus one voice clip per
-// scene into the absolute-time storyboard the skill's solve-step builder reads.
+// scene into the absolute-time spec the skill's halftone-tutor template reads.
 
 import { parseSay, spokenText, type Storyboard } from "./storyboard.ts";
 import type { VoiceClip, WordTiming } from "./voice/types.ts";
@@ -15,6 +15,7 @@ const VISUAL_LEAD_FRAMES = 2;
 const TOKEN_WRITE = 0.16;
 
 export type BuilderStoryboard = {
+  template: "halftone-tutor";
   brand: string;
   fps: number;
   duration: number;
@@ -23,7 +24,7 @@ export type BuilderStoryboard = {
   say: { at: number; text: string; wordAt?: number[] }[];
   board: { at: number; text: string; markAt?: number; answerAt?: number; checkAt?: number }[];
   outro: { at: number; wordmark: string; tagline: string };
-  voice: { src: string; at: number; duration: number }[];
+  voiceClips: { src: string; at: number; duration: number }[];
 };
 
 export type Chapter = { label: string; start: number; end: number };
@@ -51,6 +52,7 @@ export function compileTimeline(
 ): { builder: BuilderStoryboard; chapters: Chapter[] } {
   const lead = VISUAL_LEAD_FRAMES / sb.fps;
   const out: BuilderStoryboard = {
+    template: "halftone-tutor",
     brand: sb.brand,
     fps: sb.fps,
     duration: 0,
@@ -59,7 +61,7 @@ export function compileTimeline(
     say: [],
     board: [],
     outro: { at: 0, ...sb.outro },
-    voice: [],
+    voiceClips: [],
   };
   const chapters: Chapter[] = [];
   let cursor = 0;
@@ -79,7 +81,7 @@ export function compileTimeline(
 
     out.scenes.push({ label: scene.label, start: r3(start), note: scene.note });
     const src = audioSrc(i, clip);
-    if (src) out.voice.push({ src, at: r3(voiceAt), duration: r3(clip.duration) });
+    if (src) out.voiceClips.push({ src, at: r3(voiceAt), duration: r3(clip.duration) });
 
     breaks.forEach((b, k) => {
       const end = breaks[k + 1] ?? words.length;

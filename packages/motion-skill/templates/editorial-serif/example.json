@@ -1,0 +1,14 @@
+{
+  "template": "editorial-serif",
+  "id": "fotosintesis",
+  "duration": 15,
+  "brand": "FinalStudio",
+  "kicker": "Biología · secundaria",
+  "folio": "01 / 04",
+  "beats": [
+    { "type": "headline", "at": 0, "text": "¿Qué es la *fotosíntesis*?" },
+    { "type": "definition", "at": 3.4, "term": "fotosíntesis", "label": "definición", "text": "El proceso con el que las plantas convierten luz, agua y CO_2 en azúcar y oxígeno." },
+    { "type": "equation", "at": 7.8, "label": "la reacción", "text": "6CO_2 + 6H_2O → C_6H_12O_6 + 6O_2", "note": "necesita luz solar y clorofila" },
+    { "type": "closing", "at": 11.8, "text": "Luz que se vuelve *comida*." }
+  ]
+}

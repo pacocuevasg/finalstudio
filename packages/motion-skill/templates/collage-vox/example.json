@@ -1,0 +1,28 @@
+{
+  "template": "collage-vox",
+  "id": "nilo-egipto",
+  "kicker": "Historia · Egipto antiguo",
+  "ideas": [
+    {
+      "title": "Sin el *Nilo* no hay Egipto",
+      "text": "Una franja verde de pocos kilómetros cruza miles de kilómetros de desierto.",
+      "engraving": "river",
+      "note": "97% del país es desierto",
+      "mark": "M 355 402 C 420 412, 480 410, 548 398"
+    },
+    {
+      "title": "Cada verano, la *crecida*",
+      "text": "De julio a octubre el río se desbordaba y cubría los campos.",
+      "engraving": "flood",
+      "note": "julio → octubre",
+      "mark": "M 962 380 C 962 340, 1212 338, 1215 378 C 1218 420, 968 424, 962 380"
+    },
+    {
+      "title": "El lodo negro, *abono gratis*",
+      "text": "Al bajar el agua quedaba limo fértil: trigo, cebada y excedentes para todo el reino.",
+      "engraving": "wheat",
+      "note": "Kemet = tierra negra",
+      "mark": "M 780 560 L 1100 560 M 1060 530 L 1100 560 L 1060 590"
+    }
+  ]
+}

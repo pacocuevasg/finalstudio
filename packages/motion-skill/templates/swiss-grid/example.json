@@ -1,0 +1,11 @@
+{
+  "template": "swiss-grid",
+  "id": "unidad-funciones",
+  "foot": "Matemáticas 2 · Unidad 3",
+  "posters": [
+    { "word": "Dominio", "meta": "Funciones\n01 de 04", "note": "Todos los valores de x que puedes meter.", "shape": "line" },
+    { "word": "Rango", "meta": "Funciones\n02 de 04", "note": "Todos los valores de y que pueden salir.", "shape": "circle" },
+    { "word": "Pendiente", "meta": "Funciones\n03 de 04", "note": "Cuánto sube y por cada paso de x.", "shape": "stairs" },
+    { "word": "Gráfica", "meta": "Funciones\n04 de 04", "note": "La recta que une todos los pares (x, y).", "shape": "graph", "graph": { "m": 2, "b": 1, "x0": 0, "x1": 4 } }
+  ]
+}

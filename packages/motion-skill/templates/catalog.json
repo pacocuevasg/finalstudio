@@ -1,0 +1,1001 @@
+[
+  {
+    "id": "kinetic-showreel",
+    "name": "Showreel de motion designer",
+    "family": "tipografía cinética",
+    "trend": "El formato más viral de la semana de Opus 5.5: el showreel de @himanshutwtxs suma 236k vistas, el más visto de los 46 videos Opus 5.5 que etiquetó Montaj.",
+    "look": "Cortes secos cada ~1 s que alternan fondo claro y oscuro; palabras gigantes condensadas; una curva de easing que se dibuja en vivo; pelota que rebota con papel cebolla y nota a mano; retícula de puntos; cierre con logotipo.",
+    "structure": [
+      [
+        "0–1 s",
+        "palabra gigante (gancho)"
+      ],
+      [
+        "1–2 s",
+        "segunda palabra con acento de color"
+      ],
+      [
+        "2–4 s",
+        "pelota que rebota + nota a mano"
+      ],
+      [
+        "4–6 s",
+        "curva de easing dibujándose"
+      ],
+      [
+        "6–7 s",
+        "contador grande"
+      ],
+      [
+        "7–8 s",
+        "retícula de puntos en ola"
+      ],
+      [
+        "8–10 s",
+        "título + subtítulo serif"
+      ]
+    ],
+    "tempo": "rápido · 120 BPM, corte cada 2 tiempos",
+    "recipe": {
+      "type": "prompt verbatim",
+      "author": "@ajith_io",
+      "text": "make a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a résumé. go all out.",
+      "source": "https://x.com/ajith_io/status/2103449416325890146"
+    },
+    "recipe_notes": "Nota de Montaj sobre el de @himanshutwtxs: añadir nota manuscrita a la pelota, dibujar la curva de easing en vivo y cortar cada 1 s entre fondo claro y oscuro.",
+    "refs": [
+      {
+        "label": "@himanshutwtxs · Opus 5.5 showreel (236k vistas)",
+        "url": "https://x.com/himanshutwtxs/status/2103495232637882858"
+      },
+      {
+        "label": "@aichrislee · showreel rojo y amarillo",
+        "url": "https://x.com/aichrislee/status/2103878567540961335"
+      },
+      {
+        "label": "@kopert0x · showreel HUD verde",
+        "url": "https://x.com/kopert0x/status/2103872213812158914"
+      }
+    ],
+    "hf_blocks": [
+      "headline-slam",
+      "char-slam-explode",
+      "kinetic-center-build",
+      "beat-freeze-cut",
+      "count-up",
+      "dynamic-grid",
+      "beat-pulse-background"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Texto de @ajith_io citado con atribución como referencia.",
+      "ours": "Plantilla original de FinalStudio; fuentes OFL (Anton, Instrument Serif, Caveat, Plex Mono)."
+    },
+    "status": "implemented",
+    "template": "kinetic-showreel",
+    "fit": "Ganchos, intros y cierres de cualquier lección (6–12 s)."
+  },
+  {
+    "id": "editorial-serif",
+    "name": "Editorial crema con serif itálica",
+    "family": "editorial",
+    "trend": "Es el lenguaje de los lanzamientos de Claude: el video de control de escritorio tiene 78M de vistas, Cowork 49.8M y Fable 5 57.5M. En Opus 5.5 lo imitan TypeSafe AI, LaunchRepo y el video de perfil de @superalesha (sans gruesa + serif itálica en color).",
+    "look": "Papel crema con grano, frase en sans gruesa donde una palabra cambia a serif itálica en terracota, etiquetas mono pequeñas, tarjetas blancas unidas por líneas finas que se dibujan.",
+    "structure": [
+      [
+        "0–3 s",
+        "pregunta titular, palabra por palabra"
+      ],
+      [
+        "3–8 s",
+        "término grande + tarjeta de definición unida por una línea"
+      ],
+      [
+        "8–12 s",
+        "fórmula o dato con subrayado a mano"
+      ],
+      [
+        "12–15 s",
+        "frase de cierre + marca"
+      ]
+    ],
+    "tempo": "medio · cada palabra sube desde su máscara en 0.55 s, escalonada 70 ms",
+    "recipe": {
+      "type": "receta (nota de Montaj)",
+      "text": "Krem zeminde serif başlıkla aç, telefon kartını pencereye ince bir okla bağla ve mesaj balonunu kiremit renginde 0,4 saniyede büyüt. → Abre con titular serif sobre crema, une la tarjeta con una flecha fina y haz crecer el globo terracota en 0.4 s.",
+      "source": "https://github.com/muhammedsevimli/montaj"
+    },
+    "recipe_notes": "Regla de @superalesha / TypeSafe: la segunda mitad de cada titular va en serif itálica.",
+    "refs": [
+      {
+        "label": "@claudeai · Claude controla tu escritorio (78M)",
+        "url": "https://x.com/claudeai/status/2036195789601374705"
+      },
+      {
+        "label": "@claudeai · Claude Cowork (49.8M)",
+        "url": "https://x.com/claudeai/status/2010805682434666759"
+      },
+      {
+        "label": "@superalesha · video de perfil",
+        "url": "https://x.com/superalesha/status/2103578446056321426"
+      },
+      {
+        "label": "@leo114119 · TypeSafe AI",
+        "url": "https://x.com/leo114119/status/2103888036442550523"
+      },
+      {
+        "label": "@AleksDoesCode · LaunchRepo",
+        "url": "https://x.com/AleksDoesCode/status/2103889609625100565"
+      }
+    ],
+    "hf_blocks": [
+      "per-word-rise",
+      "caption-editorial-emphasis",
+      "inline-highlight",
+      "titlecard-calm",
+      "svg-stroke-trace"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets. No usamos marcas, logos ni la paleta exacta de Anthropic.",
+      "prompt": "Nota de Montaj (MIT) traducida.",
+      "ours": "Plantilla original; Inter, Instrument Serif y Plex Mono (OFL)."
+    },
+    "status": "implemented",
+    "template": "editorial-serif",
+    "fit": "Definiciones, conceptos y fórmulas (biología, historia, química)."
+  },
+  {
+    "id": "ui-cursor-push",
+    "name": "Interfaz + cursor gigante + acercamiento",
+    "family": "interfaz",
+    "trend": "Es la gramática dominante: 159 de las 260 referencias de Montaj son animación de interfaz, 55 usan acercamiento y 46 cursor. Ejemplos: Claude Code Security (26M), Grok App Builder (24M).",
+    "look": "Ventana de app limpia sobre fondo neutro; un cursor sobredimensionado viaja, hace clic con onda y la cámara se acerca 1.2–1.3× al punto del clic; subtítulo en píldora abajo.",
+    "structure": [
+      [
+        "0–1.5 s",
+        "cursor entra y hace clic"
+      ],
+      [
+        "1.5–3 s",
+        "acercamiento al elemento"
+      ],
+      [
+        "3–5 s",
+        "acción (escribir, elegir)"
+      ],
+      [
+        "5–6 s",
+        "resultado aparece"
+      ],
+      [
+        "6–10 s",
+        "se aleja y muestra el efecto completo"
+      ]
+    ],
+    "tempo": "medio · movimientos de cámara de 0.9–1.1 s con power3.inOut",
+    "recipe": {
+      "type": "prompt verbatim (fragmento)",
+      "author": "@jake11moran (NotchBrowser, HyperFrames)",
+      "text": "Motion should feel slow and polished - one continuous camera over one Mac desktop, no hard cuts. Camera pushes, pulls and pans run like 1.5 to 3 seconds on gentle ease-in-out curves, nothing snappy - aim for half the speed you'd default to. Add motion blur on fast moves and a light film grain finish. Use an oversized macOS cursor.",
+      "source": "https://x.com/jake11moran/status/2103239225902874874"
+    },
+    "recipe_notes": "Montaj: cuando el cursor toca el botón, acercar 1.3×; en clic, el botón baja a 0.95× y regresa. Regla de make-awesome-video: nunca inventar UI; usar capturas reales o componentes reales.",
+    "refs": [
+      {
+        "label": "@claudeai · Claude Code Security (26M)",
+        "url": "https://x.com/claudeai/status/2024907535145468326"
+      },
+      {
+        "label": "@claudeai · Claude Cowork (49.8M)",
+        "url": "https://x.com/claudeai/status/2010805682434666759"
+      },
+      {
+        "label": "@stephenhaney · Paper",
+        "url": "https://x.com/stephenhaney/status/2081810796812869878"
+      }
+    ],
+    "hf_blocks": [
+      "oversized-cursor",
+      "simulated-cursor",
+      "ui-focus-zoom",
+      "press-ripple",
+      "gesture-tap",
+      "browser-device-stage",
+      "push-in"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Fragmento citado con atribución.",
+      "ours": "Plantilla original con hoja de cálculo genérica; nunca imitar la interfaz de un producto real."
+    },
+    "status": "implemented",
+    "template": "ui-cursor-demo",
+    "fit": "Tutoriales de software: Excel/Sheets, apps escolares, trámites en línea."
+  },
+  {
+    "id": "one-shot-morph",
+    "name": "Toma única que se transforma",
+    "family": "interfaz",
+    "trend": "Plantilla de @twoclipping (Develop, 18k vistas) y el video de Claude donde una forma blanca se vuelve teléfono (7.5M). Muy copiada en la semana de Opus 5.5.",
+    "look": "Un solo elemento (una píldora, una tarjeta) se transforma en cada estado de la interfaz; nunca hay corte ni fundido; el cursor dispara cada transformación.",
+    "structure": [
+      [
+        "0–2 s",
+        "píldora negra sobre fondo roto"
+      ],
+      [
+        "2–20 s",
+        "8–12 estados de UI, cada uno nace del anterior"
+      ],
+      [
+        "20–29 s",
+        "cierre sobre el último estado"
+      ]
+    ],
+    "tempo": "medio-rápido · cambios en rejilla de 120 BPM",
+    "recipe": {
+      "type": "receta (nota de Montaj)",
+      "text": "Tek kesintisiz çekim kur: her sahne bir önceki şeklin dönüşümüyle doğsun, geçişte fade kullanma ve imleç her tıklamada kamerayı 1,3 kat yakınlaştırsın. → Una sola toma continua: cada escena nace de la transformación de la anterior, sin fundidos; cada clic acerca la cámara 1.3×.",
+      "source": "https://github.com/muhammedsevimli/montaj"
+    },
+    "recipe_notes": "La plantilla de @twoclipping primero pide '8 a 12 estados de UI en los que se convierte la forma' (el prompt entrevista antes de construir).",
+    "refs": [
+      {
+        "label": "@twoclipping · Develop",
+        "url": "https://x.com/twoclipping/status/2103835273813496100"
+      },
+      {
+        "label": "@claudeai · forma blanca → teléfono (7.5M)",
+        "url": "https://x.com/claudeai/status/2036850783526719610"
+      }
+    ],
+    "hf_blocks": [
+      "morph-swap",
+      "card-resize",
+      "modal-morph",
+      "menu-morph",
+      "facet-morph",
+      "shared-axis-z"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Nota de Montaj (MIT) traducida.",
+      "ours": "Plantilla original; Inter y Plex Mono (OFL). Cursor e interfaz genéricos."
+    },
+    "status": "implemented",
+    "template": "one-shot-morph",
+    "fit": "Procedimientos de software y 'antes/después' de un concepto (una fracción que se vuelve decimal, porcentaje, gráfica)."
+  },
+  {
+    "id": "notebook-marker",
+    "name": "Cuaderno a mano con marcador",
+    "family": "dibujado a mano",
+    "trend": "38 de 893 videos Opus 5.5 clasificados son dibujados a mano; HyperFrames sacó una familia entera de bloques hw-* y vox-annotate porque su estudio de X lo pidió. Ejemplos: Mebbian (@ik_builds), Claude Code Security abre con una laptop dibujada.",
+    "look": "Hoja cuadriculada con margen rojo, letra manuscrita que escribe un lápiz, resaltador amarillo, círculo rojo alrededor del resultado y flecha a una nota.",
+    "structure": [
+      [
+        "0–1 s",
+        "título escrito a mano"
+      ],
+      [
+        "1–9 s",
+        "una línea por paso; notas mono al margen"
+      ],
+      [
+        "9–12 s",
+        "resultado encerrado + flecha a la llamada"
+      ]
+    ],
+    "tempo": "tranquilo · 50 ms por carácter, pausa 0.9 s entre líneas",
+    "recipe": {
+      "type": "receta (nota de Montaj)",
+      "text": "Kağıt beyazı zeminde notları el yazısıyla çizerek yaz, topa onion skin izi ver ve her 1,5 saniyede açık ile koyu zemin arasında sert geçiş yap. → Escribe las notas a mano sobre papel blanco, papel cebolla a la pelota y corte seco claro/oscuro cada 1.5 s (Mebbian).",
+      "source": "https://github.com/muhammedsevimli/montaj"
+    },
+    "recipe_notes": "La plantilla verifica la aritmética de cada línea antes de animar (si 45 × 7 ÷ 3 no da 105, el build falla).",
+    "refs": [
+      {
+        "label": "@ik_builds · Mebbian",
+        "url": "https://x.com/ik_builds/status/2103890476885585923"
+      },
+      {
+        "label": "@claudeai · Claude Code Security (laptop dibujada)",
+        "url": "https://x.com/claudeai/status/2024907535145468326"
+      },
+      {
+        "label": "HyperFrames · bloques hw-* y vox-annotate",
+        "url": "https://github.com/heygen-com/hyperframes/tree/main/registry"
+      }
+    ],
+    "hf_blocks": [
+      "hw-write-title",
+      "hw-underline",
+      "hw-callout-circle",
+      "hw-arrow",
+      "hw-box-label",
+      "vox-annotate",
+      "marker-highlight",
+      "whiteboard-ink"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Nota de Montaj (MIT) traducida.",
+      "ours": "Plantilla original; Caveat y Plex Mono (OFL)."
+    },
+    "status": "implemented",
+    "template": "notebook-marker",
+    "fit": "Ejercicios resueltos paso a paso: regla de tres, fracciones, ecuaciones, física básica."
+  },
+  {
+    "id": "split-runner",
+    "name": "Explicación + juego en pantalla dividida",
+    "family": "retención",
+    "trend": "El prompt de Riley Goodside (@goodside) se volvió referencia: una mitad explica Black-Scholes con voz, la otra muestra un 'runner' genérico. Es el formato 'brainrot' que ya consumen los estudiantes en TikTok.",
+    "look": "Mitad lección (papel claro, fórmula paso a paso, figura), mitad juego de carrera infinita; subtítulos gruesos con contorno y palabra activa en amarillo.",
+    "structure": [
+      [
+        "0–2.5 s",
+        "pregunta + figura"
+      ],
+      [
+        "2.5–10 s",
+        "una línea de la fórmula cada 2.4 s"
+      ],
+      [
+        "10–14 s",
+        "respuesta en caja invertida"
+      ]
+    ],
+    "tempo": "constante · el juego nunca se detiene; subtítulos karaoke 0.32 s por palabra",
+    "recipe": {
+      "type": "prompt verbatim",
+      "author": "@goodside",
+      "text": "Create a 1 minute video where the right half explains the Black-Scholes formula with voiceover and visuals and the left half plays a generic knockoff of Subway Surfers",
+      "source": "https://x.com/goodside/status/2103171088637419631"
+    },
+    "recipe_notes": "Nuestro juego es geometría propia generada con semilla: nada de assets ni parecido con juegos reales. Versión vertical 1080×1920 para Reels/TikTok.",
+    "refs": [
+      {
+        "label": "@goodside · Black-Scholes + runner",
+        "url": "https://x.com/goodside/status/2103171088637419631"
+      }
+    ],
+    "hf_blocks": [
+      "caption-pill-karaoke",
+      "caption-kinetic-slam",
+      "caption-highlight"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets. No imitar Subway Surfers ni ningún juego real.",
+      "prompt": "Texto de @goodside citado con atribución.",
+      "ours": "Plantilla original; personaje y escenario hechos con CSS."
+    },
+    "status": "implemented",
+    "template": "split-runner",
+    "fit": "Repasos rápidos para redes: teoremas, fórmulas, vocabulario."
+  },
+  {
+    "id": "talking-head-lineart",
+    "name": "Video de cámara → B-roll de línea",
+    "family": "dibujado a mano",
+    "trend": "@AxtonLiu convirtió un video vertical de 83 s en un explicador de ~30 tomas de line art en 29 minutos, sin intervención.",
+    "look": "La persona queda en un círculo abajo a la derecha; el cuadro principal dibuja en línea cada concepto justo cuando se menciona; audio, subtítulos y duración originales.",
+    "structure": [
+      [
+        "continuo",
+        "una toma de line art por frase, sincronizada con los subtítulos (Whisper)"
+      ]
+    ],
+    "tempo": "lo marca la voz",
+    "recipe": {
+      "type": "prompt verbatim (traducido del chino)",
+      "author": "@AxtonLiu",
+      "text": "Convierte short-1.mp4 en un corto vertical nuevo: 1) mi imagen se reduce a un picture-in-picture circular abajo a la derecha, que se vea que hablo y no tape los subtítulos; 2) el cuadro principal pasa a una animación B-roll que sigue lo que digo: cuando menciono un concepto, se dibuja ese concepto; estilo relajado y divertido, line art está bien, nada realista; 3) audio, subtítulos y duración originales sin cambios.",
+      "source": "https://x.com/AxtonLiu/status/2102827887732932956"
+    },
+    "recipe_notes": "Requiere transcripción con tiempos por palabra (el timing.json que ya propuso la investigación de comunidad).",
+    "refs": [
+      {
+        "label": "@AxtonLiu · talking head → line art",
+        "url": "https://x.com/AxtonLiu/status/2102827887732932956"
+      }
+    ],
+    "hf_blocks": [
+      "hw-boil",
+      "svg-stroke-trace",
+      "caption-highlight",
+      "yt-circle-pointer"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Traducción propia del prompt, con atribución.",
+      "ours": "Plantilla original; los dibujos de línea son propios. El presentador del preview es un dibujo genérico; en producción va la grabación del propio profesor."
+    },
+    "status": "implemented",
+    "template": "talking-head-lineart",
+    "fit": "Profesores que suben su propia clase grabada y quieren dibujos que la acompañen."
+  },
+  {
+    "id": "terminal-code",
+    "name": "Terminal inclinada que se endereza",
+    "family": "terminal y código",
+    "trend": "Remotion Agent Skills (18.8M vistas) popularizó la terminal blanca inclinada; en Opus 5.5 lo repiten Opus Video Studio y varios showreels de portafolio.",
+    "look": "Terminal clara en perspectiva que gira a plano, comandos tecleados carácter por carácter, salida real impresa de golpe, un subtítulo simple por comando.",
+    "structure": [
+      [
+        "0–1.4 s",
+        "toma inclinada → plano"
+      ],
+      [
+        "cada ~3 s",
+        "comando tecleado + salida + explicación"
+      ]
+    ],
+    "tempo": "medio · 55 ms por tecla",
+    "recipe": {
+      "type": "receta (nota de Montaj)",
+      "text": "Beyaz terminal penceresini 10 derece eğik göster, komutu harf harf 0,04 saniye arayla yaz ve çıktıda ASCII başlığı tek karede bas. → Terminal blanca inclinada 10°, comando letra por letra cada 0.04 s y la salida en un solo cuadro.",
+      "source": "https://github.com/muhammedsevimli/montaj"
+    },
+    "recipe_notes": "Aquí el tecleo sí se vale (en el resto está prohibido por las reglas de motion-graphics-skills). La salida debe ser la real del comando.",
+    "refs": [
+      {
+        "label": "@Remotion · Agent Skills (18.8M)",
+        "url": "https://x.com/Remotion/status/2013626968386765291"
+      }
+    ],
+    "hf_blocks": [
+      "terminal-simulator",
+      "code-terminal-run",
+      "code-typing",
+      "code-diff",
+      "code-highlight"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Nota de Montaj (MIT) traducida.",
+      "ours": "Plantilla original; JetBrains Mono (OFL)."
+    },
+    "status": "implemented",
+    "template": "terminal-code",
+    "fit": "Programación: git, Python, comandos de consola."
+  },
+  {
+    "id": "stat-counter",
+    "name": "Datos con contador y cortes de color",
+    "family": "datos",
+    "trend": "34 de 260 referencias usan contador; ChatGPT Personal Finance (16.7M) y X Money (14M). En Opus 5.5: Email.lab, el perfil de @superalesha (split-flap) y SuperX.",
+    "look": "Campos de color plano que cambian en cada corte, número gigante que rueda como odómetro, barras que suben, anillo que se llena y una píldora con el cambio porcentual.",
+    "structure": [
+      [
+        "0–3.2 s",
+        "total"
+      ],
+      [
+        "3.2–6.4 s",
+        "barras por periodo"
+      ],
+      [
+        "6.4–9.6 s",
+        "anillo de avance vs meta"
+      ],
+      [
+        "9.6–12.8 s",
+        "insight con % de cambio"
+      ]
+    ],
+    "tempo": "medio · un dato por toma de 3.2 s",
+    "recipe": {
+      "type": "receta (nota de Montaj)",
+      "text": "Her sahneye farklı düz zemin ver, yüzde rakamlarını halka ve çubukla 1 saniyede doldur ve akış düğümlerini çizgilerle sırayla bağla. → Cada escena con un fondo plano distinto; llena los porcentajes con anillo y barra en 1 s (Email.lab).",
+      "source": "https://github.com/muhammedsevimli/montaj"
+    },
+    "recipe_notes": "La plantilla calcula total, % de meta y cambio desde la hoja; ningún número se escribe a mano.",
+    "refs": [
+      {
+        "label": "@ChatGPT · Personal Finance (16.7M)",
+        "url": "https://x.com/ChatGPT/status/2055317612687675545"
+      },
+      {
+        "label": "@XMoney · 𝕏 Money (14M)",
+        "url": "https://x.com/XMoney/status/2081802002539876506"
+      },
+      {
+        "label": "@Rayan_luck · Email.lab",
+        "url": "https://x.com/Rayan_luck/status/2103883256806453502"
+      }
+    ],
+    "hf_blocks": [
+      "count-up",
+      "number-wheel",
+      "split-flap-board",
+      "animated-bar-chart",
+      "conic-progress-ring",
+      "bar-chart-race",
+      "chart-story"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Nota de Montaj (MIT) traducida.",
+      "ours": "Plantilla original; Inter (OFL)."
+    },
+    "status": "implemented",
+    "template": "data-counter",
+    "fit": "Hojas de cálculo del usuario: ventas, calificaciones, encuestas."
+  },
+  {
+    "id": "recipe-pour",
+    "name": "Receta: el vaso se llena por capas",
+    "family": "explicador",
+    "trend": "El Negroni de @Ror_Fly: explicador de 30 s generado desde una sola imagen, con cada ingrediente y su medida entrando al vaso.",
+    "look": "Vaso vacío al centro; cada ingrediente cae en chorro y forma su capa; lista a la izquierda con palomitas; etiqueta con la medida junto a cada capa.",
+    "structure": [
+      [
+        "0–1 s",
+        "vaso vacío + título"
+      ],
+      [
+        "~2.5 s por ingrediente",
+        "chorro, capa, etiqueta, palomita"
+      ],
+      [
+        "final",
+        "frase de conclusión"
+      ]
+    ],
+    "tempo": "tranquilo",
+    "recipe": {
+      "type": "prompt verbatim",
+      "author": "@Ror_Fly",
+      "text": "We're going to try a little test. Do you think you could render a recipe motion graphic animation using javascript or html (w/e you think will produce the best) to show the full recipe from start to finish (empty glass to completed cocktail) - Explainer video style - Showing the recipe ingreidents + measurements as they're going into the cup. Should be a 30s video.",
+      "source": "https://x.com/Ror_Fly/status/2102853258582880547"
+    },
+    "recipe_notes": "Generalizado a mezclas y experimentos. Con orderBy: density el build verifica que cada capa sea menos densa que la de abajo.",
+    "refs": [
+      {
+        "label": "@Ror_Fly · Negroni",
+        "url": "https://x.com/Ror_Fly/status/2102853258582880547"
+      }
+    ],
+    "hf_blocks": [
+      "stagger-cascade",
+      "marker-checklist-card",
+      "success-check"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Texto de @Ror_Fly citado con atribución.",
+      "ours": "Plantilla original."
+    },
+    "status": "implemented",
+    "template": "pour-layers",
+    "fit": "Química y ciencias (mezclas, densidad), recetas, proporciones."
+  },
+  {
+    "id": "pixel-16bit",
+    "name": "Pixel art de 16 bits en loop",
+    "family": "pixel",
+    "trend": "52 de 893 videos Opus 5.5 clasificados son pixel art. Los prompts de @majidmanzarpour (mago) y @riku720720 (runner arcoíris) son los más copiados por lo técnicos que son.",
+    "look": "Lienzo lógico chico (128×96 o 160×90) escalado sin suavizado, paleta fija de ~24 colores, máquina de estados IDLE → CHARGE → CAST → RECOVER, partículas en rejilla.",
+    "structure": [
+      [
+        "loop",
+        "estado por estado, 8–12 fps de pose aunque renderice a 60"
+      ]
+    ],
+    "tempo": "loop sin costura",
+    "recipe": {
+      "type": "prompt verbatim (inicio)",
+      "author": "@majidmanzarpour",
+      "text": "Create a single self-contained HTML file that renders an animated pixel art wizard casting a spell, using vanilla JavaScript and Canvas 2D. No external assets, libraries, or network requests. RENDERING - Draw everything to an offscreen canvas at a fixed logical resolution of 128x96, then blit to a fullscreen display canvas scaled by the largest integer factor that fits the window … Fixed palette of ~24 hex colors …",
+      "source": "https://x.com/majidmanzarpour/status/2102476258948927543"
+    },
+    "recipe_notes": "Para HyperFrames: cambiar el loop con requestAnimationFrame por estado calculado desde t (determinismo) y hornear sprites en PNG.",
+    "refs": [
+      {
+        "label": "@majidmanzarpour · mago pixel",
+        "url": "https://x.com/majidmanzarpour/status/2102476258948927543"
+      },
+      {
+        "label": "@riku720720 · runner arcoíris",
+        "url": "https://x.com/riku720720/status/2102515055116063144"
+      }
+    ],
+    "hf_blocks": [
+      "stop-motion-cadence",
+      "ascii-render-pass",
+      "grid-pixelate-wipe",
+      "ordered-dither-pass"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Fragmento citado con atribución.",
+      "ours": "Plantilla original; sprites y paleta dibujados a mano en el código, Press Start 2P (OFL)."
+    },
+    "status": "implemented",
+    "template": "pixel-16bit",
+    "fit": "Lecciones gamificadas para primaria; mascota de la plataforma."
+  },
+  {
+    "id": "sand-ink",
+    "name": "Animación de arena, tinta o pintura",
+    "family": "técnica artesanal",
+    "trend": "31 de 893 videos Opus 5.5 son arena, tinta o pintura; @Michaelzsguo hizo 250 años de historia de EE. UU. en arena sepia con un prompt de una línea.",
+    "look": "Fondo sepia iluminado desde abajo, figuras que se forman y se borran con granos; transiciones por barrido de mano.",
+    "structure": [
+      [
+        "por época",
+        "la arena dibuja, la mano barre, la siguiente escena nace del barrido"
+      ]
+    ],
+    "tempo": "tranquilo",
+    "recipe": {
+      "type": "prompt verbatim",
+      "author": "@Michaelzsguo",
+      "text": "Make a 2-minute sand animation that tells the story of 250 years of U.S. history. Keep it lively, engaging, and tasteful. Add appropriate background music and sound design.",
+      "source": "https://x.com/Michaelzsguo/status/2102592355165782312"
+    },
+    "recipe_notes": "Ideal para historia; hornear partículas con semilla para que sea determinista.",
+    "refs": [
+      {
+        "label": "@Michaelzsguo · historia de EE. UU. en arena",
+        "url": "https://x.com/Michaelzsguo/status/2102592355165782312"
+      }
+    ],
+    "hf_blocks": [
+      "particle-image-reveal",
+      "ink-bleed-reveal",
+      "grain-overlay"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Texto citado con atribución.",
+      "ours": "Plantilla original; figuras generadas con geometría propia, Instrument Serif y Plex Mono (OFL)."
+    },
+    "status": "implemented",
+    "template": "sand-ink",
+    "fit": "Historia y literatura: líneas de tiempo narradas."
+  },
+  {
+    "id": "cinematic-essay",
+    "name": "Ensayo cinematográfico con motivo",
+    "family": "cinemático",
+    "trend": "El film de @kimmonismus sobre la historia de la IA (3 min, Remotion) trae uno de los prompts más completos publicados: un protagonista visual (un token brillante) que recorre todas las eras.",
+    "look": "Fondo profundo oscuro, un solo acento cálido que evoluciona, máximo ~8 palabras en pantalla, transiciones que nacen del contenido (la red se transforma, la cámara entra por un nodo).",
+    "structure": [
+      [
+        "0–15 s",
+        "apertura en frío"
+      ],
+      [
+        "15–150 s",
+        "una escena por etapa, alternando denso y calmado"
+      ],
+      [
+        "150–180 s",
+        "todo converge; vuelve el motivo; título"
+      ]
+    ],
+    "tempo": "variable · cada texto ≥ 2.5 s en pantalla",
+    "recipe": {
+      "type": "prompt verbatim (fragmento)",
+      "author": "@kimmonismus",
+      "text": "It should feel like a cinematic essay, not a slideshow or a timeline infographic. … Before building, write STORYBOARD.md with each scene's timing, visuals, on-screen text and transitions. … After each scene, render 3–4 stills and look at them critically. … Accuracy matters: use correct years, names and paper titles. If you're unsure about a specific fact, leave it out rather than guess, and list any uncertain claims in NOTES.md. Typography: max ~8 words on screen at once, and leave every text visible long enough to read (≥ 2.5 s).",
+      "source": "https://x.com/kimmonismus/status/2102847451111772219"
+    },
+    "recipe_notes": "Sus reglas de oficio coinciden con las nuestras: storyboard primero, stills por escena, hechos verificados y lista de dudas.",
+    "refs": [
+      {
+        "label": "@kimmonismus · Attention Is All You Need → AGI",
+        "url": "https://x.com/kimmonismus/status/2102844654169575547"
+      }
+    ],
+    "hf_blocks": [
+      "scroll-camera-story",
+      "zoom-through-transition",
+      "constellation-hub",
+      "tracing-beam"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Fragmentos citados con atribución.",
+      "ours": "Plantilla original; motivos dibujados en SVG, Instrument Serif, Inter y Plex Mono (OFL)."
+    },
+    "status": "implemented",
+    "template": "cinematic-essay",
+    "fit": "Temas largos (3–6 min): historia de la ciencia, un capítulo completo."
+  },
+  {
+    "id": "liquid-glass",
+    "name": "Cristal líquido pastel",
+    "family": "interfaz",
+    "trend": "Fluid de @motion_conquest (85k vistas, segundo más visto de Opus 5.5 en Montaj); HyperFrames tiene cuatro bloques de liquid glass.",
+    "look": "Degradado lavanda-azul, botones y tarjetas de vidrio esmerilado que crecen con resorte y derivan su forma de la anterior.",
+    "structure": [
+      [
+        "0–16 s",
+        "una tarjeta de vidrio que se transforma: botón → píldora → tarjeta de actividad → pila de notificaciones"
+      ]
+    ],
+    "tempo": "medio · resortes de 0.4 s",
+    "recipe": {
+      "type": "receta (nota de Montaj)",
+      "text": "Pastel mor mavi gradyan üstünde buzlu cam kartları yaylı hareketle 0,4 saniyede büyüt ve her öğeyi bir öncekinden şekil değiştirerek türet. → Sobre degradado pastel, haz crecer tarjetas de vidrio con resorte en 0.4 s y deriva cada elemento del anterior.",
+      "source": "https://github.com/muhammedsevimli/montaj"
+    },
+    "refs": [
+      {
+        "label": "@motion_conquest · Fluid",
+        "url": "https://x.com/motion_conquest/status/2103510103622308152"
+      }
+    ],
+    "hf_blocks": [
+      "ios26-liquid-glass",
+      "liquid-glass-widgets",
+      "vfx-liquid-glass",
+      "macos-tahoe-liquid-glass",
+      "spring-pop"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Nota de Montaj (MIT) traducida.",
+      "ours": "Plantilla original; no reproduce íconos ni componentes de Apple. Inter y Plex Mono (OFL)."
+    },
+    "status": "implemented",
+    "template": "liquid-glass",
+    "fit": "Tarjetas de resumen y 'lo que aprendiste hoy'."
+  },
+  {
+    "id": "card-wall-3d",
+    "name": "Muro de tarjetas en 3D",
+    "family": "3D",
+    "trend": "Grok Imagine 1.0 (14.5M) y los lanzamientos de Pokémon TCG usan un muro de tarjetas en profundidad con la cámara avanzando entre ellas.",
+    "look": "Fondo negro, cientos de tarjetas verticales en rejilla 3D; la cámara vuela por el pasillo y aterriza en una.",
+    "structure": [
+      [
+        "0–3 s",
+        "la rejilla aparece"
+      ],
+      [
+        "3–20 s",
+        "la cámara avanza entre tarjetas"
+      ],
+      [
+        "20–25 s",
+        "aterriza en una tarjeta + título"
+      ]
+    ],
+    "tempo": "medio",
+    "recipe": {
+      "type": "receta (nota de Montaj)",
+      "text": "Siyah zeminde dikey video kartlarını derinlikli 3D ızgaraya diz; kamerayı 3 saniyede kartların arasından ileri sür. → Coloca tarjetas verticales en una rejilla 3D con profundidad y avanza la cámara entre ellas en 3 s.",
+      "source": "https://github.com/muhammedsevimli/montaj"
+    },
+    "refs": [
+      {
+        "label": "@SpaceXAI · Grok Imagine 1.0 (14.5M)",
+        "url": "https://x.com/SpaceXAI/status/2018164753810764061"
+      }
+    ],
+    "hf_blocks": [
+      "gallery-tunnel",
+      "cuboid-carousel",
+      "camera-rig-depth-stack",
+      "carousel-vision-1"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Nota de Montaj (MIT) traducida.",
+      "ours": "Plantilla original; tarjetas genéricas en CSS 3D, Inter, Instrument Serif y Plex Mono (OFL)."
+    },
+    "status": "implemented",
+    "template": "card-wall-3d",
+    "fit": "Repaso de un tema con muchas tarjetas (flashcards de vocabulario)."
+  },
+  {
+    "id": "retro-window",
+    "name": "Ventanas retro con trama rosa",
+    "family": "editorial",
+    "trend": "Jev de @polydao (autor del prompt de showreel con duración variable): paneles tipo sistema operativo viejo, fuente mono y manchas de trama.",
+    "look": "Fondo blanco roto con manchas de semitono rosa, ventanas retro con marco negro, datos en mono, contador de costo grande.",
+    "structure": [
+      [
+        "0–24 s",
+        "una ventana por dato; el número final rueda en 0.8 s"
+      ]
+    ],
+    "tempo": "rápido",
+    "recipe": {
+      "type": "receta (nota de Montaj)",
+      "text": "Kırık beyaz zemine pembe raster lekeler koy, verileri siyah çerçeveli retro pencerelerde mono fontla göster ve maliyet rakamını 0,8 saniyede say. → Manchas de trama rosa sobre blanco roto, datos en ventanas retro con marco negro y fuente mono; el costo cuenta en 0.8 s.",
+      "source": "https://github.com/muhammedsevimli/montaj"
+    },
+    "refs": [
+      {
+        "label": "@polydao · Jev",
+        "url": "https://x.com/polydao/status/2103783134206566862"
+      }
+    ],
+    "hf_blocks": [
+      "halftone-field",
+      "halftone-dissolve",
+      "number-pop-in"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Nota de Montaj (MIT) traducida.",
+      "ours": "Plantilla original; ventanas genéricas en CSS, Press Start 2P, Inter y Plex Mono (OFL)."
+    },
+    "status": "implemented",
+    "template": "retro-window",
+    "fit": "Variante de datos con la estética halftone de FinalStudio."
+  },
+  {
+    "id": "halftone-tutor",
+    "name": "Tutor halftone con globo de diálogo",
+    "family": "personaje",
+    "trend": "El Pocketsflow de @achxvi: la referencia estética elegida por Paco. Personaje en blanco y negro con dither, globo de diálogo, etiquetas mono y timecode.",
+    "look": "Papel blanco, personaje 1-bit con dither ordenado sangrando abajo a la derecha, globo redondeado, etiquetas '// 01 — hook', timecode.",
+    "structure": [
+      [
+        "0–4 s",
+        "gancho del tutor"
+      ],
+      [
+        "4–18 s",
+        "un paso por escena"
+      ],
+      [
+        "18–22 s",
+        "comprobación y cierre"
+      ]
+    ],
+    "tempo": "medio",
+    "recipe": {
+      "type": "prompt verbatim",
+      "author": "@achxvi",
+      "text": "make a dynamic 15-second motion graphics video about Pocketsflow that shows what an incredible motion designer you are, like it's your showreel for a résumé. go all out. … make a video where a character talks about pocketsflow and how people can use it and what can they do with it etc etc etc",
+      "source": "/mnt/project-files/research/opus-motion-design/informe.html"
+    },
+    "refs": [
+      {
+        "label": "Chain (@achxvi) · perfil",
+        "url": "https://x.com/achxvi"
+      }
+    ],
+    "hf_blocks": [
+      "ordered-dither-pass",
+      "halftone-field"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Citado en la investigación previa.",
+      "ours": "Ya implementado en motion-skill/templates/solve-step."
+    },
+    "status": "implemented",
+    "template": "motion-skill/solve-step",
+    "fit": "Estilo por defecto de FinalStudio para ejercicios resueltos."
+  },
+  {
+    "id": "swiss-grid",
+    "name": "Póster suizo técnico",
+    "family": "editorial",
+    "trend": "AI Grand Prix de Anduril (7.7M, 5 estrellas en Montaj): retícula técnica gris, líneas naranja finas y disolución en bloques de píxel.",
+    "look": "Gris claro con retícula técnica, tipografía geométrica gruesa estilo póster suizo, líneas naranja, transiciones que se rompen en bloques grises de píxel en 0.3 s.",
+    "structure": [
+      [
+        "0–10.6 s",
+        "4–5 carteles, corte por disolución en píxeles"
+      ]
+    ],
+    "tempo": "rápido",
+    "recipe": {
+      "type": "receta (nota de Montaj)",
+      "text": "Açık gri zeminde ince turuncu teknik çizgiler ve kalın geometrik başlık kullan; sahneleri 0,3 saniyede gri piksel bloklarına ayrıştırarak geç. → Líneas técnicas naranja finas sobre gris claro, titular geométrico grueso; transición en bloques de píxel de 0.3 s.",
+      "source": "https://github.com/muhammedsevimli/montaj"
+    },
+    "refs": [
+      {
+        "label": "@anduriltech · AI Grand Prix (7.7M)",
+        "url": "https://x.com/anduriltech/status/2016233946607141290"
+      }
+    ],
+    "hf_blocks": [
+      "swiss-grid",
+      "vignelli",
+      "grid-pixelate-wipe"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Nota de Montaj (MIT) traducida.",
+      "ours": "Plantilla original; retícula y formas propias, Inter y Plex Mono (OFL)."
+    },
+    "status": "implemented",
+    "template": "swiss-grid",
+    "fit": "Portadas de unidad y temarios."
+  },
+  {
+    "id": "felt-stopmotion",
+    "name": "Stop motion de fieltro",
+    "family": "técnica artesanal",
+    "trend": "FowlNote (@argofowl) y la claymation de Blender de @alexalbert__: texturas de tela, 12 fps y personajes redondos.",
+    "look": "Mesa de fieltro café, pared verde, figuras de tela que saltan a 12 fps; el logo usa la misma textura.",
+    "structure": [
+      [
+        "0–15 s",
+        "saltos de personajes; un tazón se llena de bolitas"
+      ]
+    ],
+    "tempo": "tranquilo · 12 fps con holds",
+    "recipe": {
+      "type": "receta (nota de Montaj)",
+      "text": "Tüm yüzeylere keçe ve kumaş dokusu ver, yuvarlak karakterleri stop motion hissi için saniyede 12 kareyle zıplat ve logoyu da aynı dokuyla yaz. → Textura de fieltro en todo, personajes redondos a 12 fps y el logo con la misma textura.",
+      "source": "https://github.com/muhammedsevimli/montaj"
+    },
+    "refs": [
+      {
+        "label": "@argofowl · FowlNote",
+        "url": "https://x.com/argofowl/status/2103800311802658965"
+      }
+    ],
+    "hf_blocks": [
+      "stop-motion-cadence",
+      "grain-overlay"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets.",
+      "prompt": "Nota de Montaj (MIT) traducida.",
+      "ours": "Plantilla original; personajes y textura de fieltro generados en CSS/SVG, Caveat (OFL)."
+    },
+    "status": "implemented",
+    "template": "felt-stopmotion",
+    "fit": "Primaria: conteo, fracciones con objetos."
+  },
+  {
+    "id": "collage-vox",
+    "name": "Collage de papel estilo Vox",
+    "family": "collage",
+    "trend": "32 de 260 referencias son collage; Claude Fable 5 (57.5M) usa tarjetas de mapas y grabados; vox-director (MIT) hace 'style bake-off' de 3–4 estilos antes de renderizar.",
+    "look": "Papel kraft, recortes, notas adhesivas, grabados antiguos, titulares serif con palabra clave en color, subrayado a mano.",
+    "structure": [
+      [
+        "por idea",
+        "recorte entra, se anota, sale con barrido de papel"
+      ]
+    ],
+    "tempo": "medio",
+    "recipe": {
+      "type": "receta (nota de Montaj)",
+      "text": "Bej kağıt dokusu üstüne yapışkan notları ve ekranları hafif eğik yapıştır, serif başlıkta anahtar kelimeyi turuncu yap ve kartları yelpaze gibi aç. → Pega notas y pantallas ligeramente inclinadas sobre papel beige, palabra clave del titular serif en naranja, tarjetas en abanico.",
+      "source": "https://github.com/muhammedsevimli/montaj"
+    },
+    "refs": [
+      {
+        "label": "@claudeai · Claude Fable 5 (57.5M)",
+        "url": "https://x.com/claudeai/status/2064394146916229443"
+      },
+      {
+        "label": "@helloshiva0801 · redesignr.ai",
+        "url": "https://x.com/helloshiva0801/status/2103733875734438284"
+      },
+      {
+        "label": "Alisa0808/vox-director (MIT)",
+        "url": "https://github.com/Alisa0808/vox-director"
+      }
+    ],
+    "hf_blocks": [
+      "vox-annotate",
+      "texture-mask-text",
+      "ink-bleed-reveal",
+      "split-tilt-cards"
+    ],
+    "license": {
+      "reference": "Los videos originales son de sus autores: solo enlazamos, no copiamos cuadros ni assets. Los grabados deben ser de dominio público o propios.",
+      "prompt": "Nota de Montaj (MIT) traducida.",
+      "ours": "Plantilla original; recortes y grabados dibujados en SVG (sin imágenes de archivo), Instrument Serif, Caveat, Inter y Plex Mono (OFL)."
+    },
+    "status": "implemented",
+    "template": "collage-vox",
+    "fit": "Historia, geografía, literatura."
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "template": "retro-window",
+  "id": "costo-cargar-celular",
+  "title": "¿Cuánto cuesta cargar tu celular?",
+  "inputs": { "wh": 15, "perDay": 1, "days": 365, "price": 1.1 },
+  "windows": [
+    { "bar": "BATERÍA", "label": "una carga completa", "value": "{wh}", "unit": "Wh", "x": 120, "y": 200, "w": 480 },
+    { "bar": "HÁBITO", "label": "cargas al año", "value": "{charges}", "unit": "cargas", "x": 700, "y": 170, "w": 520 },
+    { "bar": "ENERGÍA", "label": "energía al año", "value": "{kwh}", "unit": "kWh", "x": 1320, "y": 250, "w": 480 },
+    { "bar": "TARIFA", "label": "precio por kWh", "value": "${price}", "unit": "MXN", "x": 180, "y": 620, "w": 460 }
+  ],
+  "big": { "bar": "TOTAL", "label": "lo que pagas al año", "unit": "MXN", "x": 760, "y": 560, "w": 960 }
+}

@@ -1,0 +1,368 @@
+<title>Opus 5.5 en movimiento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: una sola columna de lectura con una "línea de tiempo" de edición como hilo conductor; cada sección es un tramo marcado con timecode */
+:root{
+  --bg:#f5f6f9; --surface:#ffffff; --fg:#161a2b; --muted:#5a6078; --line:#d9dce7;
+  --accent:#2c46d8; --accent-soft:#e3e7fd; --key:#e08a00; --ok:#1f8a5b; --warn:#b4540b;
+  --code-bg:#eef0f6;
+  --display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10131e; --surface:#171b29; --fg:#e7e9f2; --muted:#9aa0b8; --line:#2a2f42;
+  --accent:#8a9bff; --accent-soft:#232a4d; --key:#ffb13d; --ok:#4cc38a; --warn:#f0925a; --code-bg:#1d2234; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10131e; --surface:#171b29; --fg:#e7e9f2; --muted:#9aa0b8; --line:#2a2f42;
+  --accent:#8a9bff; --accent-soft:#232a4d; --key:#ffb13d; --ok:#4cc38a; --warn:#f0925a; --code-bg:#1d2234; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:880px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.1;margin:0}
+h1{font-size:clamp(2.4rem,7vw,4.4rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0;max-width:68ch}
+a{color:var(--accent);text-underline-offset:2px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+code,.mono{font-family:var(--mono);font-size:.88em}
+.tc{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+
+/* hero */
+header.hero{padding-block:56px 32px;display:grid;gap:20px}
+.hero .lede{font-size:1.15rem;color:var(--muted);max-width:60ch}
+.ruler{height:28px;position:relative;border-bottom:1px solid var(--line);
+  background-image:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 12px),repeating-linear-gradient(90deg,var(--muted) 0 1px,transparent 1px 60px);
+  background-size:100% 8px,100% 16px;background-repeat:no-repeat;background-position:bottom,bottom}
+.ruler .kf{position:absolute;bottom:-6px;width:12px;height:12px;background:var(--key);transform:rotate(45deg);animation:slide 6s cubic-bezier(.65,0,.35,1) infinite alternate}
+.ruler .kf:nth-child(2){left:38%;background:var(--accent);animation-delay:-2s}
+@keyframes slide{from{left:2%}to{left:94%}}
+@media (prefers-reduced-motion:reduce){.ruler .kf{animation:none;left:12%}}
+
+/* sections */
+section{padding-block:40px;border-top:1px solid var(--line);display:grid;gap:18px}
+.sec-head{display:grid;gap:6px}
+.tldr{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.tldr div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.tldr b{font-family:var(--display);font-size:1.05rem}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.93rem;min-width:620px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font-family:var(--mono);font-size:.72rem;padding:2px 8px;border-radius:99px;border:1px solid currentColor;white-space:nowrap}
+.pill.ok{color:var(--ok)} .pill.part{color:var(--key)} .pill.no{color:var(--warn)}
+
+/* pipeline diagram */
+.pipe{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.pipe .step{flex:1 1 130px;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px;display:grid;gap:4px;position:relative}
+.pipe .step b{font-family:var(--display);font-size:.98rem}
+.pipe .step span{font-size:.85rem;color:var(--muted)}
+.pipe .step.hi{border-color:var(--accent);background:var(--accent-soft)}
+
+/* prompts */
+.prompt{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-width:0}
+.prompt summary{cursor:pointer;padding:14px 16px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;list-style:none}
+.prompt summary::-webkit-details-marker{display:none}
+.prompt summary::before{content:"";width:9px;height:9px;background:var(--key);transform:rotate(45deg);flex:none;align-self:center}
+.prompt[open] summary::before{background:var(--accent)}
+.prompt summary h3{flex:1 1 220px}
+.prompt .body{padding:0 16px 16px;display:grid;gap:10px}
+pre{margin:0;background:var(--code-bg);border-radius:8px;padding:14px;overflow-x:auto;font:13.5px/1.55 var(--mono);white-space:pre-wrap;word-break:break-word}
+.why{font-size:.92rem;color:var(--muted)}
+.copy{justify-self:start;font:500 .8rem var(--mono);background:transparent;color:var(--accent);border:1px solid var(--accent);border-radius:6px;padding:5px 10px;cursor:pointer}
+.copy:hover{background:var(--accent-soft)}
+
+/* practices */
+.rules{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.rule{display:grid;gap:6px;padding-left:14px;border-left:2px solid var(--line);min-width:0}
+.rule h3{font-size:1.02rem}
+.rule p{font-size:.95rem}
+
+.gallery{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:6px;align-content:start;min-width:0}
+.card .who{font-family:var(--mono);font-size:.8rem;color:var(--accent)}
+.card.star{border-color:var(--key)}
+
+ol.flow{margin:0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:f}
+ol.flow li{counter-increment:f;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+ol.flow li::before{content:counter(f,decimal-leading-zero);font-family:var(--mono);font-size:.8rem;color:var(--key);padding-top:3px}
+ol.flow li div{min-width:0}
+.tree{font-size:13px}
+.note{background:var(--accent-soft);border-radius:10px;padding:14px 16px;font-size:.95rem}
+ul.plain{margin:0;padding-left:1.1em;display:grid;gap:6px}
+.src{font-size:.88rem;columns:2 260px;column-gap:28px}
+.src li{break-inside:avoid;margin-bottom:6px}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <span class="tc">00:00:00 · Investigación · FinalStudio · 28 sep 2026</span>
+  <h1>Opus 5.5 en movimiento</h1>
+  <p class="lede">Qué está haciendo la gente con Opus 5.5 y motion design, cuáles prompts funcionan, qué herramientas hay debajo y cómo convertir todo eso en una skill reutilizable para productos como tu generador de video tutoriales.</p>
+  <div class="ruler" aria-hidden="true"><i class="kf"></i><i class="kf"></i></div>
+</header>
+
+<section id="resumen">
+  <div class="sec-head"><span class="tc">00:00:05 · Resumen</span><h2>Lo esencial en cuatro puntos</h2></div>
+  <div class="tldr">
+    <div><b>Opus no genera píxeles, escribe el programa que los dibuja</b><p>Cada video es código (HTML, CSS, GSAP, Canvas, React). Un renderizador avanza frame por frame en un navegador sin interfaz y FFmpeg lo codifica a MP4. Por eso el texto, los datos y la UI salen exactos.</p></div>
+    <div><b>El "un solo prompt" es real, pero el nivel pro viene del proceso</b><p>Storyboard aprobado primero, sistema visual fijo, revisión de frames fijos y correcciones con timecode. Los creadores que muestran resultados finos iteran 2 a 5 rondas.</p></div>
+    <div><b>Dos motores dominan: HyperFrames y Remotion</b><p>HyperFrames (HTML puro, Apache 2.0, de HeyGen, creado por @liu8in) está pensado para agentes. Remotion (React) es más maduro y fuerte en datos y subtítulos.</p></div>
+    <div><b>Tu caso de uso encaja muy bien</b><p>Explicar un ejercicio, una hoja de cálculo o un tema paso a paso es justo donde el código gana a los generadores de video: precisión, datos reales y edición barata.</p></div>
+  </div>
+</section>
+
+<section id="posts">
+  <div class="sec-head"><span class="tc">00:00:20 · Tus referencias</span><h2>Qué pude leer de los posts que mandaste</h2>
+  <p>X bloquea la lectura automática (robots.txt, 403 y 451 en los espejos). Reconstruí lo posible desde galerías y artículos que citan esos posts. Lo que no pude leer está marcado.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Post</th><th>Autor</th><th>Lo que encontré</th><th>Estado</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://x.com/achxvi/status/2104294892944097513">achxvi/…4097513</a><br><span class="tc">el que recomendaste (asumido)</span></td><td>Chain (@achxvi), hace productos digitales (Pocketsflow)</td><td>Texto del post no accesible. Ninguna galería lo indexa todavía. Su trabajo conocido: explicador de Pocketsflow con personaje que habla y "TixFox", un zorro pixel-art que vende boletos de 39 centavos.</td><td><span class="pill no">no leído</span></td></tr>
+      <tr><td><a href="https://x.com/_msevimli/status/2104516560341852204">_msevimli/…1852204</a></td><td>Muhammed Sevimli</td><td>Muy probablemente presenta <a href="https://github.com/muhammedsevimli/montaj">Montaj</a>: 260 videos de lanzamiento etiquetados a mano por estilo, tempo y técnica, con un constructor de prompts para HyperFrames o Remotion. Inferido por autor y fecha.</td><td><span class="pill part">inferido</span></td></tr>
+      <tr><td><a href="https://x.com/achxvi/status/2104302237115961410">achxvi/…5961410</a></td><td>Chain (@achxvi)</td><td>No accesible. Publicado minutos después del anterior, probablemente es el hilo con el prompt o el resultado.</td><td><span class="pill no">no leído</span></td></tr>
+      <tr><td><a href="https://x.com/liu8in/status/2104360119849083093">liu8in/…9083093</a></td><td>Bin Liu, creador de HyperFrames (HeyGen)</td><td>Texto no accesible. Su contexto sí: open-sourceó <a href="https://github.com/heygen-com/hyperframes">HyperFrames</a>, publicó la comparación con Remotion y demos con Opus 5.5 + Three.js.</td><td><span class="pill part">contexto</span></td></tr>
+      <tr><td><a href="https://x.com/0xMovez/status/2104216919033192746">0xMovez/…3192746</a></td><td>Movez</td><td>Artículo en X "How to build motion design studio with Opus 5.5 (Full-course)". Título confirmado, cuerpo bloqueado.</td><td><span class="pill part">solo título</span></td></tr>
+      <tr><td><a href="https://x.com/achxvi/status/2103918792845963545">achxvi/…2792845963545</a></td><td>Chain (@achxvi)</td><td>Encontrado completo en <a href="https://github.com/huahua99599-commits/awesome-opus-gallery">awesome-opus-gallery</a>: video de 15 s de Pocketsflow con un personaje que habla (voz ElevenLabs). Prompt abajo.</td><td><span class="pill ok">leído</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">Si pegas aquí el texto (o capturas) del post de achxvi que más te gustó y del curso de Movez, los incorporo al informe y a la skill. Es lo único que falta para cerrar tus referencias.</p>
+</section>
+
+<section id="como">
+  <div class="sec-head"><span class="tc">00:00:45 · Mecánica</span><h2>Cómo sale un video de Opus 5.5</h2>
+  <p>El patrón que comparten todos los flujos serios. El paso resaltado es donde vive la calidad.</p></div>
+  <div class="pipe">
+    <div class="step"><span class="tc">1</span><b>Brief</b><span>objetivo, duración, formato, marca, textos exactos</span></div>
+    <div class="step hi"><span class="tc">2</span><b>Storyboard</b><span>escenas con timecode, texto, visual, movimiento. Se aprueba antes de codificar</span></div>
+    <div class="step"><span class="tc">3</span><b>Audio</b><span>voz TTS con marcas por palabra o música con BPM; fija la duración de cada escena</span></div>
+    <div class="step"><span class="tc">4</span><b>Código</b><span>HTML/GSAP, React o Canvas; todo es función del tiempo t</span></div>
+    <div class="step hi"><span class="tc">5</span><b>Frames fijos</b><span>revisar legibilidad, texto, datos, contraste</span></div>
+    <div class="step"><span class="tc">6</span><b>Render</b><span>navegador sin interfaz busca cada frame; FFmpeg a MP4</span></div>
+  </div>
+  <p>La regla técnica que hace todo esto confiable: <strong>cada píxel es una función pura del tiempo</strong>. Nada de <code>Date.now()</code>, <code>requestAnimationFrame</code> libre, timers, transiciones CSS no controladas ni <code>Math.random()</code> sin semilla. Si la escena expone <code>window.seek(t)</code>, el render es determinista y se puede paralelizar.</p>
+</section>
+
+<section id="herramientas">
+  <div class="sec-head"><span class="tc">00:01:10 · Herramientas</span><h2>El stack que usa la gente</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Herramienta</th><th>Para qué es mejor</th><th>Notas</th></tr></thead>
+    <tbody>
+      <tr><td><b>HyperFrames</b><br><span class="tc">HeyGen · Apache 2.0</span></td><td>Tipografía cinética, promos de producto, lanzamientos, transiciones con shaders, personajes SVG</td><td>HTML con <code>data-start</code>/<code>data-duration</code>, acepta GSAP, CSS, Lottie, Three.js, Anime.js. Sin build. Trae 21 skills para agentes (<code>/faceless-explainer</code>, <code>/music-to-video</code>, <code>/motion-graphics</code>…) y un sistema de diseño <code>frame.md</code>.</td></tr>
+      <tr><td><b>Remotion</b><br><span class="tc">React · licencia propia</span></td><td>Explicadores con datos, dashboards, subtítulos, mapas, apps SaaS que generan video</td><td>Ecosistema maduro y skills oficiales (<code>npx skills add remotion-dev/skills</code>). Remotion Studio para previsualizar sin renderizar. Empresas necesitan licencia comercial; revisar antes de construir producto.</td></tr>
+      <tr><td><b>HTML + Canvas + Playwright + FFmpeg</b></td><td>Películas dibujadas a mano, partículas, arte generativo</td><td>El pipeline mínimo: Opus escribe un HTML con <code>seek(t)</code>, Playwright captura, FFmpeg codifica.</td></tr>
+      <tr><td><b>Three.js / WebGL</b></td><td>Escenas 3D, cámaras orbitales, profundidad</td><td>Funciona dentro de HyperFrames mediante adaptadores.</td></tr>
+      <tr><td><b>Lottie</b></td><td>Íconos y micro-animaciones reutilizables</td><td>Bueno como librería de piezas, no para la película completa.</td></tr>
+      <tr><td><b>Claude Design</b></td><td>Animaciones rápidas sin instalar nada</td><td>Inspira, entrevista y mejora; exporta a Claude Code. Útil para prototipar estilos.</td></tr>
+      <tr><td><b>ElevenLabs, Suno</b></td><td>Voz y música</td><td>Opus escribe el guion y los prompts de música; la voz se genera antes de fijar tiempos.</td></tr>
+      <tr><td><b>Veo, Kling, Runway, Higgsfield</b></td><td>Personas reales, naturaleza, tomas cinematográficas</td><td>Complementan: el video generado entra como clip dentro de la composición en código.</td></tr>
+      <tr><td><b>OpenMontage</b><br><span class="tc">AGPL-3.0</span></td><td>Referencia de arquitectura</td><td>12 pipelines (explicador animado, demo de pantalla, podcast…) con etapas investigación, propuesta, guion, plan de escenas, assets, edición, composición.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="prompts">
+  <div class="sec-head"><span class="tc">00:01:40 · Prompts</span><h2>Los prompts que más resultados dieron</h2>
+  <p>Textos tal como los publicaron sus autores o las fuentes que los recopilan. Cada uno trae por qué funciona.</p></div>
+
+  <details class="prompt" open><summary><h3>Showreel de achxvi para Pocketsflow</h3><span class="tc">@achxvi · 15 s · con voz</span></summary><div class="body">
+<pre>make a dynamic 15-second motion graphics video about Pocketsflow that shows what an incredible motion designer you are, like it's your showreel for a résumé. go all out.
+
+here is elevenlabs key:
+[TU_API_KEY]
+
+make a video where a character talks about pocketsflow and how people can use it and what can they do with it etc etc etc
+
+LFG</pre>
+<p class="why">Combina la fórmula "showreel, go all out" (permiso para usar todo el repertorio) con un personaje que habla y una API de voz real. Opus escribe guion, genera la voz y sincroniza la animación con el audio. Es la base directa para un tutor animado en tu producto.</p>
+<button class="copy" type="button">Copiar prompt</button></div></details>
+
+  <details class="prompt"><summary><h3>Showreel con un elemento protagonista</h3><span class="tc">plantilla · 15 s</span></summary><div class="body">
+<pre>Make a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel. go all out. make it for [BUSINESS NAME] ([WEBSITE]). The [ONE SHAPE OR COLOR FROM YOUR LOGO] is the star: it leads every shot, and the eye follows it from scene to scene. Use the words exactly as written:
+"[OPENING LINE]"
+"[THING YOU DO 1]"
+"[THING YOU DO 2]"
+"[THING YOU DO 3]"
+"[YOUR OFFER]"
+"[TAGLINE AND WEBSITE]"</pre>
+<p class="why">Un solo elemento que guía la mirada convierte seis frases sueltas en una pieza continua. "Use the words exactly as written" evita que el modelo reescriba tu copy.</p>
+<button class="copy" type="button">Copiar prompt</button></div></details>
+
+  <details class="prompt"><summary><h3>Explicador de negocio en cinco escenas</h3><span class="tc">@alex_prompter · 30 s · voz</span></summary><div class="body">
+<pre>Adopt the role of an expert motion designer. Build a 30-second animated explainer for my business. 5 scenes: the customer's problem, what I do, how it works in 3 steps, one proof point, and my name at the end. Bold text, smooth transitions, my brand colours. Add a friendly voiceover that walks people through it, not an ad read.
+My business: [what you sell, who it's for, your colours]</pre>
+<p class="why">Estructura narrativa fija (problema, solución, pasos, prueba, firma). Cambiando las escenas por "enunciado, idea clave, paso 1-3, resultado, repaso" se vuelve la plantilla de un tutorial.</p>
+<button class="copy" type="button">Copiar prompt</button></div></details>
+
+  <details class="prompt"><summary><h3>Brief plano por plano</h3><span class="tc">control total · 18 s</span></summary><div class="body">
+<pre>Create an 18-second product film for [your product] inside a dark rounded stage.
+Art direction: [background], [text colors], one accent [hex], one clean sans-serif.
+Timeline:
+0–1s: the logo arrives with minimal overshoot.
+1–2.5s: the headline "[headline]" reveals line by line.
+2.5–5s: the product UI rises into view and settles.
+5–9s: [the one feature to show], step by step.
+9–12s: [the hero moment], large and cropped by the stage.
+12–15s: [supporting features] as floating cards.
+15–18s: logo lockup with "[tagline]".
+Motion: smooth easing, no bouncing, no particles, no lens flares. Outgoing text leaves before incoming text arrives.</pre>
+<p class="why">Cuando ya sabes lo que quieres. Los tiempos por segundo y las prohibiciones explícitas ("no particles") eliminan los clichés de IA. Es el formato que tu sistema debería generar internamente a partir del storyboard.</p>
+<button class="copy" type="button">Copiar prompt</button></div></details>
+
+  <details class="prompt"><summary><h3>Loop de UI con una sola forma</h3><span class="tc">@twoclipping · 120 BPM</span></summary><div class="body">
+<pre>Make a looping 16:9 product video for [your product] using my attached screenshots as the reference for the UI.
+Rules: one shape, never cut. Every state is the same element changing size, radius and color while the content swaps. A cursor drives the sequence with real clicks, typing and one drag. Real UI, real data, no placeholders.
+Structure: 120 BPM, something happens on every beat: logo → [state 1] → [state 2] → [state 3] → … → logo.
+Motion: springs with only a tiny overshoot; content enters after its container starts morphing and leaves before the next morph; zoom so every state fills the frame; the last frame equals the first.</pre>
+<p class="why">Estética tipo Dribbble sin cortes. Útil para mostrar un flujo de software paso a paso (por ejemplo, cómo hacer algo en Excel).</p>
+<button class="copy" type="button">Copiar prompt</button></div></details>
+
+  <details class="prompt"><summary><h3>Educativo a partir de un archivo</h3><span class="tc">Claude Design · Remotion</span></summary><div class="body">
+<pre>Analyze the content of this file, extract the main learnings, and create an educational animation.</pre>
+<pre>Create motion graphics to use over a talking head video. The graphics should follow the transcript pasted below and illustrate the concepts at the matching timestamps.</pre>
+<pre>Use FFmpeg to analyze the video in my Animation Inspiration folder and create a similar animation where words come in one by one.</pre>
+<p class="why">Tres patrones directos para tu idea: archivo a animación, guion a gráficos sincronizados, y referencia visual a estilo reutilizable.</p>
+<button class="copy" type="button">Copiar prompt</button></div></details>
+
+  <details class="prompt"><summary><h3>Plantilla completa con storyboard y aprobación</h3><span class="tc">reutilizable</span></summary><div class="body">
+<pre>Create a polished [duration]-second motion graphics video for [platform] in [aspect ratio]. Goal: help [audience] understand [message] and finish with [action].
+
+Inspect assets, then propose timestamped storyboard with narration, text, visuals, motion, transitions. Wait for approval before rendering.
+
+Visual direction: [style]. Use [colors] and [typography]. Keep text in mobile-safe area. Use one recurring element transforming between scenes.
+
+Use [HTML/Canvas/Remotion]. Keep duration, colors, copy, aspect ratio editable. Synchronize to actual audio if voiceover included. Render review stills before final MP4.</pre>
+<p class="why">Resume casi todas las buenas prácticas en un solo prompt. Es el esqueleto natural del SKILL.md.</p>
+<button class="copy" type="button">Copiar prompt</button></div></details>
+
+  <details class="prompt"><summary><h3>Minimalistas que sorprendieron</h3><span class="tc">varios autores</span></summary><div class="body">
+<pre>Build me an incredible video for my app [your product] ([one line on what it does]). Make it emotional.</pre>
+<pre>make a modern slick and punchy video for a modern startup that works on inference</pre>
+<pre>Asked Opus 5.5 to teach Jensen's inequality in my style</pre>
+<pre>帮我用js制作一个视频，主题是：什么是 Transformer，要深入浅出，让高中生也能看得懂</pre>
+<p class="why">Una palabra con carga ("emotional", "punchy", "en mi estilo", "que lo entienda un estudiante de prepa") define el tono completo. El último (@dotey) es literalmente un video tutorial de un concepto difícil.</p>
+<button class="copy" type="button">Copiar prompt</button></div></details>
+</section>
+
+<section id="practicas">
+  <div class="sec-head"><span class="tc">00:02:30 · Mejores prácticas</span><h2>Lo que separa un resultado pro de uno "mid"</h2></div>
+  <div class="rules">
+    <div class="rule"><h3>Storyboard antes que código</h3><p>Escenas con timecode, texto en pantalla, visual y movimiento. Se aprueba y luego se construye. Permite editar una escena sin rehacer todo.</p></div>
+    <div class="rule"><h3>Sistema visual bloqueado</h3><p>2 a 3 colores, una tipografía, un carácter de movimiento. HyperFrames lo formaliza en <code>frame.md</code>, un DESIGN.md pensado para el tamaño de un frame.</p></div>
+    <div class="rule"><h3>Un elemento recurrente</h3><p>Una forma, línea o bloque de color que se transforma entre escenas. Es lo que convierte slides en motion design.</p></div>
+    <div class="rule"><h3>Permiso más que instrucciones</h3><p>"Like it's your showreel, go all out" sube la ambición. Para precisión, al contrario: timeline por segundo y prohibiciones explícitas.</p></div>
+    <div class="rule"><h3>Textos exactos y pocos</h3><p>"Use the words exactly as written". Menos palabras, tipos grandes, zona segura para móvil.</p></div>
+    <div class="rule"><h3>Audio primero</h3><p>Generar la narración antes de fijar la duración de las escenas. Sincronizar con marcas por palabra o con BPM.</p></div>
+    <div class="rule"><h3>Revisar frames fijos</h3><p>Exportar inicio, medio y final antes del MP4. Revisar datos y afirmaciones: en explicadores, los errores factuales son el riesgo principal.</p></div>
+    <div class="rule"><h3>Correcciones con timecode</h3><p>"En 00:04, deja la tarjeta 12 frames más" funciona. "Hazlo mejor" no.</p></div>
+    <div class="rule"><h3>Iterar barato</h3><p>Borradores a media resolución, sin motion blur, re-render solo de la escena cambiada, Studio para previsualizar.</p></div>
+    <div class="rule"><h3>Referencias reales</h3><p>Un video o imagen de referencia comunica más que adjetivos. Montaj existe justo para esto: elegir referencias por estilo, tempo y técnica.</p></div>
+    <div class="rule"><h3>Corto y denso</h3><p>Los virales duran 15 a 20 s con algo nuevo cada segundo. Para tutoriales, dividir en capítulos cortos.</p></div>
+    <div class="rule"><h3>Física de movimiento</h3><p>Resortes con poco rebote; entradas ~400 ms, salidas ~300 ms, escalonado 50 ms entre hermanos. El texto que sale se va antes de que entre el nuevo.</p></div>
+  </div>
+</section>
+
+<section id="disenos">
+  <div class="sec-head"><span class="tc">00:03:20 · Diseños destacados</span><h2>Piezas de referencia</h2></div>
+  <div class="gallery">
+    <div class="card star"><span class="who">@achxvi</span><h3>Pocketsflow con personaje</h3><p>Personaje que explica el producto con voz ElevenLabs. Modelo directo de un tutor animado.</p></div>
+    <div class="card"><span class="who">@achxvi</span><h3>TixFox</h3><p>Zorro pixel-art que vende boletos de 39 centavos. Personaje + precio + humor en 39 s.</p></div>
+    <div class="card"><span class="who">@dotey</span><h3>¿Qué es un Transformer?</h3><p>Explicador técnico en JS para estudiantes de prepa. Atención y matemáticas animadas.</p></div>
+    <div class="card"><span class="who">@goodside</span><h3>Black-Scholes a pantalla dividida</h3><p>Mitad explica la fórmula, mitad la visualiza. Formato ideal para resolver ejercicios.</p></div>
+    <div class="card"><span class="who">@prathoshap</span><h3>Desigualdad de Jensen</h3><p>Lección de matemáticas "en mi estilo". Prueba de que el tono se adapta al autor.</p></div>
+    <div class="card"><span class="who">@Ror_Fly</span><h3>Receta de coctel</h3><p>De vaso vacío a coctel terminado en 30 s: un procedimiento paso a paso.</p></div>
+    <div class="card"><span class="who">@akokoi1</span><h3>5000 años de historia china</h3><p>Línea de tiempo en estilo lineart, ligera y divertida.</p></div>
+    <div class="card"><span class="who">@pankajkumar_dev</span><h3>Póster que rompe su marco</h3><p>Un prompt: animación, cámara, diseño sonoro y música sincronizada al beat.</p></div>
+    <div class="card"><span class="who">@twoclipping</span><h3>Una forma, sin cortes</h3><p>UI que muta de estado en estado a 120 BPM.</p></div>
+  </div>
+</section>
+
+<section id="producto">
+  <div class="sec-head"><span class="tc">00:04:00 · Aplicación</span><h2>Cómo usar esto para tu plataforma de video tutoriales</h2>
+  <p>Propuesta de flujo para "subo mis apuntes, temas, Excel o documentos y recibo un video que me enseña a resolverlo". Cada paso usa lo que ya probó la comunidad.</p></div>
+  <ol class="flow">
+    <li><div><b>Ingesta.</b> Extraer texto, tablas y fórmulas de PDFs, docs, imágenes y hojas de cálculo. Los datos reales entran al video tal cual.</div></li>
+    <li><div><b>Entender la tarea.</b> Clasificar qué se pide: resolver un ejercicio, explicar un concepto, enseñar un procedimiento en software, analizar datos. Detectar nivel del alumno e idioma. Aquí está la adaptación al contexto.</div></li>
+    <li><div><b>Plan pedagógico.</b> Guion por pasos (enunciado, idea clave, pasos, resultado, repaso) con la solución verificada antes de animar.</div></li>
+    <li><div><b>Storyboard.</b> Escenas con timecode, elegidas de una librería de plantillas por tipo de tarea: ecuación paso a paso, pantalla dividida, gráfica que se construye, cursor sobre UI, línea de tiempo.</div></li>
+    <li><div><b>Voz.</b> TTS con marcas por palabra; fija la duración de cada escena.</div></li>
+    <li><div><b>Composición.</b> Opus escribe las escenas en HyperFrames (o Remotion para datos pesados) con el sistema visual de la marca.</div></li>
+    <li><div><b>Control de calidad.</b> Frames fijos revisados por otro paso de Claude: legibilidad, datos correctos, resultado matemático correcto.</div></li>
+    <li><div><b>Render y entrega.</b> MP4 en la nube por capítulos, con subtítulos y opción de pedir "explícame de nuevo este paso".</div></li>
+  </ol>
+
+  <h3>Forma propuesta de la skill</h3>
+  <pre class="tree">motion-design/
+  SKILL.md              router: lee la intención, confirma brief, elige flujo
+  references/
+    principles.md       tiempos, easing, resortes, jerarquía, zona segura
+    determinism.md      reglas de seek(t), sin timers ni random sin semilla
+    frame-tokens.md     sistema visual por marca (tipo frame.md)
+    prompt-patterns.md  showreel, 5 escenas, plano por plano, una forma
+    qa-checklist.md     revisión de frames y hechos
+  workflows/
+    explainer.md        concepto a video
+    solve-step.md       ejercicio resuelto paso a paso
+    data-story.md       CSV/Excel a gráficas animadas
+    software-demo.md    procedimiento en una UI
+    launch.md           promo de producto
+  scenes/               componentes reutilizables (HTML/GSAP)</pre>
+  <p class="note"><b>Recomendación:</b> empezar con HyperFrames como motor principal. Es HTML (lo que Claude escribe mejor), no requiere build, tiene licencia Apache 2.0 sin costo por render y ya trae skills de agente que podemos extender. Remotion queda como segunda opción para dashboards y subtítulos, revisando su licencia comercial.</p>
+</section>
+
+<section id="limites">
+  <div class="sec-head"><span class="tc">00:04:40 · Límites</span><h2>Lo que no hace bien (todavía)</h2></div>
+  <ul class="plain">
+    <li>Personas realistas, naturaleza y tomas cinematográficas: mejor con Veo, Kling o Runway, integrados como clips.</li>
+    <li>Piezas largas pierden calidad visual; conviene dividir en capítulos y unir.</li>
+    <li>Errores factuales en explicadores. Hace falta verificar la solución antes de animar.</li>
+    <li>Renderizar tarda más que la duración del video; en producto hay que renderizar en la nube (Lambda o similar).</li>
+    <li>Costo de tokens por video alto con los modelos más capaces; una librería de escenas reutilizables lo reduce.</li>
+  </ul>
+</section>
+
+<section id="fuentes">
+  <div class="sec-head"><span class="tc">00:05:00 · Fuentes</span><h2>Fuentes consultadas</h2></div>
+  <ul class="src">
+    <li><a href="https://github.com/huahua99599-commits/awesome-opus-gallery">awesome-opus-gallery</a></li>
+    <li><a href="https://github.com/guanmo-ai/awesome-ai-motion">awesome-ai-motion</a></li>
+    <li><a href="https://github.com/X-RayLuan/awesome-opus-5-5-video-prompts">awesome-opus-5-5-video-prompts</a></li>
+    <li><a href="https://github.com/muhammedsevimli/montaj">Montaj (@_msevimli)</a></li>
+    <li><a href="https://github.com/heygen-com/hyperframes">HyperFrames</a></li>
+    <li><a href="https://hyperframes.heygen.com/guides/hyperframes-vs-remotion">HyperFrames vs Remotion</a></li>
+    <li><a href="https://github.com/remotion-dev/skills">Remotion agent skills</a></li>
+    <li><a href="https://github.com/calesthio/OpenMontage">OpenMontage</a></li>
+    <li><a href="https://github.com/cth9191/motion-design">motion-design skill (Higgsfield)</a></li>
+    <li><a href="https://www.iart.ai/blog/opus-5-5-product-launch-videos">iArt: 6 prompts de lanzamiento</a></li>
+    <li><a href="https://promptteardown.com/blog/ai-prompt-claude-motion-graphics-promo-video/">Prompt Teardown: showreel</a></li>
+    <li><a href="https://magiccreator.ai/posts/how-to-use-claude-opus-5-5-to-make-videos">MagicCreator: flujo de 7 pasos</a></li>
+    <li><a href="https://dannystuart.substack.com/p/claude-code-opus-remotion-agentic-promo-video">Danny Stuart: producción agéntica con Remotion</a></li>
+    <li><a href="https://huggingface.co/blog/karmen-beatapi/how-to-make-videos-with-claude-opus-5-5">Hugging Face: pipeline determinista</a></li>
+    <li><a href="https://www.sabrina.dev/p/5-insane-claude-code-video-prompts">Sabrina: 5 prompts con Remotion</a></li>
+    <li><a href="https://louisedesadeleer.substack.com/p/how-i-make-custom-motion-graphics">Louise de Sadeleer: Claude Code + Remotion</a></li>
+    <li><a href="https://www.whytryai.com/p/claude-design-animations">Why Try AI: animaciones en Claude Design</a></li>
+    <li><a href="https://www.revid.ai/claude-motion-graphics">Revid: 63 ejemplos</a></li>
+    <li><a href="https://officechai.com/ai/claude-opus-5-5-motion-graphic-videos/">OfficeChai: 10 ejemplos</a></li>
+    <li><a href="https://daily.dev/posts/claude-opus-5-5-generates-motion-design-and-visual-scenes-entirely-in-code-yqmdx7qnw">daily.dev: resumen de la comunidad</a></li>
+    <li><a href="https://medium.com/@olalekanisaaccb/how-to-get-better-ui-animations-in-claude-2026-guide-c5eb19b9be8f">Guía de animaciones de UI en Claude</a></li>
+  </ul>
+</section>
+</div>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var pres=btn.parentElement.querySelectorAll('pre');
+    var text=Array.prototype.map.call(pres,function(p){return p.textContent}).join('\n\n');
+    var done=function(){btn.textContent='Copiado';setTimeout(function(){btn.textContent='Copiar prompt'},1600)};
+    try{
+      navigator.clipboard.writeText(text).then(done,function(){sel(pres[0])});
+    }catch(e){sel(pres[0])}
+  });
+});
+function sel(el){var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r)}
+</script>

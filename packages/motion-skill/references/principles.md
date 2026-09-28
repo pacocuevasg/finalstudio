@@ -8,5 +8,5 @@
 - **Outgoing leaves before incoming arrives.** Never cross-fade two texts in the same place.
 - **Timings.** Entrances 0.3–0.5 s with `power2/3.out`. Micro reveals 0.12–0.18 s. Stagger 0.05–0.16 s. Springs with a tiny overshoot at most.
 - **Banned by default:** letter-by-letter typewriter, bouncing, gradient text, fake UI, invented data.
-- **Readability.** Few words, big type, and text kept out of the bottom 15 % where players draw controls.
+- **Readability.** Few words, big type, and text kept out of the platform safe zones (`formats.md`).
 - **Revise with timecodes.** "At 00:09:10 hold the mark 12 frames longer" is a usable revision. "Make it better" is not.

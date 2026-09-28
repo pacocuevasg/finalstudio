@@ -1,0 +1,16 @@
+{
+  "template": "kinetic-showreel",
+  "id": "intro-fisica",
+  "bpm": 120,
+  "brand": "FinalStudio",
+  "palette": { "a": "#f2efe8", "b": "#111111", "accent": "#ff4a1c" },
+  "shots": [
+    { "type": "slam", "words": ["¿Física?"], "bg": "b", "tag": "hook" },
+    { "type": "slam", "words": ["Sin", "miedo"], "bg": "a", "accent": 1 },
+    { "type": "ball", "bg": "a", "note": "cada rebote pierde energía", "tag": "idea", "beats": 3 },
+    { "type": "curve", "bg": "b", "label": "ease · power4.out", "note": "rápido → suave", "tag": "curva", "beats": 3 },
+    { "type": "count", "value": 3, "suffix": "pasos", "bg": "accent", "fg": "#111", "tag": "plan" },
+    { "type": "grid", "bg": "b", "tag": "ritmo" },
+    { "type": "lockup", "title": "Caída libre", "sub": "en 60 segundos", "bg": "a", "tag": "título", "beats": 4 }
+  ]
+}

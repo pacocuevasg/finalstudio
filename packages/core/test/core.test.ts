@@ -1,10 +1,14 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { test } from "node:test";
 
 import { compileTimeline, parseSay, sceneScripts, Storyboard, verifyStoryboard } from "../src/index.ts";
 import { wavDuration, wordsFromAlignment } from "../src/voice/index.ts";
 import { estimateVoice } from "../src/voice/estimate.ts";
+import type { VoiceProvider } from "../src/voice/types.ts";
+import { buildProject } from "../src/render.ts";
 
 const example = Storyboard.parse(JSON.parse(readFileSync(new URL("../../../examples/ecuacion-lineal.v2.json", import.meta.url), "utf8")));
 
@@ -57,4 +61,38 @@ test("wavDuration reads the data chunk", () => {
   b.writeUInt32LE(sr, 24); b.writeUInt32LE(sr * 2, 28); b.writeUInt16LE(2, 32); b.writeUInt16LE(16, 34);
   b.write("data", 36); b.writeUInt32LE(data, 40);
   assert.equal(wavDuration(b), 1.5);
+});
+
+test("buildProject runs the skill's halftone-tutor template with one voice clip per scene", async () => {
+  // A silent 16-bit mono WAV the length of the estimated speech stands in for a TTS provider.
+  const silentWav = (seconds: number) => {
+    const rate = 8000;
+    const data = Buffer.alloc(Math.round(seconds * rate) * 2);
+    const h = Buffer.alloc(44);
+    h.write("RIFF", 0); h.writeUInt32LE(36 + data.length, 4); h.write("WAVEfmt ", 8);
+    h.writeUInt32LE(16, 16); h.writeUInt16LE(1, 20); h.writeUInt16LE(1, 22);
+    h.writeUInt32LE(rate, 24); h.writeUInt32LE(rate * 2, 28); h.writeUInt16LE(2, 32); h.writeUInt16LE(16, 34);
+    h.write("data", 36); h.writeUInt32LE(data.length, 40);
+    return Buffer.concat([h, data]);
+  };
+  const fake: VoiceProvider = {
+    name: "fake",
+    nativeTimings: false,
+    async synthesize(text, opts) {
+      const est = await estimateVoice.synthesize(text, opts);
+      return { ...est, audio: silentWav(est.duration), ext: "wav" };
+    },
+  };
+  const dir = mkdtempSync(join(tmpdir(), "fs-build-"));
+  try {
+    const r = await buildProject(example, dir, fake);
+    const html = readFileSync(join(dir, "index.html"), "utf8");
+    assert.equal((html.match(/<audio id="vo\d+"/g) ?? []).length, example.scenes.length);
+    assert.match(html, /<audio id="sfx"[^>]*data-volume="0.35"/);
+    for (const f of ["assets/gsap.min.js", "assets/tutor-open.png", "assets/fonts/plex-mono-400.woff2", "assets/voice/scene-01.wav"])
+      assert.ok(existsSync(join(dir, f)), f);
+    assert.ok(r.duration > 10);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });

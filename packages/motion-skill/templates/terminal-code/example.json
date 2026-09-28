@@ -1,0 +1,13 @@
+{
+  "template": "terminal-code",
+  "id": "git-basico",
+  "title": "Git · tu primer commit",
+  "windowTitle": "ana@laptop — zsh",
+  "cwd": "~/proyecto",
+  "steps": [
+    { "cmd": "git init -b main", "out": ["Initialized empty Git repository in /home/ana/proyecto/.git/"], "caption": "Convierte la carpeta en un repositorio" },
+    { "cmd": "git add .", "out": [], "caption": "Prepara todos los archivos", "hold": 1.2 },
+    { "cmd": "git commit -m \"primer commit\"", "out": ["[main (root-commit) 3f9a2c1] primer commit", " 3 files changed, 42 insertions(+)", " create mode 100644 app.js", " create mode 100644 estilos.css", " create mode 100644 index.html"], "caption": "Guarda una foto del proyecto" },
+    { "cmd": "git log --oneline", "out": ["3f9a2c1 (HEAD -> main) primer commit"], "okLines": [0], "caption": "Revisa tu historial" }
+  ]
+}

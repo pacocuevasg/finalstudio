@@ -1,6 +1,6 @@
 # Prompt patterns that worked (Opus 5.5 community, Sep 2026)
 
-Full sources and discussion: `/mnt/project-files/research/opus-motion-design/informe.html`.
+Full sources and discussion: the FinalStudio research report (`research/opus-motion-design/informe.html` in the project).
 
 ## Showreel permission (@achxvi, Pocketsflow)
 > make a dynamic 15-second motion graphics video about [PRODUCT] that shows what an incredible motion designer you are, like it's your showreel for a résumé. go all out. … make a video where a character talks about [PRODUCT] and how people can use it …

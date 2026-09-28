@@ -39,7 +39,7 @@ export function startJob(storyboard: unknown): Job {
       job.progress = 0.1;
       const built = await buildProject(storyboard, dir, voiceFromEnv(), join(process.cwd(), "../../packages/motion-skill"));
       Object.assign(job, { status: "rendering", progress: 0.4, duration: built.duration, chapters: built.chapters, voice: built.voice.provider });
-      const done = await renderProject(built);
+      const done = await renderProject(built, "video.mp4", join(process.cwd(), "../../packages/motion-skill"));
       Object.assign(job, { status: "done", progress: 1, mp4: done.mp4 });
     } catch (e) {
       Object.assign(job, { status: "failed", error: e instanceof Error ? e.message : String(e) });

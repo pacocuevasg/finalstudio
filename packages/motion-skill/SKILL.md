@@ -1,51 +1,134 @@
 ---
-name: motion-design
-description: Turn notes, problems, spreadsheets or topics into short motion-design videos rendered from code with HyperFrames. Use for tutorial videos, solved exercises, explainers and launch clips, especially in the halftone "tutor" style.
+name: motion-studio
+description: Make motion-design videos from code, fully offline, and verify them before delivery. Turns notes, exercises, spreadsheets, articles, procedures, code or a product brief into MP4s (tutorials, solved problems, explainers, data stories, software demos, launch clips, social shorts, loops) with bundled templates, a built-in Chrome+FFmpeg renderer, a layout/determinism checker and voice-timing tools. Use for any request to create, edit, check or render an animated or motion-graphics video.
 ---
 
-# Motion design (FinalStudio)
+# Motion Studio
 
-Opus writes the program that draws every frame. HyperFrames seeks a paused GSAP
-timeline in headless Chrome and FFmpeg encodes the result. This skill decides
-*what* to show and *how it moves*; HyperFrames does the rendering.
+You write the program that draws every frame: an HTML page with one paused
+GSAP timeline. The bundled scripts seek that timeline frame by frame in
+headless Chrome, check it, and encode it with FFmpeg. Nothing here calls a
+service or downloads a package; GSAP, fonts and sound are in the folder.
 
-## Route the request
+`SKILL_DIR` is the folder holding this file. Run every script as
+`node SKILL_DIR/scripts/<name>.mjs`. Talk to the user in their language.
+If `scripts/` is not next to this file, the bundle is missing: ask the user
+for the `motion-skill-v2` folder or zip and unpack it here before going on.
 
-| The user gives you | Workflow |
+## 0. Environment (once per machine)
+
+`node SKILL_DIR/scripts/doctor.mjs` must pass. It needs Node 18+, any
+Chrome/Chromium (found automatically, or `MOTION_CHROME=/path`) and FFmpeg for
+the final encode. It installs nothing; if something is missing, tell the user
+the one command it prints and ask before running it.
+
+## 1. Route the request
+
+Match the deliverable, not a word in passing. Read only the workflow you pick.
+
+| The user gives you | Workflow | Default template |
+|---|---|---|
+| An exercise to solve (math, physics, chemistry), "how do I solve this" | `workflows/solve-step.md` | `halftone-tutor`, `notebook-marker` |
+| Notes, a topic, an article, a PDF to teach or explain | `workflows/explainer.md` | `editorial-serif`, `one-shot-morph`, `halftone-tutor`; history/humanities `collage-vox`, `sand-ink`, `cinematic-essay` |
+| Vocabulary, flashcards, a recap of the lesson | `workflows/explainer.md` | `card-wall-3d`, `liquid-glass` |
+| Primary-school counting and sums | `workflows/solve-step.md` | `felt-stopmotion`, `pixel-16bit` |
+| A recorded class to dress up with drawings and subtitles | `workflows/explainer.md` | `talking-head-lineart` |
+| A CSV/Excel or numbers to make a point with | `workflows/data-story.md` | `data-counter` |
+| How to do something in an app or website | `workflows/software-demo.md` | `ui-cursor-demo` |
+| Commands, code, a programming concept | `workflows/software-demo.md` | `terminal-code` |
+| A product, feature or brand to promote | `workflows/launch-promo.md` | `kinetic-showreel` |
+| A vertical clip for Reels/TikTok/Shorts | `workflows/social-short.md` | `split-runner` (vertical) |
+| A short unnarrated piece: title, logo sting, stat hit, loop | `workflows/motion-graphic.md` | freeform |
+| Change something in a video that exists | `workflows/revise.md` | — |
+| Something no template fits | `references/custom-composition.md` | freeform |
+
+All 20 templates, what they are for, and a contact sheet of each: `references/styles.md`.
+
+## 2. The production loop (every workflow)
+
+Each step has a gate. Do not start the next step until the gate holds.
+
+1. **Brief.** One sentence: *this video tells [audience] that [message]*. Plus
+   format (16:9, 9:16, 1:1), length, language, level, tone. If the user said
+   "you decide", pick defaults from the workflow and say which.
+   *Gate: you can state the message and the one thing the viewer can do afterwards.*
+2. **Facts first.** Solve the problem, compute the numbers, pull the claims
+   from the user's material *before* designing. Every number on screen comes
+   from a computation or a quoted source line, never from memory.
+   *Gate: facts are written down; the spec carries them in fields the builder checks.*
+3. **Storyboard as a proposal.** Write the spec (`templates/<t>/example.json`
+   shows each shape) and show a table: beat · seconds · on screen · why
+   (`references/storyboard.md`). In a review, wait for approval; otherwise
+   post it as a heads-up and continue.
+   *Gate: each beat's why traces back to the message; the hook lands in 3 s.*
+4. **Timing.** With narration, the audio is the clock: write `script.json`,
+   run `scripts/timing.mjs` (estimate now, `--align` once a voice file with
+   word timestamps exists) and write times as `"@anchor"`
+   (`references/audio-voice.md`). Without narration, time to the beat grid.
+5. **Build.** `node SKILL_DIR/engine/build.mjs spec.json <project> [--timing timing.json]`.
+   The builder refuses wrong math and unknown anchors (exit 2): fix the spec,
+   never the check.
+6. **Check.** `node SKILL_DIR/scripts/check.mjs <project>`, then
+   `node SKILL_DIR/scripts/sheet.mjs <project>` and *look at the sheet*.
+   *Gate: 0 errors; every warning read and either fixed or explained; on the
+   sheet nothing overlaps, nothing is cut, every frame reads in 1.5 s.*
+7. **Render and verify the file.** `node SKILL_DIR/scripts/render.mjs <project> -o renders/<name>.mp4`
+   (add `--quality draft` for a fast preview; `-o` is relative to the project), then
+   `node SKILL_DIR/scripts/verify.mjs <project>/renders/<name>.mp4 --expect-duration <s>`
+   and look at the grid it writes from the MP4.
+   *Gate: verify passes; the grid matches the sheet.*
+8. **Deliver.** The MP4, the contact sheet, the spec, and one line on how to
+   change it (beat names and timecodes). Offer, don't impose: vertical cut,
+   GIF (`--gif`), another template.
+
+You cannot watch or hear the video. The sheet, the grid and the checker are
+your eyes; confirm every fix with a new frame, not by rereading code.
+
+## 3. Rules that override taste
+
+- **Teaching videos:** `references/pedagogy.md` wins over style (signal,
+  build don't pop, voice explains while the screen shows, ≤ 6 min, end with
+  2–3 check questions outside the video).
+- **Motion:** `references/principles.md`. Hook in 3 s, one idea per beat,
+  outgoing leaves before incoming arrives, no typewriter letters (except a
+  terminal), no bounce, no invented data, one element alive in every hold.
+- **Not a slideshow:** `references/anti-slide.md` has mechanical tests. Fail
+  one and you restructure before showing anyone.
+- **Seek-safe:** `references/determinism.md`. The checker proves it; a frame
+  that changes with seek order is a bug even when it looks fine.
+- **Formats and safe zones:** `references/formats.md`.
+- **Licenses:** every bundled asset is redistributable (`NOTICE.md`). Don't add
+  fonts, music or images you can't name the license of; never copy a
+  reference video's frames, logo or UI.
+
+## 4. When you need more
+
+| Need | Read |
 |---|---|
-| A math/physics/chem exercise, a worked problem, "how do I solve this" | `workflows/solve-step.md` (implemented, template in `templates/solve-step/`) |
-| Notes, an article or a topic to explain | `workflows/explainer.md` (planned) |
-| A CSV/Excel to tell a story with | `workflows/data-story.md` (planned) |
-| A procedure in software ("how do I do X in Excel") | `workflows/software-demo.md` (planned) |
-| A product or brand to promote | `workflows/launch.md` (planned) |
+| Write the spec and the storyboard table | `references/storyboard.md` |
+| Voice, music, SFX, timing, loudness | `references/audio-voice.md` |
+| Build a look no template has, or edit `index.html` by hand | `references/custom-composition.md` |
+| The halftone character and dither pipeline | `references/style-halftone.md` |
+| Prompts and patterns the community used with Opus | `references/prompt-patterns.md` |
+| What each checker finding means and how to fix it | `references/qa-checklist.md` |
+| Something broke (blank frame, wrong font, Chrome won't start) | `references/troubleshooting.md` |
+| Where the ideas came from | `references/sources.md` |
 
-When a workflow is planned but not written yet, follow `references/principles.md`
-and adapt the closest template.
+## 5. Scripts
 
-## Non-negotiable production loop
+| Script | Does | Needs |
+|---|---|---|
+| `scripts/doctor.mjs` | reports Node, Chrome, FFmpeg; prints fixes | — |
+| `engine/build.mjs` | spec → project (`index.html`, `assets/`, `meta.json`); fact checks; `@anchor` timing; voice track | Node |
+| `scripts/check.mjs` | static bans, runtime errors, off-canvas/clipped/overlapping/covered text, contrast, safe zones, frozen stretches, seek-order determinism | Chrome |
+| `scripts/sheet.mjs` | contact sheet at scene midpoints (`--at`, `--every`, `--frames`) | Chrome |
+| `scripts/render.mjs` | frame-exact MP4, parallel tabs, audio mix + loudness to −16 LUFS, `--gif`, `--from/--to` | Chrome, FFmpeg |
+| `scripts/verify.mjs` | ffprobe facts, loudness, true peak, black/frozen stretches, grid from the MP4 | FFmpeg |
+| `scripts/timing.mjs` | script with `[[anchors]]` → `timing.json` (estimate or align to TTS timestamps) | Node |
+| `engine/solve-step/tools/dither.mjs` | bakes halftone character poses or a photo into 1-bit PNGs | Chrome |
 
-1. **Understand the task.** Identify the subject, the learner's level, the language, and the single thing the viewer must be able to do afterwards.
-2. **Verify facts first.** Solve the problem or pull the facts *before* designing. Put the verified result in the storyboard (`solution`), and let the build fail when a board line is wrong. Never animate unverified numbers.
-3. **Storyboard.** Write `storyboard.json` (scenes, speech bubbles, board lines with times). Show it to the user when they are reviewing; otherwise proceed.
-4. **Voice or sound first, then timing.** When narration exists, generate it first and derive timings from word timestamps. Without TTS, speech bubbles plus the synthesized sound bed carry the rhythm.
-5. **Build.** Run `node templates/solve-step/build.mjs storyboard.json <project>`.
-6. **Check stills.** Run `npx hyperframes lint`, then `npx hyperframes snapshot --at <one time per scene> --no-end`, and look at every frame: overflow, overlap, legibility, correct math.
-7. **Render.** Run `npx hyperframes render -q delivery -o renders/<name>.mp4`, then pull a frame grid from the MP4 with ffmpeg and look at it once more.
+Projects are also valid HyperFrames projects (same `data-*` contract), so
+`npx hyperframes preview` works on them when that CLI happens to be installed.
+It is never required.
 
-## Styles
-
-- `references/style-halftone.md`: white paper, 1-bit dithered character, mono labels (`// 01 — hook`), running timecode. This is the default for FinalStudio.
-
-## References
-
-- `references/pedagogy.md`: rules for teaching videos (read first for any tutorial)
-- `references/principles.md`: timing, easing, hierarchy, craft rules
-- `references/determinism.md`: what keeps a composition seek-safe
-- `references/prompt-patterns.md`: prompts that worked for the community, and how to adapt them
-- `references/qa-checklist.md`: what to check before delivering
-
-## Environment notes (cloud container)
-
-- `cdn.jsdelivr.net` and Google Fonts are blocked here: vendor GSAP and fonts into `assets/` (npm `gsap`, `@fontsource/ibm-plex-mono`).
-- Point the renderer at the preinstalled Chromium: `HYPERFRAMES_BROWSER_PATH=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell`.
-- FFmpeg: `sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg`.
+Maintainers: `dev/check-all.sh` builds and checks every template example.

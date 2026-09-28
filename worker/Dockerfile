@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       chromium ffmpeg python3 python3-pip ca-certificates \
     && pip3 install --break-system-packages kokoro-onnx soundfile \
     && rm -rf /var/lib/apt/lists/*
-ENV HYPERFRAMES_BROWSER_PATH=/usr/bin/chromium HYPERFRAMES_TELEMETRY_DISABLED=1
+ENV MOTION_CHROME=/usr/bin/chromium
 WORKDIR /app
 COPY package.json package-lock.json ./
 COPY packages ./packages

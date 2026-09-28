@@ -1,50 +1,54 @@
-# Workflow: solve-step (worked exercise, step by step)
+# Workflow: solve-step (a worked exercise, one legal move at a time)
 
-Goal: in 15–30 s, the viewer watches a problem get solved one legal move at a
-time, with a tutor character who says what each move is.
+Goal: in 15–40 s the viewer watches their exact problem get solved, one move
+per beat, with a tutor who says what each move is.
 
-## Shape of the video
+## Shape
 
-| Scene | Seconds | Job |
+| Beat | Seconds | Job |
 |---|---|---|
-| 01 — hook | 0–4 | Tutor says "psst…" and names the pain ("¿las ecuaciones te traban?"). The hook lands inside 3 s. |
-| 02 — problema | ~3 | The problem appears on the board, exactly as the student wrote it. |
-| 03…n — paso k | ~4 each | One move per scene. The side note names the move, the bubble says it in plain words, the operands being applied get an inverted mark. |
-| resultado | inside the last step | The answer gets an inverted box. |
-| comprobación | ~3 | Substitute the answer back and show ✓. |
-| cierre | ~3 | Board clears, wordmark and tagline, tutor signs off. |
+| 01 — hook | 0–3.5 | names the pain in the learner's words ("¿las ecuaciones te traban?") |
+| 02 — problema | ~3 | the problem exactly as the student wrote it |
+| 03…n — paso k | ~4 each | one move per beat: side note names the move, bubble says it plainly, the operands get marked |
+| resultado | inside the last step | the answer gets a box |
+| comprobación | ~3 | substitute back, ✓ |
+| cierre | ~3 | board clears, wordmark, tagline |
+
+## Steps
+
+1. **Solve it yourself first** and write every intermediate line. Count the
+   moves; each becomes a beat. Set `solution` (`{variable, value}`); the
+   builder evaluates every board equation with it and stops on a mismatch.
+2. **Adapt to the learner.** Younger learners: one extra line per move, ~20 %
+   more time per beat, simpler bubble words. Older: fewer lines, faster.
+3. **Write the spec** from `templates/halftone-tutor/example.json`
+   (or `templates/notebook-marker/example.json` for a notebook look):
+   - `scenes[]`: `label` (`01 — hook`), `start`, `note` (`// paso 1 · quita el + 3`)
+   - `say[]`: `at`, `text` — plain words, never the equation
+   - `board[]`: `at`, `text` with `[marked]` operands, `markAt`, `answerAt`, `checkAt`
+   - `outro`: `at`, `wordmark`, `tagline`
+4. **Narration (optional):** `script.json` with one line per bubble and
+   anchors on the move words; `timing.mjs`; write `"@anchor"` in `at`,
+   `markAt`… and set `"duration": "auto"`.
+5. **Build, check, sheet, render, verify** (SKILL.md § 2).
+
+```bash
+node SKILL_DIR/engine/build.mjs spec.json out/ecuacion [--timing timing.json]
+node SKILL_DIR/scripts/check.mjs out/ecuacion
+node SKILL_DIR/scripts/sheet.mjs out/ecuacion
+node SKILL_DIR/scripts/render.mjs out/ecuacion -o renders/ecuacion.mp4
+node SKILL_DIR/scripts/verify.mjs out/ecuacion/renders/ecuacion.mp4 --expect-duration 22
+```
 
 ## Rules
 
-- **One move per line.** A board line is the full equation after (or while) applying one operation. Earlier lines dim so focus stays on the newest one.
-- **Mark what changes.** Wrap the operands of the current move in `[ ]`; the builder inverts them at `markAt`.
-- **Plain words in the bubble, math on the board.** Never repeat the equation inside the bubble.
-- **Verify.** Set `solution` in the storyboard. The builder evaluates every board equation with that value and aborts on any mismatch. For non-linear problems, extend the check rather than skipping it.
-- **Adapt to the learner.** Level and language change the note wording, the number of intermediate lines and the pace. Younger learners get one extra line per move and ~20% more time per scene.
+- One move per line; earlier lines dim so focus stays on the newest.
+- Mark what changes: `[− 3]` groups invert at `markAt`, synced to the word that names the move.
+- Plain words in the bubble, math on the board. Never read the equation aloud in the bubble.
+- Board ≤ 6 lines at 60 px. Longer problems: split into two videos or clear the board between phases.
+- Non-linear problems (quadratics, systems, fractions): extend the check —
+  substitute each root, evaluate both sides at several points — never skip it.
+- A different character: draw a grayscale SVG module with the same `POSES`
+  export and bake it (`references/style-halftone.md`); pass its folder as `"character"`.
 
-## Storyboard fields (`templates/solve-step/storyboard.example.json`)
-
-- `scenes[]`: `label` (top-left `// 01 — hook`), `start`, `note` (the side comment)
-- `say[]`: `at`, `text`. Each bubble lasts until the next one.
-- `board[]`: `at`, `text` with `[marked]` groups, optional `markAt`, `answerAt`, `checkAt`
-- `solution`: `{ variable, value }` for the math check
-- `outro`: `at`, `wordmark`, `tagline`
-
-## Build and render
-
-```bash
-node tools/dither.mjs <project>/assets 3        # bake tutor poses once per character
-node build.mjs storyboard.json <project>         # index.html + assets/sfx.wav
-cd <project> && npx hyperframes lint
-npx hyperframes snapshot --at 1.2,5,9.8,14.9,17.4,20.5 --no-end --describe false
-npx hyperframes render -q delivery -o renders/video.mp4
-```
-
-The test render (22 s, 1080p30) took about 50 s on the cloud container.
-
-## Next improvements
-
-- TTS narration with word timings driving `say[]` and the mouth flaps, instead of fixed word gaps.
-- Line wrapping and board scrolling for problems longer than 6 lines.
-- Fractions and exponents typeset as stacked layout rather than inline `÷`.
-- Portrait 1080×1920 layout for Reels and TikTok.
+The 22 s example renders in about 40 s on a 4-core cloud container.

@@ -12,7 +12,8 @@
     "typecheck": "tsc -p packages/core && npm run typecheck -w apps/web",
     "test": "node --import tsx --test packages/core/test/*.test.ts",
     "render": "tsx worker/render.ts",
-    "worker": "tsx worker/queue.ts"
+    "worker": "tsx worker/queue.ts",
+    "skill:check": "bash packages/motion-skill/dev/check-all.sh"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

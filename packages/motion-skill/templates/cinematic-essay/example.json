@@ -1,0 +1,13 @@
+{
+  "template": "cinematic-essay",
+  "id": "historia-del-atomo",
+  "open": "¿De qué está hecho todo?",
+  "title": "Breve historia del átomo",
+  "close": "Cada modelo corrigió al anterior.",
+  "stages": [
+    { "name": "Demócrito", "when": "400 a. C.", "motif": "sphere", "line": "Algo tan pequeño que no se corta." },
+    { "name": "Thomson", "when": "1897", "motif": "pudding", "line": "Cargas negativas en una masa positiva." },
+    { "name": "Rutherford", "when": "1911", "motif": "nucleus", "line": "Casi todo el átomo está vacío." },
+    { "name": "Bohr", "when": "1913", "motif": "shells", "line": "Electrones en niveles de energía." }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "template": "data-counter",
+  "id": "ventas-trimestre",
+  "title": "Ventas del trimestre · tienda escolar",
+  "unit": "$",
+  "locale": "es-MX",
+  "data": [
+    { "label": "enero", "value": 3200 },
+    { "label": "febrero", "value": 4080 },
+    { "label": "marzo", "value": 5200 }
+  ],
+  "goal": 15000,
+  "goalPeriod": "del trimestre",
+  "totalCaption": "vendidos de enero a marzo"
+}

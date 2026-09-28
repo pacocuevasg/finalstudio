@@ -1,0 +1,112 @@
+{
+  "template": "talking-head-lineart",
+  "id": "ciclo-del-agua",
+  "kicker": "Ciencias · el ciclo del agua",
+  "lines": [
+    {
+      "say": "Todo empieza cuando el sol calienta el mar.",
+      "art": [
+        {
+          "kind": "sun",
+          "x": 1150,
+          "y": 300,
+          "s": 1.3,
+          "accent": true
+        },
+        {
+          "kind": "sea",
+          "x": 760,
+          "y": 640,
+          "s": 1.5
+        }
+      ],
+      "labels": [
+        {
+          "text": "calor",
+          "x": 1350,
+          "y": 440
+        }
+      ]
+    },
+    {
+      "say": "El agua se evapora y sube como vapor.",
+      "art": [
+        {
+          "kind": "sea",
+          "x": 760,
+          "y": 720,
+          "s": 1.5
+        },
+        {
+          "kind": "steam",
+          "x": 760,
+          "y": 420,
+          "s": 1.5,
+          "accent": true
+        }
+      ],
+      "labels": [
+        {
+          "text": "vapor",
+          "x": 930,
+          "y": 190
+        }
+      ]
+    },
+    {
+      "say": "Arriba se enfría, forma nubes y llueve.",
+      "art": [
+        {
+          "kind": "cloud",
+          "x": 760,
+          "y": 290,
+          "s": 1.6
+        },
+        {
+          "kind": "rain",
+          "x": 760,
+          "y": 330,
+          "s": 1.6,
+          "accent": true
+        }
+      ],
+      "labels": [
+        {
+          "text": "lluvia",
+          "x": 1100,
+          "y": 520
+        }
+      ]
+    },
+    {
+      "say": "Y la lluvia vuelve al mar por los ríos.",
+      "art": [
+        {
+          "kind": "river",
+          "x": 700,
+          "y": 380,
+          "s": 1.6,
+          "accent": true
+        },
+        {
+          "kind": "sea",
+          "x": 1180,
+          "y": 660,
+          "s": 0.8
+        }
+      ],
+      "labels": [
+        {
+          "text": "río",
+          "x": 470,
+          "y": 330
+        },
+        {
+          "text": "mar",
+          "x": 1330,
+          "y": 720
+        }
+      ]
+    }
+  ]
+}

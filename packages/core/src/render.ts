@@ -2,7 +2,7 @@
 // Runs in the render worker (container with Chromium + FFmpeg), never in the web app.
 
 import { spawn } from "node:child_process";
-import { copyFileSync, cpSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -12,7 +12,6 @@ import { verifyStoryboard } from "./verify.ts";
 import type { VoiceClip, VoiceProvider } from "./voice/types.ts";
 
 export const SKILL_DIR = process.env.FINALSTUDIO_SKILL_DIR ?? resolve(dirname(fileURLToPath(import.meta.url)), "../../motion-skill");
-const HYPERFRAMES = "hyperframes@0.8.86";
 
 export type RenderResult = {
   projectDir: string;
@@ -36,8 +35,6 @@ export async function buildProject(input: unknown, projectDir: string, voice: Vo
   if (!check.ok) throw new Error(`math check failed on "${check.line}": ${check.left} ≠ ${check.right}`);
 
   mkdirSync(join(projectDir, "assets", "voice"), { recursive: true });
-  cpSync(join(skillDir, "assets"), join(projectDir, "assets"), { recursive: true });
-  copyFileSync(join(skillDir, "templates/solve-step/hyperframes.json"), join(projectDir, "hyperframes.json"));
 
   // One audio per scene, generated before any timing is decided.
   const clips: VoiceClip[] = [];
@@ -53,7 +50,8 @@ export async function buildProject(input: unknown, projectDir: string, voice: Vo
   writeFileSync(join(projectDir, "storyboard.json"), JSON.stringify(builder, null, 2));
   writeFileSync(join(projectDir, "chapters.json"), JSON.stringify(chapters, null, 2));
   writeFileSync(join(projectDir, "captions.vtt"), toVtt(builder));
-  await run(process.execPath, [join(skillDir, "templates/solve-step/build.mjs"), "storyboard.json", "."], projectDir);
+  // The skill's engine copies GSAP, fonts and the tutor sprites and writes index.html.
+  await run(process.execPath, [join(skillDir, "engine/build.mjs"), "storyboard.json", "."], projectDir);
 
   return {
     projectDir,
@@ -64,12 +62,11 @@ export async function buildProject(input: unknown, projectDir: string, voice: Vo
   };
 }
 
-export async function renderProject(result: RenderResult, name = "video.mp4"): Promise<RenderResult> {
-  const env = { ...process.env };
-  const shell = "/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell";
-  if (!env.HYPERFRAMES_BROWSER_PATH && existsSync(shell)) env.HYPERFRAMES_BROWSER_PATH = shell;
+export async function renderProject(result: RenderResult, name = "video.mp4", skillDir = SKILL_DIR): Promise<RenderResult> {
+  // The skill's own renderer: headless Chrome + FFmpeg, no npm package or download.
+  // Chrome comes from MOTION_CHROME or is found on the machine (scripts/doctor.mjs).
   mkdirSync(join(result.projectDir, "renders"), { recursive: true });
   const mp4 = join(result.projectDir, "renders", name);
-  await run("npx", ["--yes", HYPERFRAMES, "render", "-q", "delivery", "-o", mp4], result.projectDir, env);
+  await run(process.execPath, [join(skillDir, "scripts/render.mjs"), ".", "-o", mp4], result.projectDir);
   return { ...result, mp4 };
 }

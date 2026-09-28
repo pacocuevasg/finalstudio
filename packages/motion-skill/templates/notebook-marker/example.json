@@ -1,0 +1,13 @@
+{
+  "template": "notebook-marker",
+  "id": "regla-de-tres",
+  "duration": 12,
+  "title": "Regla de tres",
+  "vars": { "x": 105 },
+  "lines": [
+    { "text": "3 cuadernos → {$45}", "note": "// lo que sabes" },
+    { "text": "7 cuadernos → x", "note": "// lo que buscas" },
+    { "text": "x = 45 × 7 ÷ 3", "note": "// multiplica en cruz" },
+    { "text": "x = 315 ÷ 3 = [105|¡$105!]", "note": "// divide y listo" }
+  ]
+}

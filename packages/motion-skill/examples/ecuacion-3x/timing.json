@@ -1,0 +1,325 @@
+{
+  "mode": "estimated",
+  "duration": 27.877,
+  "anchors": {
+    "psst": 0.4,
+    "pain": 1.226,
+    "eq": 4.361,
+    "suma": 9.12,
+    "r1": 12.745,
+    "div": 16.376,
+    "res": 18.827,
+    "chk": 22.326,
+    "out": 26.367
+  },
+  "lines": [
+    {
+      "start": 0.4,
+      "end": 3.561,
+      "say": "Psst. ¿Te trabas con las ecuaciones?",
+      "show": ""
+    },
+    {
+      "start": 4.361,
+      "end": 7.682,
+      "say": "Tres equis menos cinco igual a dieciséis.",
+      "show": "3x − 5 = 16"
+    },
+    {
+      "start": 8.482,
+      "end": 11.455,
+      "say": "Primero sumamos cinco en ambos lados.",
+      "show": "3x − 5 + 5 = 16 + 5"
+    },
+    {
+      "start": 12.255,
+      "end": 15.086,
+      "say": "Queda tres equis igual a veintiuno.",
+      "show": "3x = 21"
+    },
+    {
+      "start": 15.886,
+      "end": 18.027,
+      "say": "Ahora dividimos entre tres.",
+      "show": "3x ÷ 3 = 21 ÷ 3"
+    },
+    {
+      "start": 18.827,
+      "end": 20.182,
+      "say": "Equis vale siete.",
+      "show": "x = 7"
+    },
+    {
+      "start": 20.982,
+      "end": 25.567,
+      "say": "Comprobamos: tres por siete menos cinco da dieciséis.",
+      "show": "3(7) − 5 = 16"
+    },
+    {
+      "start": 26.367,
+      "end": 27.427,
+      "say": "Así de fácil.",
+      "show": ""
+    }
+  ],
+  "words": [
+    {
+      "w": "Psst.",
+      "start": 0.4,
+      "end": 0.776,
+      "line": 0
+    },
+    {
+      "w": "¿Te",
+      "start": 1.226,
+      "end": 1.454,
+      "line": 0
+    },
+    {
+      "w": "trabas",
+      "start": 1.494,
+      "end": 2.018,
+      "line": 0
+    },
+    {
+      "w": "con",
+      "start": 2.058,
+      "end": 2.359,
+      "line": 0
+    },
+    {
+      "w": "las",
+      "start": 2.399,
+      "end": 2.701,
+      "line": 0
+    },
+    {
+      "w": "ecuaciones?",
+      "start": 2.741,
+      "end": 3.561,
+      "line": 0
+    },
+    {
+      "w": "Tres",
+      "start": 4.361,
+      "end": 4.737,
+      "line": 1
+    },
+    {
+      "w": "equis",
+      "start": 4.777,
+      "end": 5.227,
+      "line": 1
+    },
+    {
+      "w": "menos",
+      "start": 5.267,
+      "end": 5.717,
+      "line": 1
+    },
+    {
+      "w": "cinco",
+      "start": 5.757,
+      "end": 6.206,
+      "line": 1
+    },
+    {
+      "w": "igual",
+      "start": 6.246,
+      "end": 6.696,
+      "line": 1
+    },
+    {
+      "w": "a",
+      "start": 6.736,
+      "end": 6.896,
+      "line": 1
+    },
+    {
+      "w": "dieciséis.",
+      "start": 6.936,
+      "end": 7.682,
+      "line": 1
+    },
+    {
+      "w": "Primero",
+      "start": 8.482,
+      "end": 9.08,
+      "line": 2
+    },
+    {
+      "w": "sumamos",
+      "start": 9.12,
+      "end": 9.717,
+      "line": 2
+    },
+    {
+      "w": "cinco",
+      "start": 9.757,
+      "end": 10.207,
+      "line": 2
+    },
+    {
+      "w": "en",
+      "start": 10.247,
+      "end": 10.475,
+      "line": 2
+    },
+    {
+      "w": "ambos",
+      "start": 10.515,
+      "end": 10.965,
+      "line": 2
+    },
+    {
+      "w": "lados.",
+      "start": 11.005,
+      "end": 11.455,
+      "line": 2
+    },
+    {
+      "w": "Queda",
+      "start": 12.255,
+      "end": 12.705,
+      "line": 3
+    },
+    {
+      "w": "tres",
+      "start": 12.745,
+      "end": 13.12,
+      "line": 3
+    },
+    {
+      "w": "equis",
+      "start": 13.16,
+      "end": 13.61,
+      "line": 3
+    },
+    {
+      "w": "igual",
+      "start": 13.65,
+      "end": 14.1,
+      "line": 3
+    },
+    {
+      "w": "a",
+      "start": 14.14,
+      "end": 14.3,
+      "line": 3
+    },
+    {
+      "w": "veintiuno.",
+      "start": 14.34,
+      "end": 15.086,
+      "line": 3
+    },
+    {
+      "w": "Ahora",
+      "start": 15.886,
+      "end": 16.336,
+      "line": 4
+    },
+    {
+      "w": "dividimos",
+      "start": 16.376,
+      "end": 17.121,
+      "line": 4
+    },
+    {
+      "w": "entre",
+      "start": 17.161,
+      "end": 17.611,
+      "line": 4
+    },
+    {
+      "w": "tres.",
+      "start": 17.651,
+      "end": 18.027,
+      "line": 4
+    },
+    {
+      "w": "Equis",
+      "start": 18.827,
+      "end": 19.277,
+      "line": 5
+    },
+    {
+      "w": "vale",
+      "start": 19.317,
+      "end": 19.693,
+      "line": 5
+    },
+    {
+      "w": "siete.",
+      "start": 19.733,
+      "end": 20.182,
+      "line": 5
+    },
+    {
+      "w": "Comprobamos:",
+      "start": 20.982,
+      "end": 21.876,
+      "line": 6
+    },
+    {
+      "w": "tres",
+      "start": 22.326,
+      "end": 22.702,
+      "line": 6
+    },
+    {
+      "w": "por",
+      "start": 22.742,
+      "end": 23.044,
+      "line": 6
+    },
+    {
+      "w": "siete",
+      "start": 23.084,
+      "end": 23.534,
+      "line": 6
+    },
+    {
+      "w": "menos",
+      "start": 23.574,
+      "end": 24.023,
+      "line": 6
+    },
+    {
+      "w": "cinco",
+      "start": 24.063,
+      "end": 24.513,
+      "line": 6
+    },
+    {
+      "w": "da",
+      "start": 24.553,
+      "end": 24.781,
+      "line": 6
+    },
+    {
+      "w": "dieciséis.",
+      "start": 24.821,
+      "end": 25.567,
+      "line": 6
+    },
+    {
+      "w": "Así",
+      "start": 26.367,
+      "end": 26.669,
+      "line": 7
+    },
+    {
+      "w": "de",
+      "start": 26.709,
+      "end": 26.937,
+      "line": 7
+    },
+    {
+      "w": "fácil.",
+      "start": 26.977,
+      "end": 27.427,
+      "line": 7
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "template": "felt-stopmotion",
+  "id": "suma-bolitas",
+  "friends": [
+    { "name": "Lupe", "color": "#e8743b", "balls": 3, "ballColor": "#d8403a" },
+    { "name": "Tito", "color": "#3b7de8", "balls": 2, "ballColor": "#f2b632" }
+  ]
+}

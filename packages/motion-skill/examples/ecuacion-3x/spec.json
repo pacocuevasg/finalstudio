@@ -1,0 +1,35 @@
+{
+  "template": "halftone-tutor",
+  "id": "ecuacion-3x",
+  "brand": "FINALSTUDIO",
+  "fps": 30,
+  "duration": "auto",
+  "tail": 2.5,
+  "solution": { "variable": "x", "value": 7 },
+  "scenes": [
+    { "label": "01 — hook", "start": 0, "note": "// para estudiantes" },
+    { "label": "02 — problema", "start": "@eq-0.4", "note": "// despeja x" },
+    { "label": "03 — paso 1", "start": "@suma-0.6", "note": "// paso 1 · quita el − 5" },
+    { "label": "04 — paso 2", "start": "@div-0.6", "note": "// paso 2 · quita el 3 que multiplica" },
+    { "label": "05 — comprobación", "start": "@chk-0.8", "note": "// sustituye x = 7" },
+    { "label": "06 — cierre", "start": "@out-0.3", "note": "// tu tutor animado" }
+  ],
+  "say": [
+    { "at": "@psst", "text": "psst…" },
+    { "at": "@pain", "text": "¿te trabas con las ecuaciones?" },
+    { "at": "@eq", "text": "resolvámosla juntos." },
+    { "at": "@suma", "text": "suma 5 en ambos lados." },
+    { "at": "@div", "text": "ahora divide entre 3." },
+    { "at": "@chk", "text": "comprobamos: sí da 16." },
+    { "at": "@out", "text": "así de fácil." }
+  ],
+  "board": [
+    { "at": "@eq", "text": "3x − 5 = 16" },
+    { "at": "@suma", "text": "3x − 5 [+ 5] = 16 [+ 5]", "markAt": "@suma+0.9" },
+    { "at": "@r1", "text": "3x = 21" },
+    { "at": "@div", "text": "3x [÷ 3] = 21 [÷ 3]", "markAt": "@div+0.7" },
+    { "at": "@res", "text": "x = 7", "answerAt": "@res+0.5" },
+    { "at": "@chk", "text": "3(7) − 5 = 16", "checkAt": "@chk+1.6" }
+  ],
+  "outro": { "at": "@out", "wordmark": "finalstudio", "tagline": "sube tus apuntes. recibe el video." }
+}
