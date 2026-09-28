@@ -1,0 +1,26 @@
+{
+  "name": "finalstudio",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/core",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w apps/web",
+    "build": "npm run build -w apps/web",
+    "typecheck": "tsc -p packages/core && npm run typecheck -w apps/web",
+    "test": "node --import tsx --test packages/core/test/*.test.ts",
+    "render": "tsx worker/render.ts",
+    "worker": "tsx worker/queue.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  },
+  "dependencies": {
+    "@finalstudio/core": "*",
+    "@supabase/supabase-js": "^2.57.0"
+  }
+}

@@ -1,0 +1,2 @@
+{ "name": "finalstudio-motion-skill", "private": true, "type": "module",
+  "dependencies": { "gsap": "3.14.2", "playwright-core": "*", "@fontsource/ibm-plex-mono": "*" } }
