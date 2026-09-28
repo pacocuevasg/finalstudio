@@ -1,0 +1,32 @@
+{
+  "brand": "FINALSTUDIO",
+  "fps": 30,
+  "duration": 22,
+  "solution": { "variable": "x", "value": 4 },
+  "scenes": [
+    { "label": "01 — hook", "start": 0, "note": "// para estudiantes" },
+    { "label": "02 — problema", "start": 4.2, "note": "// despeja x" },
+    { "label": "03 — paso 1", "start": 7.4, "note": "// paso 1 · quita el + 3" },
+    { "label": "04 — paso 2", "start": 11.6, "note": "// paso 2 · quita el 2 que multiplica" },
+    { "label": "05 — comprobación", "start": 15.4, "note": "// sustituye x = 4" },
+    { "label": "06 — cierre", "start": 18.6, "note": "// tu tutor animado" }
+  ],
+  "say": [
+    { "at": 0.4, "text": "psst…" },
+    { "at": 1.7, "text": "¿las ecuaciones te traban?" },
+    { "at": 5.2, "text": "resolvámosla juntos." },
+    { "at": 7.9, "text": "resta 3 en ambos lados." },
+    { "at": 12.0, "text": "ahora divide entre 2." },
+    { "at": 16.2, "text": "comprobamos: sí da 11." },
+    { "at": 18.9, "text": "así de fácil." }
+  ],
+  "board": [
+    { "at": 4.5, "text": "2x + 3 = 11" },
+    { "at": 8.0, "text": "2x + 3 [− 3] = 11 [− 3]", "markAt": 9.3 },
+    { "at": 10.2, "text": "2x = 8" },
+    { "at": 12.1, "text": "2x [÷ 2] = 8 [÷ 2]", "markAt": 13.2 },
+    { "at": 14.0, "text": "x = 4", "answerAt": 14.7 },
+    { "at": 15.7, "text": "2(4) + 3 = 11", "checkAt": 17.0 }
+  ],
+  "outro": { "at": 18.6, "wordmark": "finalstudio", "tagline": "sube tus apuntes. recibe el video." }
+}
