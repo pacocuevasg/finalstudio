@@ -1,0 +1,17 @@
+{
+  "template": "pour-layers",
+  "id": "columna-de-densidad",
+  "kicker": "Ciencias · experimento en casa",
+  "title": "Columna de densidad",
+  "unit": "mL",
+  "capacity": 500,
+  "orderBy": "density",
+  "items": [
+    { "name": "Miel", "amount": 100, "density": 1.4, "note": "≈ 1.4 g/mL", "color": "#e39a1c" },
+    { "name": "Jabón para trastes", "amount": 100, "density": 1.06, "note": "≈ 1.06 g/mL", "color": "#3fb86b" },
+    { "name": "Agua con colorante", "amount": 100, "density": 1.0, "note": "1.00 g/mL", "color": "#3f7df2" },
+    { "name": "Aceite vegetal", "amount": 100, "density": 0.92, "note": "≈ 0.92 g/mL", "color": "#f2d24a" },
+    { "name": "Alcohol teñido", "amount": 80, "density": 0.79, "note": "≈ 0.79 g/mL", "color": "#e25a9a" }
+  ],
+  "doneText": "Lo más denso *se hunde*."
+}

@@ -1,0 +1,13 @@
+{
+  "template": "one-shot-morph",
+  "id": "fraccion-tres-cuartos",
+  "kicker": "Matemáticas · primaria",
+  "folio": "una sola toma",
+  "fraction": { "num": 3, "den": 4 },
+  "text": {
+    "start": "{num}/{den}",
+    "startHint": "¿cuánto es?",
+    "pie": "{num} de {den} partes iguales",
+    "end": "{num}/{den} = {dec} = {pct}"
+  }
+}

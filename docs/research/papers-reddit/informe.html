@@ -1,0 +1,347 @@
+<title>Evidencia en movimiento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single reading column (~68ch) with wide breakouts for the effect-size plot and tables; lab-notebook feel, cues from a graph editor. */
+:root{
+  --bg:#f3f5f4; --surface:#ffffff; --fg:#14201f; --muted:#56635f; --line:#d5dcd9;
+  --accent:#0d6b6e; --accent-soft:#dcefee; --key:#b86e00; --key-soft:#fbefd9;
+  --neg:#b0413e; --neg-soft:#f7e2e1; --code-bg:#e9eeec;
+  --display:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1716; --surface:#152120; --fg:#e4ecea; --muted:#9aaba7; --line:#27403d;
+  --accent:#5cc7c9; --accent-soft:#16393a; --key:#f0a93a; --key-soft:#3a2c14;
+  --neg:#ef8a86; --neg-soft:#3d1f1e; --code-bg:#1b2b29; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1716; --surface:#152120; --fg:#e4ecea; --muted:#9aaba7; --line:#27403d;
+  --accent:#5cc7c9; --accent-soft:#16393a; --key:#f0a93a; --key-soft:#3a2c14;
+  --neg:#ef8a86; --neg-soft:#3d1f1e; --code-bg:#1b2b29; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:1.0625rem;line-height:1.6;padding-inline:16px;padding-block:0 4rem}
+.wrap{max-width:68rem;margin:0 auto}
+.col{max-width:44rem}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(2.2rem,5.5vw,3.6rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.1rem;font-weight:700}
+p{margin:0}
+a{color:var(--accent);text-underline-offset:2px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--mono);font-size:.85em}
+section{padding-block:3.5rem 0;display:grid;gap:1.25rem}
+.lede{font-size:1.2rem;color:var(--muted)}
+
+/* hero */
+header{padding-block:3rem 1rem;display:grid;gap:1.25rem;border-bottom:1px solid var(--line)}
+.curve{width:100%;max-width:28rem;height:auto}
+.curve path{fill:none;stroke:var(--accent);stroke-width:2.5}
+.curve .grid{stroke:var(--line);stroke-width:1}
+.curve circle{fill:var(--key)}
+.curve text{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+
+/* takeaways */
+.takeaways{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem}
+.take{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1.1rem 1.2rem;display:grid;gap:.4rem;align-content:start}
+.take h3{font-size:1.02rem}
+.take p{font-size:.97rem;color:var(--muted)}
+
+/* forest plot */
+.plot-box{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1rem;overflow-x:auto}
+#forest{display:block;min-width:640px;width:100%;height:auto}
+#forest text{font-family:var(--mono);font-size:11px;fill:var(--fg)}
+#forest .lab{font-family:var(--display);font-size:12.5px}
+#forest .src{fill:var(--muted);font-size:10px}
+#forest .ax{stroke:var(--line);stroke-width:1}
+#forest .zero{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3}
+#forest .ci{stroke:var(--accent);stroke-width:2}
+#forest .pt{fill:var(--accent)}
+#forest .pt.one{fill:var(--surface);stroke:var(--key);stroke-width:2}
+#forest .pt.neg{fill:var(--neg)}
+#forest .ci.neg{stroke:var(--neg)}
+#forest .tick{fill:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1.25rem;font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.dot{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;vertical-align:-1px;margin-right:.35rem}
+.caption{font-size:.9rem;color:var(--muted)}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:40rem;font-size:.95rem}
+th,td{text-align:left;vertical-align:top;padding:.75rem .9rem;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--code-bg)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-family:var(--display);font-weight:700;min-width:10rem}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--accent)}
+.num.neg{color:var(--neg)}
+
+/* paper cards */
+.papers{display:grid;grid-template-columns:repeat(auto-fit,minmax(19rem,1fr));gap:1rem}
+.paper{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1.1rem 1.2rem;display:grid;gap:.55rem;align-content:start;min-width:0}
+.paper .venue{font-family:var(--mono);font-size:.72rem;color:var(--muted);letter-spacing:.03em}
+.paper .stat{font-family:var(--mono);font-size:.82rem;background:var(--code-bg);padding:.35rem .55rem;border-radius:4px;font-variant-numeric:tabular-nums}
+.paper p{font-size:.96rem}
+.steal{font-size:.93rem;border-top:1px dashed var(--line);padding-top:.55rem}
+.steal b{font-family:var(--display);color:var(--key)}
+
+/* reddit */
+.threads{display:grid;gap:1rem}
+.thread{display:grid;grid-template-columns:5.5rem 1fr;gap:1rem;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1rem 1.2rem}
+.thread .counts{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:grid;gap:.15rem;align-content:start;font-variant-numeric:tabular-nums}
+.thread .counts b{font-size:1.25rem;color:var(--fg);font-weight:500}
+.thread .body{display:grid;gap:.5rem;min-width:0}
+.thread .sub{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+blockquote{margin:0;padding:.1rem 0 .1rem .9rem;border-left:2px solid var(--line);font-style:italic;color:var(--muted);font-size:.95rem}
+blockquote span{font-style:normal;font-family:var(--mono);font-size:.72rem;margin-left:.4rem}
+@media (max-width:520px){.thread{grid-template-columns:1fr}.thread .counts{grid-auto-flow:column;justify-content:start;gap:1rem}}
+
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));gap:1rem}
+.pane{border-radius:6px;padding:1.1rem 1.2rem;display:grid;gap:.5rem;align-content:start}
+.pane.love{background:var(--accent-soft)}
+.pane.hate{background:var(--neg-soft)}
+.pane ul{margin:0;padding-left:1.1rem;display:grid;gap:.4rem;font-size:.97rem}
+
+/* rules */
+.rules{list-style:none;margin:0;padding:0;display:grid;gap:.9rem;counter-reset:r}
+.rules li{counter-increment:r;display:grid;grid-template-columns:2.6rem 1fr;gap:.75rem;align-items:start}
+.rules li::before{content:"R" counter(r,decimal-leading-zero);font-family:var(--mono);font-size:.8rem;color:var(--key);padding-top:.2rem}
+.rules b{font-family:var(--display)}
+.rules .why{display:block;font-size:.9rem;color:var(--muted);margin-top:.15rem}
+
+.note{background:var(--key-soft);border-radius:6px;padding:1rem 1.2rem;font-size:.95rem}
+.sources{columns:2 20rem;column-gap:2rem;font-size:.88rem;padding-left:1.1rem;margin:0}
+.sources li{break-inside:avoid;margin-bottom:.45rem}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">FinalStudio · Investigación 2 · papers y Reddit · 28 sep 2026</span>
+  <h1>Evidencia en movimiento</h1>
+  <p class="lede col">Qué dicen los papers y la gente en Reddit sobre motion design, cuándo la animación enseña de verdad y qué convierte eso en reglas para la skill y para la plataforma que transforma apuntes en video tutoriales.</p>
+  <svg class="curve" viewBox="0 0 320 110" role="img" aria-label="Curva de easing: arranque lento, tramo rápido, llegada suave">
+    <line class="grid" x1="20" y1="95" x2="300" y2="95"/><line class="grid" x1="20" y1="10" x2="20" y2="95"/>
+    <path d="M20 95 C 120 95, 170 12, 300 12"/>
+    <circle cx="300" cy="12" r="4"/>
+    <text x="22" y="107">t = 0</text><text x="262" y="107">t = 1</text>
+  </svg>
+  <div class="meta"><span>~28 papers revisados</span><span>~15 hilos de Reddit leídos</span><span>Continúa el informe “Opus 5.5 en movimiento”</span></div>
+</header>
+
+<section>
+  <span class="eyebrow">Resumen</span>
+  <h2>Cuatro conclusiones</h2>
+  <div class="takeaways">
+    <div class="take"><h3>La animación enseña solo cuando representa algo</h3><p>La animación que muestra el proceso mejora el aprendizaje (d = 0.40). La decorativa no aporta nada (d = −0.05). Para procedimientos paso a paso el efecto es grande (d = 1.06).</p></div>
+    <div class="take"><h3>Señalar lo importante es lo que más rinde</h3><p>Resaltar, anotar y guiar la mirada da g = 0.53 en retención en 103 estudios. Es el recurso más barato y más fiable para un tutorial.</p></div>
+    <div class="take"><h3>El salto de calidad en IA viene de verificar</h3><p>Los sistemas que generan animación con código mejoran mucho con un bucle que revisa el resultado: MoVer pasa de 58.8 % a 93.6 % de animaciones correctas.</p></div>
+    <div class="take"><h3>En Reddit, sorpresa técnica y queja de gusto</h3><p>r/MotionDesign reconoce que Opus 5.5 hace motion “objetivamente bueno”, pero lo llama genérico y le cuesta seguir dirección de marca. Los estudiantes piden fuentes fiables y buenas voces.</p></div>
+  </div>
+</section>
+
+<section id="aprendizaje">
+  <span class="eyebrow">Ciencia del aprendizaje</span>
+  <h2>Cuánto ayuda cada recurso, según los meta-análisis</h2>
+  <p class="col">Tamaños de efecto frente a una versión sin ese recurso. 0.2 es pequeño, 0.5 mediano, 0.8 grande. Las barras son intervalos de confianza del 95 % cuando el estudio los publica.</p>
+  <div class="plot-box"><svg id="forest" viewBox="0 0 690 360" role="img" aria-label="Gráfico de tamaños de efecto de meta-análisis sobre animación y video educativo"></svg></div>
+  <div class="legend"><span><i class="dot" style="background:var(--accent)"></i>meta-análisis</span><span><i class="dot" style="border:2px solid var(--key);background:var(--surface)"></i>un solo estudio (2026)</span><span><i class="dot" style="background:var(--neg)"></i>sin efecto o negativo</span></div>
+
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Hallazgo</th><th>Dato</th><th>Qué significa para un video tutorial</th></tr></thead>
+    <tbody>
+      <tr><td>Animación vs imagen fija</td><td class="num">d 0.37 · g 0.23</td><td>Ventaja modesta pero consistente. Funciona mejor con narración en audio y sin texto extra en pantalla, y en procesos dinámicos (biología, geología) más que en conceptos abstractos. <span class="mono">Höffler &amp; Leutner 2007; Berney &amp; Bétrancourt 2016</span></td></tr>
+      <tr><td>Congruencia y aprehensión</td><td class="num">principio</td><td>La animación debe tener la misma estructura que la idea y ser fácil de percibir. Muchas animaciones fallan por ir demasiado rápido o cambiar demasiadas cosas a la vez. <span class="mono">Tversky, Morrison &amp; Bétrancourt 2002</span></td></tr>
+      <tr><td>Segmentar</td><td class="num">56 estudios</td><td>Dividir en partes mejora retención y transferencia y baja la carga cognitiva, tanto si el ritmo lo marca el sistema como el alumno. <span class="mono">Rey et al. 2019</span></td></tr>
+      <tr><td>Detalles seductores</td><td class="num neg">negativo</td><td>Adornos interesantes pero irrelevantes perjudican el aprendizaje, sobre todo en ciencias (68 estudios). Mantener el video coherente. <span class="mono">Sundararajan &amp; Adesope 2020</span></td></tr>
+      <tr><td>Diseño emocional</td><td class="num">g 0.35 / 0.27</td><td>Color y formas agradables mejoran retención y transferencia y reducen la dificultad percibida. Belleza sí, distracción no. <span class="mono">Wong &amp; Adesope 2021</span></td></tr>
+      <tr><td>Duración y estilo</td><td class="num">6 min</td><td>En 6.9 millones de sesiones de edX, la atención mediana no pasa de 6 minutos. El dibujo a mano estilo Khan retuvo 1.5 a 2 veces más que diapositivas. Los tutoriales se vuelven a ver más que las clases. <span class="mono">Guo, Kim &amp; Rubin 2014</span></td></tr>
+      <tr><td>Ver dibujar</td><td class="num">3 estudios</td><td>Ver una mano dibujar la distribución normal superó a diapositivas dinámicas. La construcción progresiva guía la atención y reparte la carga en el tiempo. <span class="mono">Memory &amp; Cognition 2024</span></td></tr>
+      <tr><td>Preguntas después del video</td><td class="num">+3.0 pts</td><td>Un video explicativo más preguntas de reflexión mejora el aprendizaje posterior. Sin video, las mismas preguntas empeoran (−2.9). <span class="mono">Learning &amp; Instruction 2024, n = 133</span></td></tr>
+      <tr><td>Velocidad de reproducción</td><td class="num">hasta 2×</td><td>Ver a 1.5× o 2× casi no afecta la comprensión; por encima de 2× sí. Dar control de velocidad no es un riesgo. <span class="mono">Murphy et al. 2022</span></td></tr>
+      <tr><td>Video hecho por IA vs humano</td><td class="num">n = 447</td><td>Mismo aprendizaje en examen; los humanos ganan un poco en experiencia percibida. <span class="mono">Computers &amp; Education 2024</span></td></tr>
+      <tr><td>Texto cinético</td><td class="num">principio</td><td>El texto en movimiento ayuda cuando revela un razonamiento paso a paso, como una pizarra. Si parpadea sin propósito, distrae. <span class="mono">Humanities &amp; Soc. Sci. Comm. 2023</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="ia">
+  <span class="eyebrow">Papers de IA que anima</span>
+  <h2>Cómo la investigación genera y verifica motion con código</h2>
+  <p class="col">Todos coinciden con el enfoque del proyecto: el modelo escribe código que se renderiza, no píxeles. Lo que separa a los mejores es cómo revisan el resultado.</p>
+  <div class="papers">
+    <article class="paper"><span class="venue">SIGGRAPH 2025 · Stanford</span><h3>MoVer</h3><p>Un lenguaje de verificación basado en lógica de primer orden comprueba si una animación SVG cumple el prompt: dirección, orden, tiempos, posiciones. El error vuelve al LLM para corregir.</p><span class="stat">58.8 % correcto al primer intento → 93.6 % con iteraciones</span><p class="steal"><b>Para la skill:</b> escribir, junto con cada escena, afirmaciones comprobables (“el título entra antes que el gráfico”, “la flecha termina sobre la celda B4”) y verificarlas en el render.</p></article>
+    <article class="paper"><span class="venue">ICML 2026 · Show Lab</span><h3>Code2Video</h3><p>Tres agentes: planificador, programador y crítico con visión que usa “anclas visuales” para corregir la disposición. Mide si un modelo recupera el conocimiento viendo el video (TeachQuiz).</p><span class="stat">+40 % frente a generar el código directamente</span><p class="steal"><b>Para la skill:</b> una rejilla de anclas con nombre (A1…F6) para ubicar elementos evita solapes y da un vocabulario al crítico visual.</p></article>
+    <article class="paper"><span class="venue">ACL 2025 · TIGER Lab</span><h3>TheoremExplainAgent</h3><p>Videos de más de 5 minutos con Manim para explicar 240 teoremas. La planificación con agentes es clave para videos largos.</p><span class="stat">93.8 % de éxito · la mayoría con problemas menores de layout</span><p class="steal"><b>Para la skill:</b> el video revela errores de razonamiento que el texto ocultaba. Útil como control de calidad de la explicación, no solo del diseño.</p></article>
+    <article class="paper"><span class="venue">arXiv 2026</span><h3>LLM2Manim</h3><p>Genera animaciones STEM narradas aplicando segmentación, señalización y codificación dual, con revisión de un experto antes del render. Probado con 100 universitarios frente a PowerPoint.</p><span class="stat">83 % vs 78 % · aprendizaje d 0.67 · interés d 0.94</span><p class="steal"><b>Para la plataforma:</b> es la evidencia más directa de que la idea funciona. Un paso de revisión humana opcional sigue siendo valioso.</p></article>
+    <article class="paper"><span class="venue">arXiv 2026</span><h3>PhysicsSolutionAgent</h3><p>Explica problemas numéricos de física en video con planificador, programador, RAG de documentación y un crítico visual.</p><span class="stat">32 videos · 3.8 / 5 · error más común: texto repetido (36 casos)</span><p class="steal"><b>Para la skill:</b> resolver ejercicios paso a paso es viable; hay que vigilar que el texto en pantalla no repita la narración.</p></article>
+    <article class="paper"><span class="venue">arXiv 2026</span><h3>ManiBench</h3><p>Benchmark de dos fallos propios de la animación: APIs inventadas y “deriva visual”, código que corre pero enseña algo incorrecto.</p><span class="stat">Mejor ejecutabilidad 66.7 % · few-shot +11.1 pts</span><p class="steal"><b>Para la skill:</b> ejemplos de escenas buenas en las referencias suben la tasa de éxito; y que compile no significa que esté bien.</p></article>
+    <article class="paper"><span class="venue">CHI 2025 · Adobe</span><h3>LogoMotion</h3><p>Anima logos leyendo primero la imagen (jerarquía, grupos), luego diseña un plan y repara el código mirando el resultado. Da controles de edición conectados al código.</p><span class="stat">276 animaciones · mejor que una herramienta comercial líder</span><p class="steal"><b>Para la plataforma:</b> exponer controles (tiempos, agrupación, movimiento) sobre el código generado ayuda a los novatos más que solo reescribir el prompt.</p></article>
+    <article class="paper"><span class="venue">Apple 2024</span><h3>Keyframer</h3><p>Estudio con 13 personas animando SVG con un LLM. La gente describe el movimiento con palabras, no con propiedades CSS, y anima elemento por elemento.</p><span class="stat">84.4 % de prompts semánticos · 9 de 13 editan por partes</span><p class="steal"><b>Para la skill:</b> soportar un vocabulario semántico (“que tiemble”, “que suba como globo”) y ediciones locales que no rompan el resto.</p></article>
+    <article class="paper"><span class="venue">IEEE VIS 2023</span><h3>Data Player</h3><p>Enlaza cada frase de la narración con los elementos del gráfico y elige animaciones sincronizadas con la voz.</p><span class="stat">Calidad comparable a videos de datos hechos a mano</span><p class="steal"><b>Para la skill:</b> el flujo “hoja de cálculo a video” debe sincronizar cada frase con su celda o barra.</p></article>
+    <article class="paper"><span class="venue">arXiv 2025</span><h3>Paper2Video</h3><p>Convierte papers en presentaciones en video con diapositivas, cursor, subtítulos, voz y presentador. 101 papers de referencia.</p><span class="stat">Métricas de comprensión: PresentQuiz, IP Memory</span><p class="steal"><b>Para la plataforma:</b> medir con un quiz si el video transmite el contenido es una forma práctica de evaluar calidad.</p></article>
+    <article class="paper"><span class="venue">CVPR 2026 · arXiv 2026</span><h3>LottieGPT y OmniLottie</h3><p>Modelos que generan animaciones Lottie vectoriales y editables desde texto o imagen, entrenados con 660 mil y 2 millones de animaciones.</p><span class="stat">Salida editable y sin pérdida de resolución</span><p class="steal"><b>Para la skill:</b> buena fuente de íconos y microanimaciones; la película completa sigue siendo mejor en código de escena.</p></article>
+  </div>
+</section>
+
+<section id="principios">
+  <span class="eyebrow">Fundamentos de diseño de movimiento</span>
+  <h2>Principios con respaldo académico</h2>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Fuente</th><th>Idea</th><th>Regla práctica</th></tr></thead>
+    <tbody>
+      <tr><td>Chang &amp; Ungar 1993</td><td>Los 12 principios de Disney aplicados a interfaces: solidez, exageración y refuerzo.</td><td>Entradas y salidas suaves en vez de aparecer de golpe; anticipación antes de un movimiento grande; slow in / slow out; trayectorias en arco; pequeño asentamiento al final.</td></tr>
+      <tr><td>Heer &amp; Robertson 2007</td><td>Transiciones animadas entre gráficos estadísticos mejoran la percepción.</td><td>Cambios complejos en etapas: primero mover, luego transformar. Mantener la identidad de cada elemento entre estados.</td></tr>
+      <tr><td>Shi et al. 2021</td><td>82 videos de datos (The Economist, Vox, Bloomberg): 43 técnicas en 8 estrategias narrativas.</td><td>Énfasis, suspenso, comparación, cohesión, elipsis, focalización, concreción y giro. El énfasis (brillo, anotación, relleno de color) es el más usado; concreción y giro están poco explotados y son diferenciales.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="reddit">
+  <span class="eyebrow">Reddit · septiembre 2026</span>
+  <h2>Lo que dice la gente</h2>
+  <p class="col">Opus 5.5 domina la conversación. Un usuario pidió a los moderadores de r/MotionDesign un espacio aparte porque los posts de IA son “literalmente todo el sub”. Estos son los hilos con más peso.</p>
+  <div class="threads">
+    <div class="thread"><div class="counts"><b>282</b>comentarios<span>239 votos</span></div><div class="body"><span class="sub">r/MotionDesign</span><h3><a href="https://www.reddit.com/r/MotionDesign/comments/1wq0zvj/">People are making Claude attempt motion design for some reason</a></h3><p>Un video de X hecho con Claude. El hilo se divide entre escépticos, impresionados y quienes creen que es publicidad hecha por humanos.</p><blockquote>“It's an ad for claude, it's for sure made by real motion designers”<span>75</span></blockquote><blockquote>“BLAND AS HELL, but yeah, it's becoming difficult to say it's not good enough when discussing the subject with our bosses”<span>6</span></blockquote><blockquote>“its probably really good for this abstract or typographic stuff. id imagine it would struggle with more complex things like character animation”</blockquote></div></div>
+    <div class="thread"><div class="counts"><b>172</b>comentarios<span>132 votos</span></div><div class="body"><span class="sub">r/MotionDesign</span><h3><a href="https://www.reddit.com/r/MotionDesign/comments/1wr6443/">Im worried</a></h3><p>Alguien probó Opus 5.5 y mostró el resultado. Las críticas concretas: composición desordenada, movimiento con tirones, dificultad para seguir indicaciones subjetivas y para mantener la marca. Las revisiones a veces empeoran lo que estaba bien.</p><blockquote>“Style is nice, animation is nice, composition is a bit of a mess.”<span>6</span></blockquote><blockquote>“It was much better before lol”<span>4</span></blockquote><blockquote>“Would be interested to see if it's able to stay on-brand or take direction well.”</blockquote></div></div>
+    <div class="thread"><div class="counts"><b>51</b>comentarios<span>107 votos</span></div><div class="body"><span class="sub">r/MotionDesign</span><h3><a href="https://www.reddit.com/r/MotionDesign/comments/1wqrlx6/">Astra and Opus 5, are both pure theft at this point</a></h3><p>La preocupación ética: modelos que reproducen trabajo ajeno sin atribución, y el miedo a que los creativos dejen de compartir.</p></div></div>
+    <div class="thread"><div class="counts"><b>15</b>comentarios<span>20 votos</span></div><div class="body"><span class="sub">r/MotionDesign</span><h3><a href="https://www.reddit.com/r/MotionDesign/comments/1wqegb2/">Hive mind, and the problem with ai</a></h3><blockquote>“AI is amazing at everything you're not experienced in and borderline useless for the things you are.”<span>27</span></blockquote><p>Lectura para el producto: el público natural de esta tecnología no es el motion designer experto sino quien no sabe animar, como un estudiante o un profesor.</p></div></div>
+  </div>
+
+  <div class="split">
+    <div class="pane love"><h3>Lo que la gente adora</h3><ul>
+      <li><b>Cortes que “encajan”.</b> El post más votado de producto (245) fue elogiado por sus match cuts y la sincronía con el sonido: “la pantalla se siente como si encajara en su sitio”.</li>
+      <li><b>Efectos que invitan a descifrarlos.</b> “How TF has the editor done this effect?!” (172 votos) es el formato más popular en r/AfterEffects.</li>
+      <li><b>Un panel de control.</b> “Un null CONTROL con sliders me ahorra horas” (40 votos): velocidad, color de marca e interruptores en un solo lugar.</li>
+      <li><b>Iterar rápido.</b> En r/manim lo más votado son herramientas para previsualizar sin renderizar: un visor de timeline y un IDE creado “porque el ciclo de render mataba mi velocidad”.</li>
+      <li><b>Crear sin saber animar.</b> En r/ClaudeAI abundan videoclips y trailers de gente que “no sabe animar”, incluido un video educativo de 5 minutos con cada dato citado.</li>
+    </ul></div>
+    <div class="pane hate"><h3>Lo que rechaza</h3><ul>
+      <li><b>Lo genérico.</b> “Random shit that looks nice” (24). Sin dirección creativa el resultado se ve igual que el de todos.</li>
+      <li><b>Promesas infladas.</b> Higgsfield es acusado de vender como IA trabajo hecho a mano (51 votos); la gente desconfía de las demos.</li>
+      <li><b>Cursor y UI falsos.</b> En demos de SaaS recomiendan animar un cursor propio y recrear los momentos clave, y evitar UI generada por IA.</li>
+      <li><b>En estudio: voces, colas y fuentes.</b> En r/notebooklm piden “que vuelvan las voces anteriores”, se quejan de colas de 18 horas y de citas que no respaldan lo que dicen.</li>
+    </ul></div>
+  </div>
+  <p class="col">Un dato del lado del estudiante: en r/notebooklm el post más votado del periodo (301) no pide más resúmenes. Enseña a pedir primero un índice de temas y luego preguntar. Otro hilo pide usar la IA “como examinador socrático, no como oráculo”. Los alumnos valoran estructura y práctica activa más que un resumen pasivo.</p>
+</section>
+
+<section id="reglas">
+  <span class="eyebrow">Aplicación</span>
+  <h2>Reglas para la skill y la plataforma</h2>
+  <p class="col">Cada regla sale de un hallazgo de arriba. Se pueden pasar casi tal cual a las referencias de la skill.</p>
+  <ol class="rules col">
+    <li><div><b>Cada movimiento debe explicar algo.</b> En modo tutorial, prohibido el movimiento decorativo, las partículas de relleno y los adornos ajenos al tema.<span class="why">Animación decorativa d −0.05; detalles seductores dañan en 68 estudios.</span></div></li>
+    <li><div><b>Kit de señalización obligatorio.</b> Resaltado, anotación, flecha, zoom y atenuar lo demás, sincronizados con la palabra de la narración.<span class="why">Señalización g 0.53; énfasis es la estrategia más usada en videos de datos.</span></div></li>
+    <li><div><b>Narración en voz, poco texto en pantalla.</b> La voz explica; la pantalla muestra términos clave, fórmulas y datos, sin repetir frases enteras.<span class="why">Berney &amp; Bétrancourt; el fallo más común en PhysicsSolutionAgent fue texto repetido.</span></div></li>
+    <li><div><b>Construir, no aparecer.</b> Fórmulas, diagramas y tablas se dibujan paso a paso en el orden del razonamiento.<span class="why">Estudios de la mano que dibuja; estilo Khan 1.5 a 2× más atención; texto cinético como pizarra.</span></div></li>
+    <li><div><b>Segmentos cortos con pausa.</b> Videos de 6 minutos como máximo, divididos en pasos con un punto de pausa entre ellos.<span class="why">Guo et al. 2014; meta-análisis de segmentación.</span></div></li>
+    <li><div><b>Preguntas al terminar.</b> La plataforma añade 2 o 3 preguntas de reflexión o un mini quiz tras cada video.<span class="why">+3 puntos con video, efecto negativo sin él.</span></div></li>
+    <li><div><b>Afirmaciones verificables por escena.</b> El storyboard incluye condiciones comprobables y un crítico visual revisa frames con una rejilla de anclas antes del render final.<span class="why">MoVer 58.8 → 93.6 %; Code2Video +40 %.</span></div></li>
+    <li><div><b>Transiciones de datos por etapas.</b> Primero mover, luego transformar; cada barra o celda conserva su identidad.<span class="why">Heer &amp; Robertson 2007.</span></div></li>
+    <li><div><b>Todo dato citado a los apuntes.</b> Cada número o afirmación en pantalla se enlaza a la parte del documento del estudiante de donde sale.<span class="why">Quejas de citas falsas en r/notebooklm; el video de r/ClaudeAI con “every number is cited”.</span></div></li>
+    <li><div><b>Edición local y vocabulario semántico.</b> Pedir cambios por escena o elemento con palabras normales, sin rehacer el resto, más un panel tipo “null CONTROL”.<span class="why">Keyframer; LogoMotion; “It was much better before lol”.</span></div></li>
+    <li><div><b>Dirección de arte antes de animar.</b> Elegir estilo, paleta y un elemento recurrente al principio para evitar el look genérico.<span class="why">“BLAND AS HELL”; diseño emocional g 0.35.</span></div></li>
+    <li><div><b>Previsualizar rápido, voces cuidadas.</b> Borrador en segundos y render final después; voz natural y elegible; control de velocidad hasta 2×.<span class="why">r/manim; quejas de voces y colas en r/notebooklm; Murphy et al. 2022.</span></div></li>
+  </ol>
+</section>
+
+<section>
+  <span class="eyebrow">Límites de esta investigación</span>
+  <div class="note col">reddit.com está bloqueado desde este entorno, así que leí los hilos a través del archivo público Arctic Shift. Los votos son los que registró el archivo y pueden ser menores que los actuales. No pude abrir el paper “Training and Agentic Inference Strategies for LLM-based Manim Animation Generation” (arXiv 2604.18364) por límite de peticiones, y no obtuve la cifra exacta del meta-análisis de detalles seductores. X quedó fuera porque lo cubre otro hilo.</div>
+</section>
+
+<section id="fuentes">
+  <span class="eyebrow">Fuentes</span>
+  <h2>Papers y hilos citados</h2>
+  <ol class="sources">
+    <li><a href="https://arxiv.org/abs/2502.13372">MoVer: Motion Verification for Motion Graphics Animations</a> (SIGGRAPH 2025)</li>
+    <li><a href="https://arxiv.org/abs/2510.01174">Code2Video: A Code-centric Paradigm for Educational Video Generation</a></li>
+    <li><a href="https://arxiv.org/abs/2502.19400">TheoremExplainAgent</a> (ACL 2025)</li>
+    <li><a href="https://arxiv.org/abs/2604.05266">LLM2Manim: Pedagogy-Aware AI Generation of STEM Animations</a></li>
+    <li><a href="https://arxiv.org/pdf/2601.13453">PhysicsSolutionAgent</a></li>
+    <li><a href="https://arxiv.org/pdf/2603.13251">ManiBench</a></li>
+    <li><a href="https://arxiv.org/abs/2405.07065">LogoMotion</a> (CHI 2025)</li>
+    <li><a href="https://arxiv.org/abs/2402.06071">Keyframer</a> (Apple)</li>
+    <li><a href="https://arxiv.org/abs/2308.04703">Data Player</a> (IEEE VIS 2023)</li>
+    <li><a href="https://arxiv.org/abs/2510.05096">Paper2Video</a></li>
+    <li><a href="https://arxiv.org/abs/2604.11792">LottieGPT</a> · <a href="https://arxiv.org/abs/2603.02138">OmniLottie</a></li>
+    <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0959475207001077">Höffler &amp; Leutner 2007, animación vs imágenes estáticas</a></li>
+    <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0360131516301336">Berney &amp; Bétrancourt 2016, ¿la animación mejora el aprendizaje?</a></li>
+    <li><a href="https://journals.sagepub.com/doi/abs/10.3102/0034654321990713">Noetel et al. 2021, el video mejora el aprendizaje universitario</a></li>
+    <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S1747938X17300581">Schneider et al. 2018, meta-análisis de señalización</a></li>
+    <li><a href="https://link.springer.com/article/10.1007/s10648-018-9456-4">Rey et al. 2019, meta-análisis de segmentación</a></li>
+    <li><a href="https://link.springer.com/article/10.1007/s10648-020-09522-4">Sundararajan &amp; Adesope 2020, detalles seductores</a></li>
+    <li><a href="https://link.springer.com/article/10.1007/s10648-020-09545-x">Wong &amp; Adesope 2021, diseño emocional</a></li>
+    <li><a href="https://hci.stanford.edu/courses/cs448b/papers/Tversky_AnimationFacilitate_IJHCS02.pdf">Tversky, Morrison &amp; Bétrancourt 2002, Animation: can it facilitate?</a></li>
+    <li><a href="https://www.cs.rochester.edu/hci/pubs/pdfs/edX-MOOC-video-production-and-engagement_LAS-2014.pdf">Guo, Kim &amp; Rubin 2014, producción de video y engagement</a></li>
+    <li><a href="https://link.springer.com/article/10.3758/s13421-024-01526-7">Videos de una mano que dibuja y la distribución normal</a> (2024)</li>
+    <li><a href="https://www.sciencedirect.com/science/article/pii/S0959475224001154">Video explicativo y preguntas de reflexión</a> (2024)</li>
+    <li><a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/acp.3899">Murphy et al. 2022, velocidad de reproducción</a></li>
+    <li><a href="https://www.sciencedirect.com/science/article/pii/S0360131524001787">Videos de enseñanza humanos vs generados por IA</a> (2024)</li>
+    <li><a href="https://www.nature.com/articles/s41599-023-01646-6">Beneficios de aprendizaje del texto en movimiento</a> (2023)</li>
+    <li><a href="https://faculty.washington.edu/aragon/classes/hcde411/w13/readings/Chang_AnimationInUI_UIST93.pdf">Chang &amp; Ungar 1993, Animation: from cartoons to the UI</a></li>
+    <li><a href="http://vis.stanford.edu/papers/animated-transitions">Heer &amp; Robertson 2007, transiciones animadas</a></li>
+    <li><a href="https://idvxlab.com/papers/2021CHI_DataVideo_Shi.pdf">Shi et al. 2021, Communicating with Motion</a> (CHI)</li>
+    <li><a href="https://www.reddit.com/r/MotionDesign/comments/1wq0zvj/">r/MotionDesign: People are making Claude attempt motion design</a></li>
+    <li><a href="https://www.reddit.com/r/MotionDesign/comments/1wr6443/">r/MotionDesign: Im worried</a></li>
+    <li><a href="https://www.reddit.com/r/MotionDesign/comments/1wqegb2/">r/MotionDesign: Hive mind, and the problem with ai</a></li>
+    <li><a href="https://www.reddit.com/r/MotionDesign/comments/1wqrlx6/">r/MotionDesign: Astra and Opus 5 are pure theft</a></li>
+    <li><a href="https://www.reddit.com/r/MotionDesign/comments/1wkyh0c/">r/MotionDesign: Very Kinetic Product Showcase</a></li>
+    <li><a href="https://www.reddit.com/r/MotionDesign/comments/1wh31p8/">r/MotionDesign: Higgsfield AI is lying to you</a></li>
+    <li><a href="https://www.reddit.com/r/MotionDesign/comments/1wjl9vi/">r/MotionDesign: workflow para demo SaaS</a></li>
+    <li><a href="https://www.reddit.com/r/AfterEffects/comments/1wpm5v9/">r/AfterEffects: How TF has the editor done this effect?!</a></li>
+    <li><a href="https://www.reddit.com/r/motiongraphics/comments/1wlu3bb/">r/motiongraphics: un null CONTROL con sliders</a></li>
+    <li><a href="https://www.reddit.com/r/ClaudeAI/comments/1wsmh5u/">r/ClaudeAI: videoclip hecho en código con Suno y Claude</a></li>
+    <li><a href="https://www.reddit.com/r/ClaudeAI/comments/1wsmx87/">r/ClaudeAI: video de 5 minutos con cada dato citado</a></li>
+    <li><a href="https://www.reddit.com/r/notebooklm/comments/1wn3or8/">r/notebooklm: Is notebooklm slowly dying?</a></li>
+    <li><a href="https://www.reddit.com/r/notebooklm/comments/1wi0q1x/">r/notebooklm: Stop asking NotebookLM to summarize</a></li>
+    <li><a href="https://www.reddit.com/r/manim/comments/1vyfrrx/">r/manim: un IDE porque el render mataba la iteración</a></li>
+  </ol>
+</section>
+
+</div>
+
+<script>
+(function(){
+  var rows=[
+    ["Procedimientos animados",1.06,0.72,1.40,"Höffler & Leutner 2007","m"],
+    ["Video como complemento",0.80,null,null,"Noetel et al. 2021","m"],
+    ["Animación con LLM vs diapositivas",0.67,null,null,"LLM2Manim 2026","one"],
+    ["Señalización · retención",0.53,0.42,0.64,"Schneider et al. 2018","m"],
+    ["Video vs material estático",0.51,null,null,"Noetel et al. 2021","m"],
+    ["Animación representacional",0.40,0.26,0.53,"Höffler & Leutner 2007","m"],
+    ["Diseño emocional · retención",0.35,null,null,"Wong & Adesope 2021","m"],
+    ["Señalización · transferencia",0.33,0.22,0.43,"Schneider et al. 2018","m"],
+    ["Video en lugar de la clase",0.28,null,null,"Noetel et al. 2021","m"],
+    ["Animación vs estático (global)",0.23,null,null,"Berney & Bétrancourt 2016","m"],
+    ["Animación decorativa",-0.05,-0.37,0.27,"Höffler & Leutner 2007","neg"]
+  ];
+  var svg=document.getElementById("forest"),NS="http://www.w3.org/2000/svg";
+  var X0=300,X1=630,MIN=-0.4,MAX=1.4,top=20,rh=28;
+  function x(v){return X0+(v-MIN)/(MAX-MIN)*(X1-X0)}
+  function el(n,a,t){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(t!=null)e.textContent=t;svg.appendChild(e);return e}
+  var bottom=top+rows.length*rh;
+  [-0.4,0,0.4,0.8,1.2].forEach(function(t){
+    el("line",{x1:x(t),x2:x(t),y1:top-6,y2:bottom,"class":t===0?"zero":"ax"});
+    el("text",{x:x(t),y:bottom+16,"text-anchor":"middle","class":"tick"},(t>0?"":"")+t.toFixed(1).replace("-","−"));
+  });
+  el("text",{x:(X0+X1)/2,y:bottom+32,"text-anchor":"middle","class":"src"},"tamaño de efecto (d / g)");
+  rows.forEach(function(r,i){
+    var cy=top+i*rh+rh/2;
+    el("text",{x:0,y:cy-2,"class":"lab"},r[0]);
+    el("text",{x:0,y:cy+11,"class":"src"},r[4]);
+    if(r[2]!=null)el("line",{x1:x(r[2]),x2:x(r[3]),y1:cy,y2:cy,"class":"ci"+(r[5]==="neg"?" neg":"")});
+    el("circle",{cx:x(r[1]),cy:cy,r:5.5,"class":"pt"+(r[5]==="one"?" one":r[5]==="neg"?" neg":"")});
+    var lx=r[3]!=null?x(r[3])+6:x(r[1])+10;
+    el("text",{x:lx,y:cy+4},r[1].toFixed(2).replace("-","−"));
+  });
+})();
+</script>

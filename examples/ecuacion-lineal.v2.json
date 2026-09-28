@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "workflow": "solve-step",
+  "title": "Ecuación lineal 2x + 3 = 11",
+  "language": "es-MX",
+  "level": "prepa",
+  "brand": "FINALSTUDIO",
+  "fps": 30,
+  "solution": { "variable": "x", "value": 4 },
+  "scenes": [
+    { "label": "01 — hook", "note": "// para estudiantes", "say": "psst… || ¿las ecuaciones te traban?" },
+    { "label": "02 — problema", "note": "// despeja x", "say": "{{eq}} Tenemos dos equis más tres igual a once. || resolvámosla juntos.",
+      "board": [{ "text": "2x + 3 = 11", "at": "eq" }] },
+    { "label": "03 — paso 1", "note": "// paso 1 · quita el + 3", "say": "{{op}} Resta tres en {{mk}} ambos lados, {{res}} y queda dos equis igual a ocho.",
+      "show": ["resta 3 en ambos lados."],
+      "board": [{ "text": "2x + 3 [− 3] = 11 [− 3]", "at": "op", "mark": "mk" }, { "text": "2x = 8", "at": "res" }] },
+    { "label": "04 — paso 2", "note": "// paso 2 · quita el 2 que multiplica", "say": "{{op}} Ahora divide entre dos en {{mk}} ambos lados. {{res}} Equis vale {{ans}} cuatro.",
+      "show": ["ahora divide entre 2."],
+      "board": [{ "text": "2x [÷ 2] = 8 [÷ 2]", "at": "op", "mark": "mk" }, { "text": "x = 4", "at": "res", "answer": "ans" }] },
+    { "label": "05 — comprobación", "note": "// sustituye x = 4", "say": "{{sub}} Comprobamos: dos por cuatro más tres {{ok}} da once.",
+      "show": ["comprobamos: sí da 11."],
+      "board": [{ "text": "2(4) + 3 = 11", "at": "sub", "check": "ok" }] },
+    { "label": "06 — cierre", "note": "// tu tutor animado", "say": "así de fácil.", "outro": true }
+  ],
+  "outro": { "wordmark": "finalstudio", "tagline": "sube tus apuntes. recibe el video." }
+}

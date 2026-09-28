@@ -1,0 +1,5 @@
+{
+  "template": "pixel-16bit",
+  "id": "suma-mago",
+  "sum": { "a": 3, "b": 4 }
+}

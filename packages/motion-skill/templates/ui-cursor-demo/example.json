@@ -1,0 +1,21 @@
+{
+  "template": "ui-cursor-demo",
+  "id": "multiplicar-columnas",
+  "appTitle": "Hoja de cálculo — útiles escolares",
+  "columns": ["Producto", "Precio", "Cantidad", "Total"],
+  "rows": [
+    ["Cuaderno", 15, 6],
+    ["Lápiz", 8, 12],
+    ["Borrador", 5, 10],
+    ["Regla", 12, 4],
+    ["Colores", 45, 3]
+  ],
+  "moneyCols": ["B"],
+  "formula": "=B{r}*C{r}",
+  "expect": [90, 96, 50, 48, 135],
+  "captions": [
+    "Da clic en la celda D2",
+    "Escribe =B2*C2 (precio × cantidad)",
+    "Arrastra el cuadrito azul hacia abajo"
+  ]
+}

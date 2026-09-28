@@ -1,0 +1,23 @@
+{
+  "template": "split-runner",
+  "id": "pitagoras-vertical",
+  "layout": "vertical",
+  "duration": 14,
+  "seed": 7,
+  "kicker": "Geometría · secundaria",
+  "title": "Teorema de Pitágoras",
+  "triangle": [3, 4],
+  "lines": [
+    { "at": 2.6, "text": "a^2 + b^2 = c^2" },
+    { "at": 5.0, "text": "3^2 + 4^2 = c^2" },
+    { "at": 7.4, "text": "9 + 16 = 25", "check": "3^2 + 4^2 = 9 + 16 = 25" },
+    { "at": 9.8, "text": "c = √25 = 5", "check": "√25 = 5", "answer": true }
+  ],
+  "say": [
+    { "at": 0.3, "text": "¿cuánto mide el lado largo?" },
+    { "at": 2.6, "text": "suma los cuadrados de los catetos" },
+    { "at": 5.0, "text": "tres al cuadrado más cuatro al cuadrado" },
+    { "at": 7.4, "text": "nueve más dieciséis da veinticinco" },
+    { "at": 9.8, "text": "raíz de veinticinco: ¡cinco!" }
+  ]
+}

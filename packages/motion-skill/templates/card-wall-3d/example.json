@@ -1,0 +1,14 @@
+{
+  "template": "card-wall-3d",
+  "id": "vocabulario-ingles",
+  "kicker": "Inglés · repaso de vocabulario",
+  "deckName": "INGLÉS · UNIDAD 4",
+  "answerLabel": "SIGNIFICA",
+  "caption": "Una de {n} tarjetas. Hoy repasas esta.",
+  "cards": [
+    { "front": "Although" }, { "front": "Borrow" }, { "front": "Choose" }, { "front": "Enough" },
+    { "front": "Throughout" }, { "front": "Weather" }, { "front": "Whether" }, { "front": "Meanwhile" },
+    { "front": "Neighbour" }, { "front": "Knowledge" }, { "front": "Straight" }, { "front": "Tough" }
+  ],
+  "target": { "front": "Although", "back": "aunque" }
+}

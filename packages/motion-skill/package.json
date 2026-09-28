@@ -1,0 +1,2 @@
+{ "name": "finalstudio-motion-skill", "private": true, "type": "module",
+  "description": "motion-studio skill: zero-npm engine, templates and scripts (Chrome + FFmpeg only)" }

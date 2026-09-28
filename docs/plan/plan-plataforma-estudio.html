@@ -1,0 +1,563 @@
+<title>Plataforma de estudio FinalStudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: el escenario blanco del video de referencia (achxvi / Pocketsflow). Mucho aire, etiquetas mono grises en las esquinas, personajes dither 1-bit cortados por el borde inferior. Un solo mundo visual, siempre claro. */
+:root{
+  --paper:#ffffff; --ink:#0b0b0b; --grey:#a3a3a3; --grey-2:#5c5c5c; --hair:#e7e7e7; --panel:#f6f6f6;
+  --f-body:"Geist","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"Geist Mono","IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6}
+.wrap{max-width:1000px;margin:0 auto;padding-inline:20px;padding-block:24px 90px}
+p{margin:0}
+.label{font-family:var(--f-mono);font-size:11.5px;color:var(--grey);letter-spacing:.02em}
+.mono{font-family:var(--f-mono)}
+.prose{max-width:64ch;color:var(--grey-2)}
+.prose b{color:var(--ink);font-weight:500}
+a{color:inherit;text-underline-offset:3px}
+button{font:inherit}
+:focus-visible{outline:1.5px solid var(--ink);outline-offset:2px}
+
+.px{image-rendering:crisp-edges;image-rendering:pixelated;display:block}
+
+/* el escenario */
+.frame{position:relative;aspect-ratio:16/9;max-width:100%;background:var(--paper);border:1px solid var(--hair);overflow:hidden;border-radius:14px}
+.frame .tl,.frame .tr,.frame .ml{position:absolute;font-family:var(--f-mono);color:var(--grey);font-size:clamp(8px,1.1vw,11px);letter-spacing:.02em;white-space:nowrap}
+.frame .tl{left:3%;top:4.5%}
+.frame .tr{right:3%;top:4.5%;display:flex;gap:1.6em}
+.frame .ml{left:9%;top:26%}
+.cast{position:absolute;bottom:0;aspect-ratio:160/190}
+.cast canvas{width:100%;height:100%}
+.bubble{position:absolute;right:92%;top:44%;border:1.5px solid var(--ink);border-radius:999px;background:var(--paper);padding:.35em 1.1em;font-family:var(--f-mono);font-size:clamp(9px,1.5vw,15px);white-space:nowrap;min-height:2.1em;display:flex;align-items:center}
+.bubble:after{content:"";position:absolute;right:-.62em;top:55%;width:.9em;height:.9em;background:var(--paper);border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(-40deg) skewX(12deg)}
+.bubble .caret{display:inline-block;width:.5em}
+.content{position:absolute;font-family:var(--f-mono);color:var(--ink);font-size:clamp(11px,2.3vw,24px);letter-spacing:-.01em}
+
+.intro{display:grid;grid-template-columns:1.3fr 1fr;gap:36px;padding-block:34px 10px;align-items:end}
+.intro>*{min-width:0}
+h1{font-weight:500;font-size:clamp(30px,4.6vw,46px);line-height:1.05;letter-spacing:-.03em;margin:8px 0 0;text-wrap:balance}
+.intro .lede{color:var(--grey-2);font-size:17px}
+.top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+
+section{padding-block:64px 0}
+.sh{margin-bottom:22px;display:grid;gap:6px}
+h2{font-weight:500;font-size:clamp(22px,3vw,30px);line-height:1.12;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h3{font-weight:500;font-size:16.5px;margin:0 0 4px;letter-spacing:-.01em}
+
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:30px 32px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px 32px}
+.grid3>*,.grid2>*{min-width:0}
+.item p{color:var(--grey-2);font-size:15px}
+.item .label{display:block;margin-bottom:6px}
+
+/* pipeline */
+.pipe{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--ink)}
+.pipe>div{padding:14px 14px 0 0;min-width:0}
+.pipe b{display:block;font-weight:500;margin:4px 0}
+.pipe span{display:block;font-size:14px;color:var(--grey-2);line-height:1.45}
+.pipe .key b:after{content:" ●";font-size:10px;vertical-align:middle}
+
+/* estilo y personajes */
+.rules{list-style:none;margin:0;padding:0;border-top:1px solid var(--hair)}
+.rules li{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:11px 0;border-bottom:1px solid var(--hair);font-size:15px}
+.rules li>*{min-width:0}
+.rules li span:last-child{color:var(--grey-2)}
+.cast-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}
+.card{border:1px solid var(--hair);border-radius:14px;overflow:hidden;min-width:0}
+.card .stage{position:relative;aspect-ratio:4/3;max-width:100%;background:var(--paper)}
+.card .stage .cast{left:50%;transform:translateX(-50%);height:92%}
+.card .stage .tl{position:absolute;left:12px;top:10px}
+.card .meta{padding:10px 14px 14px;border-top:1px solid var(--hair)}
+.card .meta p{font-size:14px;color:var(--grey-2)}
+
+/* pantallas */
+.screens{display:grid;gap:40px}
+.cap{display:grid;grid-template-columns:210px 1fr;gap:26px}
+.cap>*{min-width:0}
+.cap .note p{font-size:14.5px;color:var(--grey-2)}
+.screen{border:1px solid var(--hair);border-radius:14px;overflow:hidden;background:var(--paper)}
+.sbar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 14px;border-bottom:1px solid var(--hair)}
+.sbody{padding:16px;display:grid;gap:14px}
+.drop{border:1px dashed #c9c9c9;border-radius:10px;padding:20px;text-align:center;font-size:14.5px;color:var(--grey-2)}
+.drop .label{display:block;margin-top:4px}
+.files{display:flex;flex-wrap:wrap;gap:8px}
+.file{font-family:var(--f-mono);font-size:12px;border:1px solid var(--hair);border-radius:8px;padding:5px 9px;display:flex;gap:8px}
+.file i{font-style:normal;color:var(--grey)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--ink);border-radius:999px;padding:3px 11px;font-size:13.5px}
+.chip.on{background:var(--ink);color:var(--paper)}
+.ask{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--ink);border-radius:999px;padding:6px 6px 6px 16px;font-family:var(--f-mono);font-size:13px}
+.btn{background:var(--ink);color:var(--paper);border:1px solid var(--ink);border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:500;cursor:default}
+.btn.ghost{background:var(--paper);color:var(--ink)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 18px}
+.opts>div{min-width:0;border-top:1px solid var(--hair);padding-top:6px;font-size:14px}
+.opts .label{display:block}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.shot{min-width:0}
+.shot .frame{border-radius:8px}
+.shot .frame .cast{right:4%;height:78%}
+.shot .frame .content{font-size:clamp(9px,1.2vw,12px);left:8%;top:40%}
+.shot .frame .tl{font-size:8px}
+.shot p{font-size:13px;color:var(--grey-2);margin-top:6px;line-height:1.4}
+.player{display:grid;grid-template-columns:1.7fr 1fr;gap:16px}
+.player>*{min-width:0}
+.scrub{display:flex;gap:3px;margin-top:10px}
+.scrub i{flex:1;height:3px;background:var(--hair);border-radius:2px}
+.scrub i.d{background:var(--ink)}
+.chapters{list-style:none;margin:0;padding:0;border-top:1px solid var(--hair)}
+.chapters li{display:flex;justify-content:space-between;gap:10px;padding:8px 2px;border-bottom:1px solid var(--hair);font-size:14px}
+.chapters li.now{font-weight:500}
+.chapters li.now:before{content:"▶";font-size:9px;margin-right:6px;align-self:center}
+.chapters li span:first-child{flex:1}
+
+/* tablas */
+.tw{overflow-x:auto;border-top:1px solid var(--ink)}
+table{border-collapse:collapse;width:100%;min-width:660px;font-size:14.5px}
+th,td{text-align:left;vertical-align:top;padding:11px 12px 11px 0;border-bottom:1px solid var(--hair)}
+th{font-family:var(--f-mono);font-weight:400;font-size:11px;color:var(--grey);letter-spacing:.03em}
+td{color:var(--grey-2)}
+td:first-child{color:var(--ink);font-weight:500;white-space:nowrap}
+td.mono{font-size:13px;color:var(--ink)}
+pre.tree{font-family:var(--f-mono);font-size:12.5px;line-height:1.65;background:var(--panel);border-radius:10px;padding:16px 18px;overflow-x:auto;margin:0;color:var(--grey-2)}
+.callout{border:1px solid var(--ink);border-radius:14px;padding:16px 18px;margin-top:22px;display:grid;gap:6px}
+.callout p{color:var(--grey-2);font-size:15px}
+.callout b{color:var(--ink);font-weight:500}
+
+.phases{border-top:1px solid var(--ink)}
+.phase{display:grid;grid-template-columns:140px 1fr 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--hair)}
+.phase>*{min-width:0}
+.phase b{display:block;font-weight:500}
+.phase ul{margin:0;padding-left:16px;font-size:14.5px;color:var(--grey-2)}
+.phase p{font-size:14px;color:var(--grey-2)}
+.now-tag{display:inline-block;margin-top:6px;font-family:var(--f-mono);font-size:10.5px;background:var(--ink);color:var(--paper);border-radius:999px;padding:1px 8px}
+
+.decs{border-top:1px solid var(--ink)}
+.dec{display:grid;grid-template-columns:1fr 1.3fr;gap:20px;padding:13px 0;border-bottom:1px solid var(--hair)}
+.dec>*{min-width:0}
+.dec .q{font-weight:500}
+.dec .r{font-size:14.5px;color:var(--grey-2)}
+.dec .r b{display:block;color:var(--ink);font-weight:500;font-family:var(--f-mono);font-size:12.5px;margin-bottom:2px}
+ul.plain{margin:0;padding-left:18px;color:var(--grey-2);max-width:66ch}
+ul.plain li+li{margin-top:8px}
+ul.plain b{color:var(--ink);font-weight:500}
+.foot{margin-top:70px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media (max-width:760px){
+  .intro,.grid2,.grid3,.cap,.player,.dec,.cast-row{grid-template-columns:1fr}
+  .pipe{grid-template-columns:1fr 1fr;gap:6px 0}
+  .board{grid-template-columns:1fr 1fr}
+  .opts{grid-template-columns:1fr 1fr}
+  .phase{grid-template-columns:1fr;gap:8px}
+  .rules li{grid-template-columns:1fr;gap:2px}
+}
+</style>
+
+<div class="wrap">
+  <div class="top label"><span>// finalstudio · plan de producto</span><span>v0.2 · 28 sep 2026</span></div>
+
+  <div class="frame" aria-label="Escena de ejemplo: un tutor dibujado en dither blanco y negro dice psst, ¿tienes examen?">
+    <span class="tl">// 01 — hook</span>
+    <span class="tr"><span>FINALSTUDIO</span><span class="tc" data-start="30">00:00:01:06</span></span>
+    <span class="ml">// para estudiantes</span>
+    <div class="cast" style="right:9%;height:86%">
+      <div class="bubble" data-lines="psst…|¿tienes examen?|sube tus apuntes.|yo te lo explico."><span class="txt">psst…</span></div>
+      <canvas class="px" data-who="tutor" data-talk="1" width="160" height="190"></canvas>
+    </div>
+  </div>
+
+  <div class="intro">
+    <div>
+      <span class="label">// 00 — la idea</span>
+      <h1>Sube tus apuntes. Recibe el video que te lo explica.</h1>
+    </div>
+    <p class="lede">Un estudiante sube apuntes, fotos del pizarrón, PDFs, Excel o su temario, y recibe video tutoriales que resuelven y explican cada ejercicio paso a paso, con personajes dither en blanco y negro como el video de Pocketsflow de achxvi.</p>
+  </div>
+
+  <!-- 01 -->
+  <section>
+    <div class="sh"><span class="label">// 01 — resumen</span><h2>El plan en seis decisiones</h2></div>
+    <div class="grid3">
+      <div class="item"><span class="label">motor</span><h3>El video es código</h3><p>Opus 5.5 escribe cada escena en HyperFrames (HTML + GSAP) y un navegador la renderiza. Las fórmulas, tablas y números del alumno salen exactos.</p></div>
+      <div class="item"><span class="label">confianza</span><h3>Se verifica antes de animar</h3><p>La solución se comprueba con código (álgebra, fórmulas de Excel) antes de dibujar nada. Un error bien animado es peor que ningún video.</p></div>
+      <div class="item"><span class="label">costo</span><h3>Biblioteca de escenas</h3><p>El video se arma con escenas probadas y solo una o dos se programan desde cero. Más barato, más rápido y siempre con el mismo estilo.</p></div>
+      <div class="item"><span class="label">control</span><h3>Storyboard antes del render</h3><p>El alumno ve las escenas en segundos y puede cambiar una. Corregir una tarjeta cuesta mucho menos que corregir un video.</p></div>
+      <div class="item"><span class="label">entrega</span><h3>Por capítulos</h3><p>Cada paso es un capítulo. "Explícame este paso otra vez" vuelve a renderizar solo esa escena.</p></div>
+      <div class="item"><span class="label">alcance</span><h3>Empezar angosto</h3><p>MVP: ejercicios de matemáticas desde foto o PDF, en español. Excel, conceptos y demos de software vienen después.</p></div>
+    </div>
+  </section>
+
+  <!-- 02 estilo -->
+  <section>
+    <div class="sh"><span class="label">// 02 — estilo</span><h2>La estética de la referencia, hecha sistema</h2></div>
+    <ul class="rules">
+      <li><span>Escenario</span><span>Blanco puro y mucho aire. Sin fondos, degradados ni color.</span></li>
+      <li><span>Personaje</span><span>Grande, en dither de 1 bit (solo píxeles negros y blancos), entrando desde el borde inferior derecho y cortado por el cuadro.</span></li>
+      <li><span>Globo</span><span>Contorno negro redondeado con texto mono corto. Frases de dos o tres palabras que aparecen letra por letra mientras la boca se mueve.</span></li>
+      <li><span>Etiquetas</span><span>Mono gris pequeña. Capítulo arriba a la izquierda (// 01 — hook), marca y timecode arriba a la derecha.</span></li>
+      <li><span>Contenido</span><span>Ecuaciones, celdas y pasos en mono negro, sin cajas ni íconos. Entra y sale solo lo que se está explicando.</span></li>
+    </ul>
+
+    <div class="cast-row">
+      <div class="card">
+        <div class="stage"><span class="label tl">tutor</span><div class="cast"><canvas class="px" data-who="tutor" data-talk="1" width="160" height="190"></canvas></div></div>
+        <div class="meta"><h3>Tutor</h3><p>El personaje principal. Pelo rizado, tono tranquilo. Explica los pasos.</p></div>
+      </div>
+      <div class="card">
+        <div class="stage"><span class="label tl">alumna</span><div class="cast"><canvas class="px" data-who="alumna" width="160" height="190"></canvas></div></div>
+        <div class="meta"><h3>Alumna</h3><p>Hace las preguntas que haría el estudiante y comete el error común.</p></div>
+      </div>
+      <div class="card">
+        <div class="stage"><span class="label tl">profe</span><div class="cast"><canvas class="px" data-who="profe" width="160" height="190"></canvas></div></div>
+        <div class="meta"><h3>Profe</h3><p>Aparece en el repaso y en los avisos de "esto viene en el examen".</p></div>
+      </div>
+    </div>
+    <p class="prose" style="margin-top:18px">Estos tres personajes están dibujados con código en esta misma página: se pinta una figura en escala de grises y se convierte a píxeles negros y blancos con un patrón ordenado. Es la misma técnica que usaría el render, así cada personaje sale idéntico en todos los videos y puede parpadear y hablar. <b>Para llegar al nivel de detalle del video de achxvi</b>, la opción recomendada es generar un retrato de cada personaje una sola vez con un modelo de imagen, convertirlo a dither con código y animar ojos, cejas y boca como capas separadas.</p>
+  </section>
+
+  <!-- 03 flujo -->
+  <section>
+    <div class="sh"><span class="label">// 03 — flujo</span><h2>Qué pasa entre subir un archivo y ver el video</h2></div>
+    <div class="pipe">
+      <div><span class="label">01 · ingesta</span><b>Leer todo</b><span>PDF, fotos a mano, DOCX, XLSX, PPTX y texto. Se extraen temas, ejercicios, tablas y fórmulas.</span></div>
+      <div><span class="label">02 · contexto</span><b>Entender la tarea</b><span>Tipo de tarea, materia, nivel, idioma y el método del profesor.</span></div>
+      <div class="key"><span class="label">03 · pedagogía</span><b>Resolver y verificar</b><span>Guion por pasos. La respuesta se comprueba con código antes de seguir.</span></div>
+      <div><span class="label">04 · storyboard</span><b>Escenas y voz</b><span>La voz se genera primero y fija la duración de cada escena.</span></div>
+      <div><span class="label">05 · render</span><b>Componer y revisar</b><span>Escenas en paralelo, revisión de frames fijos y MP4 final.</span></div>
+    </div>
+    <p class="prose" style="margin-top:16px">El paso marcado es el que define si el producto es confiable. Si un video enseña algo incorrecto, el alumno deja de usarlo.</p>
+  </section>
+
+  <!-- 04 pantallas -->
+  <section>
+    <div class="sh"><span class="label">// 04 — interfaz</span><h2>Las cuatro pantallas del MVP</h2></div>
+    <div class="screens">
+
+      <div class="cap">
+        <div class="note"><span class="label">pantalla a</span><h3>Materia</h3><p>Cada materia es un cuaderno. Subes lo que tengas y la plataforma te dice qué encontró. No hay formularios: arrastras y escribes normal.</p></div>
+        <div class="screen">
+          <div class="sbar label"><span>cálculo i · prof. ramírez</span><span>6 archivos · parcial en 9 días</span></div>
+          <div class="sbody">
+            <div class="drop">Arrastra apuntes, fotos, PDFs, Excel o tu temario<span class="label">o pega texto · o toma una foto desde el celular</span></div>
+            <div class="files">
+              <span class="file">foto_pizarron_12sep.jpg <i>3 ejercicios</i></span>
+              <span class="file">tema4_derivadas.pdf <i>11 pág</i></span>
+              <span class="file">tarea3.docx <i>5 ejercicios</i></span>
+              <span class="file">notas_lab.xlsx <i>leyendo…</i></span>
+            </div>
+            <div><span class="label">// encontré en tus archivos</span>
+              <div class="chips" style="margin-top:8px"><span class="chip on">Regla de la cadena · 4</span><span class="chip">Derivada implícita · 2</span><span class="chip">Máximos y mínimos · 3</span><span class="chip">Límites al infinito · 1</span></div>
+            </div>
+            <div class="ask"><span>explícame el ejercicio 2 de la tarea 3 como lo hace el profe</span><button class="btn" type="button">Preparar video</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <div class="note"><span class="label">pantalla b</span><h3>Ajustes rápidos</h3><p>Todo viene deducido del material. El alumno solo cambia lo que quiera. Es la adaptación al contexto hecha visible.</p></div>
+        <div class="screen">
+          <div class="sbar label"><span>ejercicio 2 · tarea3.docx</span><span>detectado: resolver paso a paso</span></div>
+          <div class="sbody">
+            <div class="opts">
+              <div><span class="label">nivel</span>Universidad, 1er semestre</div>
+              <div><span class="label">duración</span>≈ 90 s</div>
+              <div><span class="label">idioma</span>Español (MX)</div>
+              <div><span class="label">personaje</span>Tutor + Alumna</div>
+              <div><span class="label">voz</span>Tranquila</div>
+              <div><span class="label">método</span>Notación de Leibniz, como tus apuntes</div>
+            </div>
+            <div class="row"><span class="chip on">Resolver paso a paso</span><span class="chip">Solo la idea clave</span><span class="chip">Hazme uno parecido</span><span class="chip">Error común</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <div class="note"><span class="label">pantalla c</span><h3>Storyboard</h3><p>Aparece en segundos, antes de gastar en render. Cada escena se corrige con texto ("en 00:12 más lento"). Si el alumno no toca nada, el video se genera solo.</p></div>
+        <div class="screen">
+          <div class="sbar label"><span>storyboard · 6 escenas · 01:28</span><span>✓ solución verificada</span></div>
+          <div class="sbody">
+            <div class="board">
+              <div class="shot"><div class="frame"><span class="tl">// 01 — hook</span><div class="cast"><canvas class="px" data-who="tutor" width="160" height="190"></canvas></div></div><p>“¿Derivar una función dentro de otra?”</p></div>
+              <div class="shot"><div class="frame"><span class="tl">// 02 — enunciado</span><span class="content">y = sen(3x²)</span></div><p>El ejercicio tal cual tu tarea.</p></div>
+              <div class="shot"><div class="frame"><span class="tl">// 03 — duda</span><div class="cast"><canvas class="px" data-who="alumna" width="160" height="190"></canvas></div></div><p>La alumna pregunta qué es “adentro”.</p></div>
+              <div class="shot"><div class="frame"><span class="tl">// 04 — paso 2</span><span class="content">u′ = 6x</span></div><p>Se deriva la función de adentro.</p></div>
+            </div>
+            <div class="row"><button class="btn" type="button">Generar video</button><button class="btn ghost" type="button">Cambiar una escena</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <div class="note"><span class="label">pantalla d</span><h3>Reproductor</h3><p>El primer capítulo se puede ver mientras los demás terminan. Abajo, las acciones que convierten el video en una clase.</p></div>
+        <div class="screen">
+          <div class="sbar label"><span>regla de la cadena · ej. 2</span><span>mp4 · subtítulos · compartir</span></div>
+          <div class="sbody">
+            <div class="player">
+              <div>
+                <div class="frame" style="border-radius:10px">
+                  <span class="tl">// 04 — paso 2</span>
+                  <span class="tr"><span>FINALSTUDIO</span><span class="tc" data-start="984">00:00:41:00</span></span>
+                  <span class="content" style="left:7%;top:24%;font-size:clamp(10px,1.7vw,18px)">dy/dx = cos(3x²) · 6x</span>
+                  <div class="cast" style="right:4%;height:66%">
+                    <div class="bubble" data-lines="la de adentro: 6x.|multiplica y listo."><span class="txt">la de adentro: 6x.</span></div>
+                    <canvas class="px" data-who="tutor" data-talk="1" width="160" height="190"></canvas>
+                  </div>
+                </div>
+                <div class="scrub" aria-hidden="true"><i class="d"></i><i class="d"></i><i class="d"></i><i class="d"></i><i></i><i></i></div>
+              </div>
+              <ol class="chapters">
+                <li><span>Hook</span><span class="label">00:00</span></li>
+                <li><span>Enunciado</span><span class="label">00:08</span></li>
+                <li><span>Duda de la alumna</span><span class="label">00:19</span></li>
+                <li class="now"><span>Paso 2 · derivar u</span><span class="label">00:34</span></li>
+                <li><span>Resultado</span><span class="label">01:02</span></li>
+                <li><span>Repaso con el profe</span><span class="label">01:16</span></li>
+              </ol>
+            </div>
+            <div class="row"><button class="btn" type="button">Explícame este paso otra vez</button><button class="btn ghost" type="button">Hazme uno parecido</button><button class="btn ghost" type="button">Quiz de 3 preguntas</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section>
+    <div class="sh"><span class="label">// 05 — adaptación</span><h2>Cómo entiende qué le estás pidiendo</h2></div>
+    <p class="prose">Un paso de clasificación lee el material y la petición y elige un <b>flujo</b> de la skill. Cada flujo tiene su estructura y sus escenas, y así la misma plataforma sirve para una integral, una hoja de Excel o la Revolución Mexicana.</p>
+    <div class="tw" style="margin-top:18px"><table>
+      <thead><tr><th>lo que pide el alumno</th><th>flujo</th><th>estructura del video</th><th>escenas</th></tr></thead>
+      <tbody>
+        <tr><td>Resolver un ejercicio</td><td class="mono">solve-step</td><td>enunciado → idea clave → pasos → resultado → repaso</td><td>ecuación que se transforma, tutor con globo</td></tr>
+        <tr><td>Explicar un concepto</td><td class="mono">explainer</td><td>pregunta → intuición → definición → ejemplo → error común</td><td>diálogo tutor y alumna, diagrama que se construye</td></tr>
+        <tr><td>Entender un Excel</td><td class="mono">data-story</td><td>qué hay en la tabla → pregunta → gráfica → conclusión</td><td>tabla real, celda resaltada, gráfica en línea</td></tr>
+        <tr><td>Hacerlo en un programa</td><td class="mono">software-demo</td><td>objetivo → clic por clic → resultado</td><td>cursor sobre la interfaz real</td></tr>
+        <tr><td>Repasar un tema</td><td class="mono">explainer · capítulos</td><td>mapa del tema → un capítulo por subtema → quiz</td><td>índice animado, profe con avisos</td></tr>
+        <tr><td>Historia y procesos</td><td class="mono">explainer · timeline</td><td>contexto → sucesos en orden → causas y efectos</td><td>línea de tiempo en mono</td></tr>
+      </tbody>
+    </table></div>
+    <div class="grid2" style="margin-top:26px">
+      <div class="item"><h3>Señales que usa</h3><p>Tipo de archivo, materia y nivel deducidos del material, idioma, cómo escribe el profesor, fecha del examen y lo que el alumno ya pidió antes.</p></div>
+      <div class="item"><h3>Memoria por materia</h3><p>Cada materia guarda nivel, método del profesor, temas vistos y pasos que el alumno pidió repetir. El tercer video ya sabe cómo le gusta aprender.</p></div>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section>
+    <div class="sh"><span class="label">// 06 — arquitectura</span><h2>Con qué se construye</h2></div>
+    <div class="tw"><table>
+      <thead><tr><th>pieza</th><th>propuesta</th><th>por qué</th></tr></thead>
+      <tbody>
+        <tr><td>App web</td><td>Next.js, pensada primero para celular</td><td>Los alumnos suben fotos desde el teléfono.</td></tr>
+        <tr><td>Cuentas y archivos</td><td>Supabase: Postgres, Storage, Auth y Realtime</td><td>Ya lo tienes conectado. Realtime muestra el avance del render sin recargar.</td></tr>
+        <tr><td>Lectura de archivos</td><td>Claude lee PDFs e imágenes directo; XLSX con SheetJS, DOCX con mammoth</td><td>Las fotos a mano funcionan con visión. En Excel se leen las fórmulas, no solo los valores.</td></tr>
+        <tr><td>Modelos</td><td>Opus 5.5 para pedagogía, storyboard y escenas; Haiku 4.5 para clasificar; Sonnet 5.5 para revisar frames</td><td>El modelo más capaz solo donde está la calidad.</td></tr>
+        <tr><td>Verificación</td><td>Ejecución de código (SymPy, fórmulas de Excel)</td><td>La respuesta se compara con un cálculo independiente antes de animar.</td></tr>
+        <tr><td>Voz</td><td>ElevenLabs con tiempos por palabra</td><td>La voz fija la duración de las escenas y sincroniza la boca del personaje con el globo.</td></tr>
+        <tr><td>Personajes</td><td>Retrato generado una vez, dither en código, capas para ojos y boca</td><td>Mismo personaje en todos los videos, sin costo extra por video.</td></tr>
+        <tr><td>Render</td><td>HyperFrames + Chromium + FFmpeg en contenedores</td><td>Cada escena es determinista, así se renderiza en paralelo y se guarda en caché.</td></tr>
+        <tr><td>Orquestación</td><td>Cola de trabajos por pasos (Inngest, Trigger.dev o cola en Postgres)</td><td>Si falla una escena se reintenta solo esa.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="grid2" style="margin-top:26px">
+      <div class="item"><h3>La skill dentro del producto</h3><p>La skill que se está escribiendo en el otro hilo se vuelve el cerebro de la plataforma: sus reglas van en las instrucciones de cada paso y sus escenas son componentes que el sistema llena con datos.</p></div>
+<pre class="tree">motion-design/
+├─ SKILL.md           → elige el flujo (paso 02)
+├─ references/
+│  ├─ principles.md   → tiempos, easing, zona segura
+│  ├─ frame-tokens.md → estilo blanco + dither
+│  └─ qa-checklist.md → revisión de frames
+├─ workflows/         → un flujo por tipo de tarea
+├─ characters/        → tutor, alumna, profe
+└─ scenes/            → equation-step, excel-cell,
+                        cursor-ui, timeline, bubble</pre>
+    </div>
+    <div class="callout">
+      <span class="label">// decisión clave</span>
+      <p><b>Storyboard como JSON, escenas como plantillas.</b> Opus 5.5 escribe un storyboard estructurado (escena, plantilla, personaje, datos, texto, duración) y la plataforma lo convierte en HyperFrames. Así baja el costo, el estilo queda idéntico entre videos y "explícame este paso otra vez" es cambiar un bloque del JSON.</p>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section>
+    <div class="sh"><span class="label">// 07 — datos</span><h2>Lo que guarda la base</h2></div>
+    <div class="tw"><table>
+      <thead><tr><th>tabla</th><th>qué guarda</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">subjects</td><td>Materia y su perfil: nivel, idioma, método del profesor, fecha de examen.</td></tr>
+        <tr><td class="mono">sources</td><td>Cada archivo subido, su tipo y estado de lectura.</td></tr>
+        <tr><td class="mono">items</td><td>Temas, ejercicios, tablas y fórmulas extraídos, con página o celda de origen.</td></tr>
+        <tr><td class="mono">requests</td><td>La petición, el flujo elegido y los ajustes.</td></tr>
+        <tr><td class="mono">storyboards · scenes</td><td>El JSON del storyboard y cada escena con su voz y render.</td></tr>
+        <tr><td class="mono">videos</td><td>MP4 final, capítulos, subtítulos y enlace para compartir.</td></tr>
+        <tr><td class="mono">feedback</td><td>"Repite este paso", "esto está mal", resultados del quiz.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- 08 -->
+  <section>
+    <div class="sh"><span class="label">// 08 — confianza</span><h2>Calidad, privacidad y aprendizaje real</h2></div>
+    <div class="grid2">
+      <div class="item"><h3>Nada sin verificar</h3><p>Si la solución no se puede comprobar, el video lo dice ("revisa este resultado con tu profesor").</p></div>
+      <div class="item"><h3>Cita tus apuntes</h3><p>Cada escena marca de dónde salió: "tarea3.docx, ejercicio 2" o "tus apuntes, p. 4".</p></div>
+      <div class="item"><h3>Enseña, no copia</h3><p>El modo por defecto explica el método y termina con "hazme uno parecido", para que no sea solo una máquina de respuestas.</p></div>
+      <div class="item"><h3>Archivos privados</h3><p>Los apuntes son de cada alumno, con acceso por usuario en Supabase. Si hay menores de edad hay que revisar consentimiento y normas locales antes de lanzar.</p></div>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section>
+    <div class="sh"><span class="label">// 09 — fases</span><h2>En qué orden construirlo</h2></div>
+    <div class="phases">
+      <div class="phase"><div><span class="label">fase 0</span><b>Motor y estilo</b><span class="now-tag">en curso</span></div><ul><li>Skill de motion design sobre HyperFrames</li><li>Estilo blanco con personajes dither</li><li>Video de prueba de un ejercicio resuelto</li></ul><p>Listo cuando un ejercicio real sale como MP4 correcto y con la estética de la referencia.</p></div>
+      <div class="phase"><div><span class="label">fase 1</span><b>MVP</b></div><ul><li>Pantallas A a D en web</li><li>Solo solve-step, matemáticas, español</li><li>PDF y fotos como entrada</li><li>Tutor y alumna listos</li></ul><p>Listo cuando 10 alumnos reales suben su tarea y 9 de cada 10 videos salen sin errores.</p></div>
+      <div class="phase"><div><span class="label">fase 2</span><b>Más tareas</b></div><ul><li>Excel con data-story</li><li>Conceptos con explainer</li><li>"Explícame este paso otra vez"</li></ul><p>Listo cuando el clasificador elige bien el flujo en las pruebas por materia.</p></div>
+      <div class="phase"><div><span class="label">fase 3</span><b>Estudio completo</b></div><ul><li>Memoria por materia y quizzes</li><li>Repaso antes del examen</li><li>Más personajes para elegir</li><li>App móvil</li></ul><p>Listo cuando los alumnos vuelven cada semana sin recordatorios.</p></div>
+      <div class="phase"><div><span class="label">fase 4</span><b>Plataforma</b></div><ul><li>API para que otros productos usen la misma skill</li><li>Estilos y personajes de marca propios</li></ul><p>Conecta con la meta original: una skill para cualquier plataforma de motion design.</p></div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section>
+    <div class="sh"><span class="label">// 10 — para decidir</span><h2>Lo que necesito que elijas</h2></div>
+    <div class="decs">
+      <div class="dec"><div class="q">¿Para quién es primero?</div><div class="r"><b>→ prepa y universidad</b>Suben su propio material y tienen exámenes con fecha. Secundaria obliga a resolver permisos de menores desde el inicio.</div></div>
+      <div class="dec"><div class="q">¿Con qué materia arrancamos?</div><div class="r"><b>→ matemáticas</b>La respuesta se puede verificar con código y el video por pasos se nota más.</div></div>
+      <div class="dec"><div class="q">¿Storyboard obligatorio u opcional?</div><div class="r"><b>→ opcional</b>Se muestra siempre, pero el video arranca solo.</div></div>
+      <div class="dec"><div class="q">¿Cómo hacemos los personajes?</div><div class="r"><b>→ retrato generado + dither en código</b>Da el detalle del video de achxvi y cada personaje queda fijo para siempre.</div></div>
+      <div class="dec"><div class="q">¿Stack?</div><div class="r"><b>→ Next.js + Supabase + render en contenedores</b>Falta conectar un repositorio de GitHub al proyecto para empezar a programar.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="label">// 11 — riesgos</span><h2>Lo que puede salir mal</h2></div>
+    <ul class="plain">
+      <li><b>Costo por video.</b> Opus escribiendo todo desde cero sale caro. La biblioteca de escenas y el caché por escena son la defensa.</li>
+      <li><b>Tiempo de espera.</b> Renderizar tarda más que lo que dura el video. Se compensa con storyboard inmediato, render en paralelo y capítulos que se ven apenas terminan.</li>
+      <li><b>Letra a mano difícil.</b> Si la foto no se entiende, la plataforma muestra lo que leyó y pide confirmar.</li>
+      <li><b>Videos largos.</b> La calidad baja después de un par de minutos, así que todo tema grande se parte en capítulos cortos.</li>
+    </ul>
+  </section>
+
+  <div class="foot label"><span>// basado en “Opus 5.5 en movimiento” y la skill en curso</span><span>fin</span></div>
+</div>
+
+<script>
+(function(){
+  var W=160,H=190;
+  var B=[[0,32,8,40,2,34,10,42],[48,16,56,24,50,18,58,26],[12,44,4,36,14,46,6,38],[60,28,52,20,62,30,54,22],[3,35,11,43,1,33,9,41],[51,19,59,27,49,17,57,25],[15,47,7,39,13,45,5,37],[63,31,55,23,61,29,53,21]];
+  var CAST={
+    tutor:{hair:"curly",skin:1,glasses:false,seed:7},
+    alumna:{hair:"bob",skin:.93,glasses:true,seed:3},
+    profe:{hair:"bun",skin:.86,glasses:false,seed:11,brows:6}
+  };
+  function rng(seed){var s=seed*2654435761>>>0||1;return function(){s^=s<<13;s>>>=0;s^=s>>>17;s^=s<<5;s>>>=0;return (s%100000)/100000;};}
+  function g(v){v=Math.max(0,Math.min(255,Math.round(v)));return "rgb("+v+","+v+","+v+")";}
+  function ell(c,x,y,rx,ry,f){c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.fillStyle=f;c.fill();}
+  function radial(c,x,y,r,stops){var gr=c.createRadialGradient(x,y,0,x,y,r);stops.forEach(function(s){gr.addColorStop(s[0],g(s[1]));});return gr;}
+  function linear(c,x0,y0,x1,y1,stops){var gr=c.createLinearGradient(x0,y0,x1,y1);stops.forEach(function(s){gr.addColorStop(s[0],g(s[1]));});return gr;}
+
+  function paint(c,p,st){
+    var sk=p.skin;c.clearRect(0,0,W,H);
+    // pelo de atrás
+    if(p.hair==="bob"){ell(c,80,104,54,58,linear(c,26,0,134,0,[[0,20],[.3,70],[.5,30],[1,18]]));}
+    // cuerpo
+    ell(c,80,222,82,66,linear(c,0,160,0,190,[[0,170],[1,100]]));
+    c.strokeStyle=g(120);c.lineWidth=1;
+    for(var x=38;x<=122;x+=6){c.beginPath();c.moveTo(x,170);c.lineTo(x+(x-80)*.08,190);c.stroke();}
+    // cuello
+    c.fillStyle=linear(c,0,122,0,160,[[0,95*sk],[1,185*sk]]);c.fillRect(66,120,28,40);
+    ell(c,80,160,30,9,g(60));ell(c,80,157,24,5,g(150*sk));
+    // orejas
+    ell(c,41,102,7,11,g(185*sk));ell(c,119,102,7,11,g(160*sk));
+    // cara
+    ell(c,80,97,40,46,radial(c,64,80,66,[[0,262*sk],[.5,248*sk],[.82,200*sk],[1,150*sk]]));
+    // pelo
+    var r=rng(p.seed);
+    if(p.hair==="curly"){
+      ell(c,80,60,48,28,g(30));ell(c,40,80,12,22,g(30));ell(c,120,80,12,22,g(30));
+      var curls=[];
+      for(var i=0;i<80;i++){var a=Math.PI+r()*Math.PI,d=22+r()*20,cx=80+Math.cos(a)*d*1.15,cy=62+Math.sin(a)*d*.8;curls.push([cx,cy,9+r()*7]);}
+      for(var xx=44;xx<=116;xx+=9){curls.push([xx+(r()-.5)*4,60+(r()-.5)*4+Math.abs(xx-80)*.15,8+r()*3]);}
+      for(var s=0;s<3;s++){curls.push([39+(r()-.5)*4,78+s*9,8]);curls.push([121+(r()-.5)*4,78+s*9,8]);}
+      curls.forEach(function(q){ell(c,q[0],q[1],q[2],q[2],radial(c,q[0]-q[2]*.35,q[1]-q[2]*.4,q[2]*1.25,[[0,190],[.45,95],[1,20]]));});
+    }else if(p.hair==="bob"){
+      c.beginPath();c.moveTo(34,100);c.bezierCurveTo(28,30,132,30,126,100);c.lineTo(119,100);c.lineTo(117,74);c.lineTo(43,74);c.lineTo(41,100);c.closePath();
+      c.fillStyle=linear(c,34,0,126,0,[[0,18],[.3,95],[.42,40],[1,16]]);c.fill();
+    }else{
+      ell(c,80,34,17,15,radial(c,74,28,20,[[0,150],[.5,60],[1,20]]));
+      c.beginPath();c.moveTo(38,92);c.bezierCurveTo(36,40,124,40,122,92);c.bezierCurveTo(116,66,100,58,80,60);c.bezierCurveTo(60,58,44,66,38,92);c.closePath();
+      c.fillStyle=linear(c,38,0,122,0,[[0,25],[.35,110],[.5,45],[1,20]]);c.fill();
+    }
+    // cejas
+    var by=(p.brows||0)+79-(st.talk?1.5:0);
+    c.fillStyle=g(8);
+    if(c.roundRect){c.beginPath();c.roundRect(55,by,19,5,2);c.roundRect(86,by,19,5,2);c.fill();}else{c.fillRect(55,by,19,5);c.fillRect(86,by,19,5);}
+    // ojos
+    if(st.blink){c.fillRect(59,98,14,2.5);c.fillRect(87,98,14,2.5);}
+    else{[66,94].forEach(function(ex){ell(c,ex,99,6.5,7,g(6));ell(c,ex-2.2,96.4,2,2,g(255));});}
+    if(p.glasses){c.strokeStyle=g(10);c.lineWidth=2.2;[66,94].forEach(function(ex){c.beginPath();c.arc(ex,99,11.5,0,Math.PI*2);c.stroke();});c.beginPath();c.moveTo(77.5,97);c.lineTo(82.5,97);c.stroke();}
+    // nariz
+    ell(c,83,113,4,3,g(175*sk));
+    // boca
+    if(st.mouth){ell(c,80,125,7,st.mouth>1?5:3,g(15));}
+    else{c.beginPath();c.arc(80,111,13,.27*Math.PI,.73*Math.PI);c.strokeStyle=g(12);c.lineWidth=2.6;c.stroke();}
+  }
+
+  function dither(c,seed){
+    var img=c.getImageData(0,0,W,H),d=img.data,r=rng(seed+99);
+    for(var y=0;y<H;y++)for(var x=0;x<W;x++){
+      var i=(y*W+x)*4;
+      if(d[i+3]<110){d[i+3]=0;continue;}
+      var t=(B[y&7][x&7]+.5)*4,v=d[i]+(r()-.5)*22>t?255:0;
+      d[i]=d[i+1]=d[i+2]=v;d[i+3]=255;
+    }
+    c.putImageData(img,0,0);
+  }
+
+  var cvs=[].slice.call(document.querySelectorAll("canvas[data-who]"));
+  function render(cv,st){var c=cv.getContext("2d",{willReadFrequently:true}),p=CAST[cv.dataset.who];if(!p)return;paint(c,p,st);dither(c,p.seed);}
+  cvs.forEach(function(cv){render(cv,{});});
+
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+
+  // timecodes a 24 fps
+  var tcs=[].slice.call(document.querySelectorAll(".tc")),t0=performance.now();
+  function pad(n){return (n<10?"0":"")+n;}
+  // globos que escriben y bocas que hablan
+  function hasB(cv){return !!cv.parentNode.querySelector(".bubble");}
+  var talkers=cvs.filter(hasB).map(function(cv){
+    var wrap=cv.parentNode,b=wrap.querySelector(".bubble");
+    return {cv:cv,b:b,txt:b?b.querySelector(".txt"):null,lines:b?b.dataset.lines.split("|"):[],li:0,ch:null,wait:40+Math.random()*20,blinkAt:30+Math.random()*40,blink:0};
+  });
+  var others=cvs.filter(function(cv){return !hasB(cv);}).map(function(cv){return {cv:cv,blinkAt:20+Math.random()*60,blink:0};});
+  var tick=0;
+  setInterval(function(){
+    tick++;
+    var f=Math.floor((performance.now()-t0)/1000*24);
+    tcs.forEach(function(el){var n=f+(+el.dataset.start||0),fr=n%24,s=Math.floor(n/24)%60,m=Math.floor(n/1440)%60;el.textContent="00:"+pad(m)+":"+pad(s)+":"+pad(fr);});
+    talkers.forEach(function(T){
+      var st={};
+      if(T.ch===null){ if(--T.wait<=0){T.li=(T.li+1)%T.lines.length;T.ch=0;} }
+      else{
+        var line=T.lines[T.li];T.ch++;
+        if(T.txt)T.txt.textContent=line.slice(0,T.ch);
+        st.talk=true;st.mouth=(T.ch%3===0)?0:(T.ch%3===1?2:1);
+        if(T.ch>=line.length){T.ch=null;T.wait=26;st={};}
+      }
+      if(--T.blinkAt<=0){T.blink=2;T.blinkAt=45+Math.random()*40;}
+      if(T.blink>0){st.blink=true;T.blink--;}
+      if(tick%2===0||st.blink||st.mouth!==undefined)render(T.cv,st);
+    });
+    others.forEach(function(O){
+      if(--O.blinkAt<=0){O.blink=2;O.blinkAt=50+Math.random()*60;render(O.cv,{blink:true});}
+      else if(O.blink>0){if(--O.blink===0)render(O.cv,{});}
+    });
+  },80);
+})();
+</script>

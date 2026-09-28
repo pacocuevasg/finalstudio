@@ -1,0 +1,9 @@
+{
+  "template": "sand-ink",
+  "id": "tres-inventos",
+  "scenes": [
+    { "figure": "pyramids", "when": "2560 a. C. · Egipto", "title": "Las pirámides", "line": "Miles de bloques, sin ruedas ni poleas." },
+    { "figure": "arch", "when": "siglo I · Roma", "title": "El arco", "line": "La piedra se empuja a sí misma y aguanta." },
+    { "figure": "book", "when": "1450 · Maguncia", "title": "La imprenta", "line": "Un libro deja de ser un tesoro único." }
+  ]
+}

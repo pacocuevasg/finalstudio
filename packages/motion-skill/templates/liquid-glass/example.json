@@ -1,0 +1,15 @@
+{
+  "template": "liquid-glass",
+  "id": "resumen-del-dia",
+  "kicker": "Resumen · Ciencias naturales",
+  "button": "Terminar lección",
+  "unit": "temas",
+  "cardLabel": "Hoy aprendiste",
+  "streak": "Racha de 5 días",
+  "topics": [
+    { "name": "Estados del agua", "note": "sólido · líquido · gas", "icon": "💧", "done": true },
+    { "name": "Punto de ebullición", "note": "100 °C al nivel del mar", "icon": "🔥", "done": true },
+    { "name": "Condensación", "note": "el vapor se vuelve gota", "icon": "☁", "done": true },
+    { "name": "Sublimación", "note": "pendiente para mañana", "icon": "❄", "done": false }
+  ]
+}

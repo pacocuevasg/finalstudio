@@ -1,0 +1,10 @@
+{ "lang": "es", "wps": 2.6, "lines": [
+  { "say": "[[psst]] Psst. [[pain]] ¿Te trabas con las ecuaciones?", "show": "" },
+  { "say": "[[eq]] Tres equis menos cinco igual a dieciséis.", "show": "3x − 5 = 16" },
+  { "say": "Primero [[suma]] sumamos cinco en ambos lados.", "show": "3x − 5 + 5 = 16 + 5" },
+  { "say": "Queda [[r1]] tres equis igual a veintiuno.", "show": "3x = 21" },
+  { "say": "Ahora [[div]] dividimos entre tres.", "show": "3x ÷ 3 = 21 ÷ 3" },
+  { "say": "[[res]] Equis vale siete.", "show": "x = 7" },
+  { "say": "Comprobamos: [[chk]] tres por siete menos cinco da dieciséis.", "show": "3(7) − 5 = 16" },
+  { "say": "[[out]] Así de fácil.", "show": "" }
+] }
